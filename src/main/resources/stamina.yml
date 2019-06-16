@@ -1,0 +1,10 @@
+enabled: true
+maxLevel: 50
+expDropColor: "YELLOW"
+ability:
+  dash:
+    enabled: true
+    level: 0
+    cooldown: 20
+    duration: 3
+    speed: 3

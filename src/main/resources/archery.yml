@@ -1,0 +1,31 @@
+enabled: true
+maxLevel: 100
+expDropColor: "DARK_GREEN"
+experience:
+  player: 30.0
+  monster: 50.0
+  animal: 15.0
+ability:
+  multi_arrow:
+    enabled: true
+    level: 1
+    cooldown: 5
+    amount: 2
+    extra: 10
+  split_shot:
+    enabled: true
+    level: 1
+    cooldown: 5
+    angle: 45
+    extra: 10
+  explosive_arrow:
+    enabled: true
+    level: 15
+    cooldown: 10
+    power: 3
+    destructive: false
+  teleport_arrow:
+    enabled: true
+    level: 30
+    cooldown: 20
+    selfdamage: 4

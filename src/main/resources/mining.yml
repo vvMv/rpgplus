@@ -1,0 +1,10 @@
+enabled: true
+maxLevel: 50
+expDropColor: "BLUE"
+ability:
+  vein_miner:
+    enabled: true
+    level: 0
+    cooldown: 10
+    duration: 5
+    size: 3
