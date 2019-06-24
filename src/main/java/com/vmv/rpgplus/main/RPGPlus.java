@@ -21,14 +21,14 @@ public class RPGPlus extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+        new InformationHandler(this);
         new CommandManager(this);
         new Database(this, "rpg.db", getDataFolder());
         new FileManager(this);
         new BarTimerManager(this);
         new SkillManager();
-        new RPGPlayerManager();
         new AbilityManager();
-        new InformationHandler(this);
+        new RPGPlayerManager();
     }
 
     public static RPGPlus getInstance() {

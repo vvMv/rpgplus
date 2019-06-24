@@ -1,13 +1,17 @@
 package com.vmv.core.minecraft.chat;
 
+import com.vmv.core.config.FileManager;
+import com.vmv.rpgplus.main.RPGPlus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ChatUtil {
 
-    public static void sendChatMessage(String prefix, CommandSender s, String message) {
-        s.sendMessage(applyColour(prefix + "&7" + message));
+    public static void sendChatMessage(CommandSender s, String message) {
+        if (s == null) return;
+        if (message.length() == 0) return;
+        s.sendMessage(applyColour(FileManager.getLang().getString("prefix") + message));
     }
 
     public static void sendCenteredChatMessage(Player p, String message) {

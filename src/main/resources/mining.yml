@@ -1,6 +1,13 @@
 enabled: true
 maxLevel: 50
-expDropColor: "BLUE"
+expDropColor: BLUE
+materials:
+  - 'WOODEN_PICKAXE'
+  - 'STONE_PICKAXE'
+  - 'IRON_PICKAXE'
+  - 'GOLDEN_PICKAXE'
+  - 'DIAMOND_PICKAXE'
+abilityCycle: RIGHT_CLICK
 ability:
   vein_miner:
     enabled: true

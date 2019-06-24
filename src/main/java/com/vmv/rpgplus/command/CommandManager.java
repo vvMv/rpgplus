@@ -2,7 +2,10 @@ package com.vmv.rpgplus.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BukkitCommandManager;
+import com.vmv.rpgplus.skill.SkillManager;
 import org.bukkit.plugin.Plugin;
+
+import java.util.stream.Collectors;
 
 public class CommandManager {
 
@@ -13,6 +16,7 @@ public class CommandManager {
         manager = new BukkitCommandManager(plugin);
         manager.createRootCommand("rpg");
         registerCommands(new Commands());
+        registerCommandCompletions();
     }
 
     private void registerCommands(BaseCommand... commands) {
@@ -20,4 +24,11 @@ public class CommandManager {
             manager.registerCommand(b);
         }
     }
+
+    public void registerCommandCompletions() {
+        manager.getCommandCompletions().registerCompletion("skills", a -> {
+            return SkillManager.getInstance().getSkills().stream().map(skill -> skill.getSkillType().toString().toLowerCase()).collect(Collectors.toList());
+        });
+    }
+
 }

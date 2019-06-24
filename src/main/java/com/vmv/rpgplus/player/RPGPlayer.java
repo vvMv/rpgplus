@@ -36,7 +36,7 @@ public class RPGPlayer {
     }
 
     public double getLevel(SkillType skill) {
-        return SkillManager.getInstance().getLevel(exp.get(skill));
+        return SkillManager.getInstance().getLevel(exp.get(skill), skill);
     }
 
     public double getExperience(SkillType skill) {
@@ -80,7 +80,7 @@ public class RPGPlayer {
         if (xp < 0) xp = 0;
         xp = MathUtils.round(xp, 2);
         Bukkit.getPluginManager().callEvent(new ExperienceModifyEvent(this, skill, (xp - MathUtils.round(exp.get(skill), 2))));
-        if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp)));
+        if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp, skill)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp, skill)));
         exp.put(skill, xp);
         Database.getInstance().updateData("player_experience", skill.toString().toLowerCase(), xp, "uuid", "=", uuid.toString());
     }

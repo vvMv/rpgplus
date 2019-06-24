@@ -49,8 +49,8 @@ public class SkillManager {
         return MathUtils.round(((level * 50) * (level * modifier) / 3), 2);
     }
 
-    public double getLevel(double exp) {
-        int maxLevel = RPGPlus.getInstance().getConfig().getInt("General.MaxLevel");
+    public double getLevel(double exp, SkillType skillType) {
+        int maxLevel = SkillManager.getInstance().getSkill(skillType).getConfig().getInt("maxLevel");
         for (int level = 0; level <= maxLevel; level++) {
             if (getExperience(level) > exp) {
                 double decimal = MathUtils.round((exp - getExperience(level - 1)) / (getExperience(level) - getExperience(level - 1)), 2);

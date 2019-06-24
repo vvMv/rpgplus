@@ -1,3 +1,10 @@
 enabled: true
 maxLevel: 50
-expDropColor: "GOLD"
+expDropColor: GOLD
+materials:
+  - 'WOODEN_SWORD'
+  - 'STONE_SWORD'
+  - 'IRON_SWORD'
+  - 'GOLDEN_SWORD'
+  - 'DIAMOND_SWORD'
+abilityCycle: RIGHT_CLICK

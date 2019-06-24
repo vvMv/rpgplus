@@ -16,7 +16,7 @@ public class InformationHandler {
     }
 
     public static void printMessage(InformationType type, String info) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[" + plugin.getName() + "]" + type.getChatColor() + " [" + type.toString() + "] &r" + info));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[" + plugin.getName() + "]" + type.getChatColor() + " " + type.toString() + ": &r" + info));
     }
 
 }

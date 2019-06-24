@@ -69,6 +69,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
     }
 
     private void spawnExperienceAnimation(double duration) {
+        if (player == null) return;
         ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
         as.setSmall(true);
         as.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, (int) (duration*20), 1));

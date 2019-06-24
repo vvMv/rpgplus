@@ -4,7 +4,8 @@ import org.bukkit.ChatColor;
 
 public enum InformationType {
 
-    INFO(ChatColor.GRAY),
+    INFO(ChatColor.AQUA),
+    DEBUG(ChatColor.DARK_AQUA),
     WARN(ChatColor.YELLOW),
     ERROR(ChatColor.RED);
 

@@ -21,7 +21,7 @@ public class MultiArrow extends Ability implements Listener {
 
     public MultiArrow(String name, SkillType st) {
         super(name, st);
-        this.description = "Fire multiple arrows";
+        this.description = "Fire multiple arrows one after another";
         this.extra = getAbilityConfigSection().getInt("extra");
     }
 

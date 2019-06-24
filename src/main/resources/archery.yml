@@ -1,10 +1,14 @@
 enabled: true
 maxLevel: 100
-expDropColor: "DARK_GREEN"
+expDropColor: DARK_GREEN
+materials:
+  - 'BOW'
+  - 'CROSSBOW'
 experience:
   player: 30.0
   monster: 50.0
   animal: 15.0
+abilityCycle: LEFT_CLICK
 ability:
   multi_arrow:
     enabled: true

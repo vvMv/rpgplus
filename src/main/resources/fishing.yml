@@ -1,3 +1,6 @@
 enabled: true
 maxLevel: 50
-expDropColor: "AQUA"
+expDropColor: AQUA
+materials:
+  - 'FISHING_ROD'
+abilityCycle: LEFT_CLICK

@@ -1,3 +1,10 @@
-expDropColor: "DARK_PURPLE"
+expDropColor: DARK_PURPLE
 enabled: true
+materials:
+  - 'WOODEN_AXE'
+  - 'STONE_AXE'
+  - 'IRON_AXE'
+  - 'GOLDEN_AXE'
+  - 'DIAMOND_AXE'
+abilityCycle: RIGHT_CLICK
 maxLevel: 50

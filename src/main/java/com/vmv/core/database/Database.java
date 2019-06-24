@@ -1,5 +1,7 @@
 package com.vmv.core.database;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -68,12 +70,12 @@ public class Database {
         try (Connection conn = this.connect()) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                plugin.getLogger().info("Using Database driver " + meta.getDriverName());
-                plugin.getLogger().info("A database connection has been established.");
+                InformationHandler.printMessage(InformationType.INFO, "Using Database driver " + meta.getDriverName());
+                InformationHandler.printMessage(InformationType.INFO, "A database connection has been established.");
                 createTables();
             }
         } catch (SQLException e) {
-            plugin.getLogger().info("A database connection has not been established.");
+            InformationHandler.printMessage(InformationType.ERROR, "A database connection has not been established.");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

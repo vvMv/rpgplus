@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -19,7 +20,7 @@ public class ExplosiveArrow extends Ability implements Listener {
 
     public ExplosiveArrow(String name, SkillType st) {
         super(name, st);
-        this.description = "Fires an explosive arrow";
+        this.description = "Fires an arrow that will explode on impact";
     }
 
     @EventHandler

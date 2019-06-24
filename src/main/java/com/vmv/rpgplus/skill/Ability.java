@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill;
 
-//import com.vmv.core.minecraft.misc.BarTimer;
-//import com.vmv.core.minecraft.misc.Cooldowns;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
@@ -17,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public abstract class Ability {
 
-    protected boolean passive = false;
+    protected boolean enabled, passive = false;
     protected String description = "default description";
     protected double cooldown;
     protected int requiredLevel;
@@ -31,6 +29,7 @@ public abstract class Ability {
         this.skillConfig = SkillManager.getInstance().getSkill(st).getConfig();
         this.requiredLevel = getAbilityConfigSection().getInt("level");
         this.cooldown = getAbilityConfigSection().getInt("cooldown");
+        this.enabled = getAbilityConfigSection().getBoolean("enabled");
     }
 
     public ConfigurationSection getAbilityConfigSection() {
@@ -80,6 +79,6 @@ public abstract class Ability {
     }
 
     public boolean isEnabled() {
-        return getAbilityConfigSection().getBoolean("enabled");
+        return enabled;
     }
 }

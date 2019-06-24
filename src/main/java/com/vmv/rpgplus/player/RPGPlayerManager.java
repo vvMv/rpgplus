@@ -69,7 +69,7 @@ public class RPGPlayerManager implements Listener {
     public void checkJoin(PlayerJoinEvent e) {
         Bukkit.broadcastMessage("checking join");
         if (getPlayer(e.getPlayer().getUniqueId()) == null) {
-            RPGPlus.getInstance().getLogger().info("Creating database record for " + e.getPlayer().getName());
+            InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
             addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), null));
         }
 
@@ -129,11 +129,11 @@ public class RPGPlayerManager implements Listener {
                 RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp));
                 c++;
             }
-            RPGPlus.getInstance().getLogger().info("Registered " + c + " RPG Players");
+            InformationHandler.printMessage(InformationType.INFO, "Registered " + c + " RPG Players");
         } catch (SQLException e) {
-            RPGPlus.getInstance().getLogger().info("The connection to the database has been closed");
+            InformationHandler.printMessage(InformationType.ERROR, "The connection to the database has been closed");
         } catch (NullPointerException e) {
-            RPGPlus.getInstance().getLogger().info("There are no RPG Players");
+            InformationHandler.printMessage(InformationType.INFO, "There are no RPG Players");
         }
     }
 

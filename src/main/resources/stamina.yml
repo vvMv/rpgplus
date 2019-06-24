@@ -1,10 +1,16 @@
 enabled: true
 maxLevel: 50
-expDropColor: "YELLOW"
+expDropColor: YELLOW
+abilityCycle: DOUBLE_CROUCH
+experience:
+  distance: 0.1
+  time: 60
 ability:
   dash:
     enabled: true
     level: 0
     cooldown: 20
     duration: 3
-    speed: 3
+    durationIncrease: 0.1
+    durationMaximum: 10
+    speed: 4
