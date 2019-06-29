@@ -38,8 +38,7 @@ public class Dash extends Ability implements Listener {
         Player p = e.getPlayer();
         double level = RPGPlayerManager.getInstance().getPlayer(p).getLevel(SkillType.STAMINA);
 
-        if (p.isFlying()) return;
-        if (getRequiredLevel() > level) return;
+        if (p.isFlying() || isActive(e.getPlayer()) || getRequiredLevel() > level) return;
         if (count.containsKey(p.getUniqueId())) {
             count.put(p.getUniqueId(), count.get(p.getUniqueId()) + 1);
         } else {
@@ -57,8 +56,8 @@ public class Dash extends Ability implements Listener {
                 count.put(p.getUniqueId(), 0);
                 if (onCooldown(p)) return;
                 double finalDuration = (20 * (duration + (durationIncrease * level)));
-                InformationHandler.printMessage(InformationType.DEBUG, finalDuration + "");
                 finalDuration = finalDuration > durationMaximum ? durationMaximum : finalDuration; //If duration longer than max set to max
+                setActive(e.getPlayer(), finalDuration / 20 );
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) finalDuration, (int) speed));
             }
         }

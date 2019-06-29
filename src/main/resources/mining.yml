@@ -14,4 +14,32 @@ ability:
     level: 0
     cooldown: 10
     duration: 5
+    blocks:
+      - 'COAL_ORE'
+      - 'IRON_ORE'
+      - 'GOLD_ORE'
+      - 'LAPIS_ORE'
+      - 'DIAMOND_ORE'
+      - 'REDSTONE_ORE'
+      - 'EMERALD_ORE'
+      - 'NETHER_QUARTZ_ORE'
+  explosive_miner:
+    enabled: true
+    level: 20
+    cooldown: 10
+    duration: 5
     size: 3
+    blocks:
+      - 'STONE'
+      - 'COAL_ORE'
+      - 'IRON_ORE'
+      - 'GOLD_ORE'
+      - 'LAPIS_ORE'
+      - 'DIAMOND_ORE'
+      - 'REDSTONE_ORE'
+      - 'EMERALD_ORE'
+      - 'NETHER_QUARTZ_ORE'
+      - 'NETHERRACK'
+      - 'ANDESITE'
+      - 'GRANITE'
+      - 'DIORITE'

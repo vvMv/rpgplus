@@ -15,8 +15,15 @@ public class InformationHandler {
         printMessage(InformationType.INFO, "Information handler registered");
     }
 
-    public static void printMessage(InformationType type, String info) {
+    private static void printMessage(InformationType type, String info) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[" + plugin.getName() + "]" + type.getChatColor() + " " + type.toString() + ": &r" + info));
+    }
+
+    public static void printMessage(InformationType type, String info, String... additional) {
+        printMessage(type, info);
+        for (String s : additional) {
+            printMessage(InformationType.ERROR, s);
+        }
     }
 
 }

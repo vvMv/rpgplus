@@ -8,3 +8,30 @@ materials:
   - 'DIAMOND_AXE'
 abilityCycle: RIGHT_CLICK
 maxLevel: 50
+ability:
+  tree_feller:
+    enabled: true
+    duration: 10
+    delay: 0.2
+    level: 10
+    cooldown: 20
+    logs:
+      - 'OAK_LOG'
+      - 'SPRUCE_LOG'
+      - 'BIRCH_LOG'
+      - 'JUNGLE_LOG'
+      - 'ACACIA_LOG'
+      - 'DARK_OAK_LOG'
+      - 'STRIPPED_OAK_LOG'
+      - 'STRIPPED_SPRUCE_LOG'
+      - 'STRIPPED_BIRCH_LOG'
+      - 'STRIPPED_JUNGLE_LOG'
+      - 'STRIPPED_ACACIA_LOG'
+      - 'STRIPPED_DARK_OAK_LOG'
+    leaves:
+      - 'OAK_LEAVES'
+      - 'SPRUCE_LEAVES'
+      - 'BIRCH_LEAVES'
+      - 'JUNGLE_LEAVES'
+      - 'ACACIA_LEAVES'
+      - 'DARK_OAK_LEAVES'

@@ -4,6 +4,7 @@ import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
 import com.vmv.core.minecraft.misc.Cooldowns;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
@@ -12,16 +13,22 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public abstract class Ability {
 
     protected boolean enabled, passive = false;
     protected String description = "default description";
-    protected double cooldown;
+    protected double cooldown, duration;
     protected int requiredLevel;
     private String name;
     private SkillType skillType;
     private FileConfiguration skillConfig;
+    private HashMap<Player, Double> active = new HashMap<Player, Double>();
 
     public Ability(String name, SkillType st) {
         this.skillType = st;
@@ -29,7 +36,21 @@ public abstract class Ability {
         this.skillConfig = SkillManager.getInstance().getSkill(st).getConfig();
         this.requiredLevel = getAbilityConfigSection().getInt("level");
         this.cooldown = getAbilityConfigSection().getInt("cooldown");
+        this.duration = getAbilityConfigSection().getInt("duration");
         this.enabled = getAbilityConfigSection().getBoolean("enabled");
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> updateActive(), 0, 2);
+    }
+
+    private void updateActive() {
+        ArrayList<Player> toRemove = new ArrayList<>();
+        active.forEach((player, time) -> {
+            if (time < 0) {
+                toRemove.add(player);
+            } else {
+                active.put(player, time - 0.1);
+            }
+        });
+        toRemove.forEach(r -> active.remove(r));
     }
 
     public ConfigurationSection getAbilityConfigSection() {
@@ -60,7 +81,21 @@ public abstract class Ability {
         return skillType;
     }
 
-    public boolean isActive(LivingEntity entity) {
+    public boolean isHoldingAbilityItem(Player player) {
+        return Arrays.stream(SkillManager.getInstance().getSkill(getSkillType()).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
+    }
+
+    public boolean isActive(Player p) {
+        return active.containsKey(p);
+    }
+
+    public void setActive(Player p, double duration) {
+        active.put(p, duration);
+        //if bar timer enabled
+        new BarTimer(p, duration, getName());
+    }
+
+    public boolean isSelected(LivingEntity entity) {
         if (!(entity instanceof Player)) return false;
         return RPGPlayerManager.getInstance().getPlayer((Player) entity).getActiveAbility(getSkillType()) == this ? true : false;
     }
@@ -75,7 +110,11 @@ public abstract class Ability {
 
     public boolean checkReady(LivingEntity entity) {
         if (!(entity instanceof Player)) return false;
-        return (isActive(entity) && !onCooldown((Player) entity)) ? true : false;
+        return (isSelected(entity) && !isActive((Player) entity) && !onCooldown((Player) entity)) ? true : false;
+    }
+
+    public double getDuration() {
+        return duration;
     }
 
     public boolean isEnabled() {

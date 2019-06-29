@@ -34,7 +34,7 @@ public class AbilityCycle implements Listener {
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             for (Skill s : SkillManager.getInstance().getSkills()) {
-                if (s.getCycleType() != AbilityCycleType.RIGHT_CLICK) return;
+                if (s.getCycleType() != AbilityCycleType.RIGHT_CLICK) continue;
                 if (Arrays.stream(s.getMaterials().toArray()).anyMatch(m -> m == e.getMaterial())) {
                     tryNextCycle(s.getSkillType(), RPGPlayerManager.getInstance().getPlayer(e.getPlayer()));
                 }

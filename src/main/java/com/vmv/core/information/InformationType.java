@@ -7,7 +7,8 @@ public enum InformationType {
     INFO(ChatColor.AQUA),
     DEBUG(ChatColor.DARK_AQUA),
     WARN(ChatColor.YELLOW),
-    ERROR(ChatColor.RED);
+    ERROR(ChatColor.RED),
+    NONE(ChatColor.GRAY);
 
     private ChatColor c;
 

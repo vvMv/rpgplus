@@ -29,10 +29,10 @@ public class BarTimerManager extends BukkitRunnable {
         toRemove.forEach(bossbarCooldown -> barCooldowns.remove(bossbarCooldown));
     }
 
-    public static void addBarCooldown(BarTimer barCooldown, Player p) {
+    public static void addBarCooldown(BarTimer barCooldown, Player p, String title) {
         ArrayList<BarTimer> toRemove = new ArrayList<BarTimer>();
         for (BarTimer cooldown : barCooldowns) {
-            if (cooldown.getBossBar().getPlayers().contains(p)) {
+            if (cooldown.getBossBar().getPlayers().contains(p) && cooldown.getTitle().equalsIgnoreCase(title)) {
                 cooldown.getBossBar().removeAll();
                 barCooldown.setDurationLeft(cooldown.getDurationLeft());
                 toRemove.add(cooldown);
@@ -40,5 +40,19 @@ public class BarTimerManager extends BukkitRunnable {
         }
         toRemove.forEach(bossbarCooldown -> barCooldowns.remove(bossbarCooldown));
         barCooldowns.add(barCooldown);
+    }
+
+    /**
+     *
+     * @param title is the identifier for the timer
+     */
+    public static boolean isBarTimerActive(Player p, String title) {
+        for (BarTimer b : barCooldowns) {
+            if (b.getTitle().equalsIgnoreCase(title) && b.getPlayer() == p) {
+                return true;
+            }
+        }
+        return false;
+
     }
 }

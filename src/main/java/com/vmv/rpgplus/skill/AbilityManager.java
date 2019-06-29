@@ -13,6 +13,7 @@ import com.vmv.rpgplus.skill.stamina.Dash;
 import com.vmv.rpgplus.event.AbilityCycleEvent;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.woodcutting.TreeFeller;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -39,7 +40,9 @@ public class AbilityManager implements Listener {
                 new ExplosiveArrow("explosive_arrow", ARCHERY),
                 new TeleportArrow("teleport_arrow", ARCHERY),
                 new SplitShot("split_shot", ARCHERY),
-                new Dash("dash", STAMINA));
+                new Dash("dash", STAMINA),
+                new VeinMiner("vein_miner", MINING),
+                new TreeFeller("tree_feller", WOODCUTTING));
     }
 
     public void registerAbility(Listener... ab) {
