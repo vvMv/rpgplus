@@ -1,6 +1,8 @@
 package com.vmv.rpgplus.player;
 
 import com.vmv.core.database.Database;
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
@@ -13,22 +15,22 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RPGPlayer {
-    private HashMap<SkillType, Double> exp;
+    private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
     private UUID uuid;
 
     public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp) {
         this.uuid = uuid;
-        this.exp = new HashMap<SkillType, Double>();
+        this.exp = exp;
         this.activeAbility = new HashMap<SkillType, Ability>();
 
-        if (this.exp == null) {
-            for (SkillType s : SkillType.values()) {
-                this.exp.put(s, 0.0);
-            }
-        } else {
-            this.exp = exp;
-        }
+//        if (this.exp == null) {
+//            for (SkillType s : SkillType.values()) {
+//                this.exp.put(s, 0.0);
+//            }
+//        } else {
+//            this.exp = exp;
+//        }
     }
 
     public Ability getActiveAbility(SkillType st) {
@@ -82,7 +84,17 @@ public class RPGPlayer {
         Bukkit.getPluginManager().callEvent(new ExperienceModifyEvent(this, skill, (xp - MathUtils.round(exp.get(skill), 2))));
         if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp, skill)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp, skill)));
         exp.put(skill, xp);
-        Database.getInstance().updateData("player_experience", skill.toString().toLowerCase(), xp, "uuid", "=", uuid.toString());
+
+        //Checks if the exp skill type and player are already queued to save
+        String s = getUuid().toString() + ":" + skill.toString();
+        for(String data : RPGPlayerManager.getInstance().getDataToSave()) {
+            if (s.equalsIgnoreCase(data)) {
+                return;
+            }
+        }
+
+        RPGPlayerManager.getInstance().getDataToSave().add(s);
+
     }
 
 }

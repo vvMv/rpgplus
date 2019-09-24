@@ -1,4 +1,5 @@
 expDropColor: DARK_PURPLE
+expRequiresMaterial: false
 enabled: true
 materials:
   - 'WOODEN_AXE'
@@ -7,15 +8,50 @@ materials:
   - 'GOLDEN_AXE'
   - 'DIAMOND_AXE'
 abilityCycle: RIGHT_CLICK
-maxLevel: 50
+maxLevel: 100
+experience:
+  ACACIA_LOG:
+    min: 30
+    max: 60
+  BIRCH_LOG:
+    min: 20
+    max: 50
+  DARK_OAK_LOG:
+    min: 10
+    max: 70
+  JUNGLE_LOG:
+    min: 20
+    max: 45
+  OAK_LOG:
+    min: 10
+    max: 50
+  SPRUCE_LOG:
+    min: 20
+    max: 60
+  BROWN_MUSHROOM_BLOCK:
+    min: 40
+    max: 80
+  RED_MUSHROOM_BLOCK:
+    min: 40
+    max: 80
+  MUSHROOM_STEM:
+    min: 40
+    max: 80
 ability:
   tree_feller:
     enabled: true
-    duration: 10
-    delay: 0.2
-    level: 10
-    cooldown: 20
+    duration: 5
+    delay: 0.1
+    level: 40
+    cooldown: 60
+    sound:
     logs:
+      - 'OAK_WOOD'
+      - 'SPRUCE_WOOD'
+      - 'BIRCH_WOOD'
+      - 'JUNGLE_WOOD'
+      - 'ACACIA_WOOD'
+      - 'DARK_OAK_WOOD'
       - 'OAK_LOG'
       - 'SPRUCE_LOG'
       - 'BIRCH_LOG'

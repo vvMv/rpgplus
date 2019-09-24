@@ -1,5 +1,11 @@
 package com.vmv.core.minecraft.gui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,8 +20,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.*;
 
 public class PrivateInventory {
 
@@ -55,7 +59,7 @@ public class PrivateInventory {
 	}
 
 	public void setItem(ItemStack itemstack, String displayname, Integer slot, ClickRunnable executeOnClick,
-                        String... description) {
+						String... description) {
 		ItemStack is = itemstack;
 		ItemMeta im = is.getItemMeta();
 		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS,
@@ -97,7 +101,7 @@ public class PrivateInventory {
 						UUID uuid = p.getUniqueId();
 						if (inventories.containsKey(uuid)) {
 							PrivateInventory current = inventories.get(uuid);
-							if (e.getClickedInventory() != current.getInventory()) { //Recently removed .gettitle equalignore
+							if (e.getClickedInventory() != current.getInventory()) {
 								return;
 							}
 							e.setCancelled(true);
@@ -131,7 +135,7 @@ public class PrivateInventory {
 		InventoryView openInv = player.getOpenInventory();
 		if (openInv != null) {
 			Inventory openTop = player.getOpenInventory().getTopInventory();
-			if (openTop != null && openTop != inv) {
+			if (openTop != null && openTop == inv) {
 				openTop.setContents(inv.getContents());
 			} else {
 				player.openInventory(inv);

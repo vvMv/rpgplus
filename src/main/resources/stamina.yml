@@ -1,5 +1,5 @@
 enabled: true
-maxLevel: 50
+maxLevel: 100
 expDropColor: YELLOW
 abilityCycle: DOUBLE_CROUCH
 experience:
@@ -14,3 +14,12 @@ ability:
     durationIncrease: 0.1
     durationMaximum: 10
     speed: 4
+  stealth:
+    enabled: true
+    level: 15
+    cooldown: 60
+    duration: 5
+    durationIncrease: 0.1
+    durationMaximum: 10
+    speed: 2
+    item: SHIELD

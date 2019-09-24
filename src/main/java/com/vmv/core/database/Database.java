@@ -111,12 +111,35 @@ public class Database {
 
     }
 
+    public void executeSQLFinal(final String sql) {
+        try (Connection conn = DriverManager.getConnection(url); Statement statement = conn.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            return;
+        } finally {
+            try {
+                DriverManager.getConnection(url).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void insertData(String tablename, String fieldnames, String values, boolean aSync) {
         executeSQL("INSERT INTO " + tablename + " (" + fieldnames + ") VALUES (" + values + ")", aSync);
     }
 
+    public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value, boolean asTask) {
+        String sql = "UPDATE " + tablename + " SET " + fieldname + " = '" + object + "' WHERE " + column + logic_gate + "'" + value + "';";
+        if (!asTask) {
+            executeSQLFinal(sql);
+        } else {
+            executeSQL(sql, true);
+        }
+    }
+
     public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value) {
-        executeSQL("UPDATE " + tablename + " SET " + fieldname + " = '" + object + "' WHERE " + column + logic_gate + "'" + value + "';", true);
+        updateData(tablename, fieldname, object, column, logic_gate, value, true);
     }
 
     public void deleteData(String tablename, String fieldname, String logic_gate, String value) {
@@ -140,7 +163,7 @@ public class Database {
 
         //TODO implement use of ScriptRunner when more tables are created
         List<String> queries = new ArrayList<>();
-        queries.add("CREATE TABLE IF NOT EXISTS [player_experience] (uuid VARCHAR PRIMARY KEY NOT NULL)");
+        executeSQL("CREATE TABLE IF NOT EXISTS [player_experience] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
 
         for (SkillType skill : SkillType.values()) {
             queries.add("ALTER TABLE player_experience ADD " + skill.toString().toLowerCase() + " DOUBLE DEFAULT 0");

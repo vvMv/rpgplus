@@ -10,7 +10,12 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
+import fr.minuskube.netherboard.Netherboard;
+import fr.minuskube.netherboard.bukkit.BPlayerBoard;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,8 +27,15 @@ import java.util.List;
 public class Commands extends BaseCommand {
 
     @Default
-    public void onDefault(Player p, int level) {
-        RPGPlayerManager.getInstance().getPlayer(p.getUniqueId()).setXP(SkillType.STAMINA, SkillManager.getInstance().getExperience(level));
+    public void onDefault(Player p) {
+        ChatUtil.sendChatMessage(p, "Please specify a subcommand");
+
+        BPlayerBoard board = Netherboard.instance().createBoard(p, p.getName() + "!");
+
+        int index = 0;
+        for(Skill s : SkillManager.getInstance().getSkills()) {
+            board.set(StringUtils.rightPad(s.getSkillType().toString() + s.getExpDropColor(), 2) + " » " + ChatColor.RESET + (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType()), index++);
+        }
     }
 
     @Subcommand("stats")

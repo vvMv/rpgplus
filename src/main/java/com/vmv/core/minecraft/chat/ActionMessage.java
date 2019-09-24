@@ -12,6 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class ActionMessage {
     public static void send(Player player, String message) {
 
+        if (player == null) return;
+
         Player p = Bukkit.getPlayer(player.getName()); // Weird bug leave alone
         BaseComponent[] bc = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', message)).create();
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, bc);

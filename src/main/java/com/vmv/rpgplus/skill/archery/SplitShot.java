@@ -26,28 +26,28 @@ public class SplitShot extends Ability implements Listener {
         this.cooldown = 0;
     }
 
-    @EventHandler
-    public void onBowShoot(EntityShootBowEvent e) {
-
-        if (!checkReady(e.getEntity())) return;
-
-        double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
-        int amount = (int) (playerLevel / extra) + 1;
-        int angle = getAbilityConfigSection().getInt("angle");
-        int separation = angle / amount;
-
-        Location loc = e.getEntity().getLocation();
-        for (int i = 1; i < amount; i++) {
-            loc.setYaw((e.getEntity().getLocation().getYaw() -(angle/2)) + (i * separation));
-            Arrow a = e.getEntity().launchProjectile(Arrow.class);
-            a.setVelocity(loc.getDirection());
-            a.setShooter(e.getEntity());
-            a.setPickupStatus(Arrow.PickupStatus.CREATIVE_ONLY);
-            a.setCustomName("splitshot_arrow");
-            a.setBounce(false);
-            a.setCritical(true);
-            a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.5F, 1.0F * 0.15F);
-        }
-        e.setCancelled(true);
-    }
+//    @EventHandler
+//    public void onBowShoot(EntityShootBowEvent e) {
+//
+//        if (!checkReady(e.getEntity())) return;
+//
+//        double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
+//        int amount = (int) (playerLevel / extra) + 1;
+//        int angle = getAbilityConfigSection().getInt("angle");
+//        int separation = angle / amount;
+//
+//        Location loc = e.getEntity().getLocation();
+//        for (int i = 1; i < amount; i++) {
+//            loc.setYaw((e.getEntity().getLocation().getYaw() -(angle/2)) + (i * separation));
+//            Arrow a = e.getEntity().launchProjectile(Arrow.class);
+//            a.setVelocity(loc.getDirection());
+//            a.setShooter(e.getEntity());
+//            a.setPickupStatus(Arrow.PickupStatus.CREATIVE_ONLY);
+//            a.setCustomName("splitshot_arrow");
+//            a.setBounce(false);
+//            a.setCritical(true);
+//            a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.5F, 1.0F * 0.15F);
+//        }
+//        e.setCancelled(true);
+//    }
 }

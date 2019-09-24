@@ -1,6 +1,7 @@
 enabled: true
-maxLevel: 50
+maxLevel: 100
 expDropColor: GOLD
+expRequiresMatieral: true
 materials:
   - 'WOODEN_SWORD'
   - 'STONE_SWORD'

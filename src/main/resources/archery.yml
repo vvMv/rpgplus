@@ -1,6 +1,7 @@
 enabled: true
 maxLevel: 100
 expDropColor: DARK_GREEN
+allowDistanceExperience: true
 materials:
   - 'BOW'
   - 'CROSSBOW'

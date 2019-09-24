@@ -1,6 +1,25 @@
 enabled: true
-maxLevel: 50
+maxLevel: 100
 expDropColor: AQUA
 materials:
   - 'FISHING_ROD'
 abilityCycle: LEFT_CLICK
+exclude:
+  - 'FISH_ONE'
+  - 'ITEM2'
+experience:
+  RAW_COD:
+    min: 50
+    max: 200
+  RAW_SALMON:
+    min: 50
+    max: 300
+  PUFFERFISH:
+    min: 300
+    max: 500
+  TROPICAL_FISH:
+    min: 350
+    max: 1200
+  OTHER:
+    min: 10
+    max: 50

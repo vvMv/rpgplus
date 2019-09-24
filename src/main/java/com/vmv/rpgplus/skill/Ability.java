@@ -81,6 +81,10 @@ public abstract class Ability {
         return skillType;
     }
 
+    public HashMap<Player, Double> getActive() {
+        return active;
+    }
+
     public boolean isHoldingAbilityItem(Player player) {
         return Arrays.stream(SkillManager.getInstance().getSkill(getSkillType()).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
     }

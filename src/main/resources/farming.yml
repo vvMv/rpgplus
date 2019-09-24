@@ -1,10 +1,45 @@
 enabled: true
-maxLevel: 50
+maxLevel: 100
 expDropColor: GREEN
+expRequiresMaterial: false
 materials:
   - 'WOODEN_HOE'
   - 'STONE_HOE'
   - 'IRON_HOE'
   - 'GOLDEN_HOE'
   - 'DIAMOND_HOE'
+experience:
+  WHEAT:
+    min: 15
+    max: 30
+  CARROTS:
+    min: 20
+    max: 30
+  POTATOES:
+    min: 20
+    max: 30
+  BEETROOTS:
+    min: 25
+    max: 40
+  PUMPKIN:
+    min: 30
+    max: 60
+  MELON:
+    min: 30
+    max: 60
+  CACTUS:
+    min: 20
+    max: 30
+  SUGAR_CANE:
+    min: 10
+    max: 30
+  KELP:
+    min: 10
+    max: 20
+  BAMBOO:
+    min: 10
+    max: 20
+  COCOA_BEANS:
+    min: 30
+    max: 50
 abilityCycle: LEFT_CLICK

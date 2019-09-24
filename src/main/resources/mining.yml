@@ -1,6 +1,47 @@
 enabled: true
-maxLevel: 50
+maxLevel: 100
 expDropColor: BLUE
+expRequiresMaterial: true
+experience:
+  STONE:
+    min: 0.2
+    max: 2
+  COAL_ORE:
+    min: 10
+    max: 20
+  IRON_ORE:
+    min: 10
+    max: 30
+  GOLD_ORE:
+    min: 20
+    max: 40
+  LAPIS_ORE:
+    min: 10
+    max: 50
+  REDSTONE_ORE:
+    min: 10
+    max: 40
+  DIAMOND_ORE:
+    min: 50
+    max: 150
+  EMERALD_ORE:
+    min: 50
+    max: 250
+  NETHER_QUARTZ_ORE:
+    min: 10
+    max: 20
+  NETHERRACK:
+    min: 0.1
+    max: 1
+  ANDESITE:
+    min: 1
+    max: 3
+  GRANITE:
+    min: 1
+    max: 4
+  DIORITE:
+    min: 1
+    max: 5
 materials:
   - 'WOODEN_PICKAXE'
   - 'STONE_PICKAXE'
@@ -9,6 +50,23 @@ materials:
   - 'DIAMOND_PICKAXE'
 abilityCycle: RIGHT_CLICK
 ability:
+  ore_locator:
+    enabled: true
+    level: 0
+    cooldown: 120
+    duration: 20
+    rangeBase: 15
+    rangePerLevel: 0.2
+    rangeMax: 30
+    blocks:
+      - 'COAL_ORE'
+      - 'IRON_ORE'
+      - 'GOLD_ORE'
+      - 'LAPIS_ORE'
+      - 'DIAMOND_ORE'
+      - 'REDSTONE_ORE'
+      - 'EMERALD_ORE'
+      - 'NETHER_QUARTZ_ORE'
   vein_miner:
     enabled: true
     level: 0

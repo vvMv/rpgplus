@@ -1,5 +1,7 @@
 package com.vmv.rpgplus.event;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 
 import com.vmv.rpgplus.main.RPGPlus;
@@ -8,6 +10,7 @@ import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -15,6 +18,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
@@ -24,6 +28,8 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
     private final RPGPlayer rp;
     private final SkillType skill;
     private double exp;
+
+    private static ArrayList<ArmorStand> animationStands = new ArrayList<>();
 
     public ExperienceModifyEvent(RPGPlayer rp, SkillType skill, double exp) {
         super(Bukkit.getPlayer(rp.getUuid()));
@@ -69,16 +75,20 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
     }
 
     private void spawnExperienceAnimation(double duration) {
+        if (!RPGPlus.getInstance().getConfig().getBoolean("General.ExperienceAnimation")) return;
         if (player == null) return;
         ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
+        as.setVisible(false);
         as.setSmall(true);
         as.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, (int) (duration*20), 1));
-        as.setVisible(false);
         as.setCustomNameVisible(true);
         as.setCustomName(SkillManager.getInstance().getSkill(getSkill()).getExpDropColor() + "+" + getExp() + "xp");
 
+        animationStands.add(as);
+
         Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
             public void run() {
+                animationStands.remove(as);
                 as.remove();
             }
         }, (long) (duration * 20));
@@ -92,6 +102,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
         return l;
     }
 
-
-
+    public static ArrayList<ArmorStand> getAnimationStands() {
+        return animationStands;
+    }
 }

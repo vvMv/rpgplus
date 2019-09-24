@@ -34,11 +34,14 @@ public class TreeFeller extends Ability implements Listener {
 
     @EventHandler
     public void onChop(BlockBreakEvent e) {
-        InformationHandler.printMessage(InformationType.DEBUG, "reached treefeller.java onchop");
+
+        if (e.isCancelled()) return;
 
         if (!isHoldingAbilityItem(e.getPlayer())) return;
         if (!logs.contains(e.getBlock().getType())) return;
-        if (checkReady(e.getPlayer())) setActive(e.getPlayer(), getDuration());
+        if (checkReady(e.getPlayer())) {
+            setActive(e.getPlayer(), getDuration());
+        }
 
         if (isActive(e.getPlayer())) {
             new TreeCutter(e.getPlayer(), e.getBlock(), delay).runTaskAsynchronously(RPGPlus.getInstance());

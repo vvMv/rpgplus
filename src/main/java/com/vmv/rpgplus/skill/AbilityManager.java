@@ -8,6 +8,7 @@ import com.vmv.rpgplus.skill.archery.SplitShot;
 import com.vmv.rpgplus.skill.archery.TeleportArrow;
 import com.vmv.rpgplus.skill.attack.Attack;
 import com.vmv.rpgplus.skill.attack.CriticalHit;
+import com.vmv.rpgplus.skill.mining.OreLocator;
 import com.vmv.rpgplus.skill.mining.VeinMiner;
 import com.vmv.rpgplus.skill.stamina.Dash;
 import com.vmv.rpgplus.event.AbilityCycleEvent;
@@ -42,7 +43,8 @@ public class AbilityManager implements Listener {
                 new SplitShot("split_shot", ARCHERY),
                 new Dash("dash", STAMINA),
                 new VeinMiner("vein_miner", MINING),
-                new TreeFeller("tree_feller", WOODCUTTING));
+                new TreeFeller("tree_feller", WOODCUTTING)
+                /*new OreLocator("ore_locator", MINING)*/);
     }
 
     public void registerAbility(Listener... ab) {

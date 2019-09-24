@@ -23,6 +23,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +35,15 @@ public class RPGPlayerManager implements Listener {
     private static RPGPlayerManager instance;
     private ArrayList<RPGPlayer> players;
 
+    public List<String> dataToSave;
+
     public RPGPlayerManager() {
         RPGPlus.getInstance().registerEvents(this);
         this.instance = this;
         players = new ArrayList<RPGPlayer>();
+        dataToSave = new ArrayList<String>();
         registerPlayers();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("General.saveData"),  RPGPlus.getInstance().getConfig().getLong("General.saveData"));
     }
 
     public ArrayList<RPGPlayer> getPlayers() {
@@ -67,10 +73,13 @@ public class RPGPlayerManager implements Listener {
 
     @EventHandler
     public void checkJoin(PlayerJoinEvent e) {
-        Bukkit.broadcastMessage("checking join");
         if (getPlayer(e.getPlayer().getUniqueId()) == null) {
             InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
-            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), null));
+            HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
+            for (SkillType s : SkillType.values()) {
+                xp.put(s, 0.0);
+            }
+            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp));
         }
 
         Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_experience(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
@@ -90,6 +99,8 @@ public class RPGPlayerManager implements Listener {
         }
         message.append(ChatColor.DARK_GREEN + "]");
         ChatUtil.sendActionMessage(e.getPlayer(), WordUtils.capitalizeFully(e.getSkill().toString()) + " +" + MathUtils.round(e.getExp(), 2) + " " + message.toString());
+
+
     }
 
     @EventHandler
@@ -110,8 +121,7 @@ public class RPGPlayerManager implements Listener {
         try {
             p.playSound(p.getLocation(), Sound.valueOf(RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp")), 1f, 1f);
         } catch (Exception e2) {
-            //RPGPlus.getInstance().getLogger().info("Config value for Sound.LevelUp '" + RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp") + "' is invalid");
-            InformationHandler.printMessage(InformationType.ERROR, "Config value for Sound.LevelUp '" + RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp") + "' is invalid");
+            InformationHandler.printMessage(InformationType.ERROR, "Config value for Sounds.LevelUp '" + RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp") + "' is invalid");
         }
     }
 
@@ -137,4 +147,22 @@ public class RPGPlayerManager implements Listener {
         }
     }
 
+    public void savePlayerData(boolean asTask) {
+        InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + dataToSave.size() + "]");
+        Instant start = Instant.now();
+
+        dataToSave.forEach(data -> {
+            String uuid = data.split(":")[0];
+            String skill = data.split(":")[1];
+            Database.getInstance().updateData("player_experience", skill, getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill.toUpperCase())), "uuid", "=", uuid, asTask);
+        });
+
+        Instant finish = Instant.now();
+        InformationHandler.printMessage(InformationType.INFO, "Finished! Took " + Duration.between(start, finish).toMillis() + "ms.");
+        dataToSave.clear();
+    }
+
+    public List<String> getDataToSave() {
+        return dataToSave;
+    }
 }

@@ -1,19 +1,25 @@
 package com.vmv.rpgplus.skill;
 
+import com.sk89q.worldguard.protection.flags.Flags;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
+import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.main.RPGPlus;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public abstract class Skill {
+public abstract class Skill implements Listener {
 
     private SkillType skillType;
     private ChatColor expDropColor;
@@ -69,6 +75,22 @@ public abstract class Skill {
 
     public void registerEvents(Listener... listeners) {
         RPGPlus.getInstance().registerEvents(listeners);
+    }
+
+    public boolean hasBuildPermission(Location blockLocation, Player player) {
+        return (DependencyManager.getInstance().testWorldGuardFlag(blockLocation, player, Flags.BUILD));
+
+    }
+
+    public boolean hasMaterial(Player player) {
+        if (getConfig().getBoolean("expRequiresMaterial")) {
+            return Arrays.stream(SkillManager.getInstance().getSkill(getSkillType()).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
+        }
+        return true;
+    }
+
+        public boolean hasDamagePermission(Player player) {
+            return !DependencyManager.getInstance().testWorldGuardFlag(player.getLocation(), player, Flags.PVP);
     }
 
 
