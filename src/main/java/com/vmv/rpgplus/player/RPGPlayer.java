@@ -1,8 +1,5 @@
 package com.vmv.rpgplus.player;
 
-import com.vmv.core.database.Database;
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;

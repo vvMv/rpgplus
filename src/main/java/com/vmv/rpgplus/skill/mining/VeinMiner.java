@@ -2,11 +2,8 @@ package com.vmv.rpgplus.skill.mining;
 
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
-import com.vmv.core.minecraft.misc.BarTimer;
-import com.vmv.core.minecraft.misc.BarTimerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

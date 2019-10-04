@@ -1,19 +1,18 @@
 package com.vmv.rpgplus.skill;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
 import com.vmv.core.minecraft.misc.Cooldowns;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
-import com.vmv.rpgplus.skill.SkillManager;
-import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +24,7 @@ public abstract class Ability {
     protected String description = "default description";
     protected double cooldown, duration;
     protected int requiredLevel;
+
     private String name;
     private SkillType skillType;
     private FileConfiguration skillConfig;
@@ -54,7 +54,7 @@ public abstract class Ability {
     }
 
     public ConfigurationSection getAbilityConfigSection() {
-        return skillConfig.getConfigurationSection("ability." + getName() + ".");
+        return skillConfig.getConfigurationSection("ability." + this.name + ".");
     }
 
     public String getName() {
@@ -86,7 +86,7 @@ public abstract class Ability {
     }
 
     public boolean isHoldingAbilityItem(Player player) {
-        return Arrays.stream(SkillManager.getInstance().getSkill(getSkillType()).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
+        return Arrays.stream(SkillManager.getInstance().getSkill(this.skillType).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
     }
 
     public boolean isActive(Player p) {
@@ -96,17 +96,17 @@ public abstract class Ability {
     public void setActive(Player p, double duration) {
         active.put(p, duration);
         //if bar timer enabled
-        new BarTimer(p, duration, getName());
+        new BarTimer(p, duration, this.name);
     }
 
     public boolean isSelected(LivingEntity entity) {
         if (!(entity instanceof Player)) return false;
-        return RPGPlayerManager.getInstance().getPlayer((Player) entity).getActiveAbility(getSkillType()) == this ? true : false;
+        return RPGPlayerManager.getInstance().getPlayer((Player) entity).getActiveAbility(this.skillType) == this ? true : false;
     }
 
     public boolean onCooldown(Player p) {
-        if (!Cooldowns.tryCooldown(p, getName(), getAbilityConfigSection().getLong("cooldown") * 1000)) {
-            ChatUtil.sendActionMessage(p, "&3" + getName() + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, getName()))/1000), 1) + "s");
+        if (!Cooldowns.tryCooldown(p, this.name, getAbilityConfigSection().getLong("cooldown") * 1000)) {
+            ChatUtil.sendActionMessage(p, "&3" + this.name + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1) + "s");
             return true;
         }
         return false;

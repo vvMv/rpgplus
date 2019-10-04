@@ -1,29 +1,17 @@
 package com.vmv.rpgplus.skill;
 
-import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.archery.ExplosiveArrow;
 import com.vmv.rpgplus.skill.archery.MultiArrow;
 import com.vmv.rpgplus.skill.archery.SplitShot;
 import com.vmv.rpgplus.skill.archery.TeleportArrow;
-import com.vmv.rpgplus.skill.attack.Attack;
-import com.vmv.rpgplus.skill.attack.CriticalHit;
-import com.vmv.rpgplus.skill.mining.OreLocator;
+import com.vmv.rpgplus.skill.attack.Track;
 import com.vmv.rpgplus.skill.mining.VeinMiner;
 import com.vmv.rpgplus.skill.stamina.Dash;
-import com.vmv.rpgplus.event.AbilityCycleEvent;
-import com.vmv.rpgplus.player.RPGPlayer;
-import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.woodcutting.TreeFeller;
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +31,8 @@ public class AbilityManager implements Listener {
                 new SplitShot("split_shot", ARCHERY),
                 new Dash("dash", STAMINA),
                 new VeinMiner("vein_miner", MINING),
-                new TreeFeller("tree_feller", WOODCUTTING)
+                new TreeFeller("tree_feller", WOODCUTTING),
+                new Track("track", ATTACK)
                 /*new OreLocator("ore_locator", MINING)*/);
     }
 

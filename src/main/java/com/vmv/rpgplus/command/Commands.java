@@ -3,7 +3,6 @@ package com.vmv.rpgplus.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.vmv.core.config.FileManager;
-import com.vmv.core.config.PluginFile;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -13,13 +12,11 @@ import com.vmv.rpgplus.skill.SkillType;
 import fr.minuskube.netherboard.Netherboard;
 import fr.minuskube.netherboard.bukkit.BPlayerBoard;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class Commands extends BaseCommand {
 
     @Default
     public void onDefault(Player p) {
+
         ChatUtil.sendChatMessage(p, "Please specify a subcommand");
 
         BPlayerBoard board = Netherboard.instance().createBoard(p, p.getName() + "!");

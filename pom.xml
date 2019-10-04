@@ -90,12 +90,10 @@
             <artifactId>netherboard-bukkit</artifactId>
             <version>LATEST</version>
         </dependency>
-        <!--Lombok-->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>LATEST</version>
-            <scope>provided</scope>
+            <groupId>com.github.vvMv</groupId>
+            <artifactId>vLibs</artifactId>
+            <version>Tag</version>
         </dependency>
     </dependencies>
 

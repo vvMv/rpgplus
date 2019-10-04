@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.event.AbilityCycleEvent;
 import com.vmv.rpgplus.player.RPGPlayer;

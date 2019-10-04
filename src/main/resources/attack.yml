@@ -9,3 +9,9 @@ materials:
   - 'GOLDEN_SWORD'
   - 'DIAMOND_SWORD'
 abilityCycle: RIGHT_CLICK
+ability:
+  track:
+    enabled: true
+    level: 10
+    cooldown: 0
+    duration: 10
