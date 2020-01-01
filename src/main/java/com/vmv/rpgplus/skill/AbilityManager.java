@@ -6,6 +6,7 @@ import com.vmv.rpgplus.skill.archery.MultiArrow;
 import com.vmv.rpgplus.skill.archery.SplitShot;
 import com.vmv.rpgplus.skill.archery.TeleportArrow;
 import com.vmv.rpgplus.skill.attack.Track;
+import com.vmv.rpgplus.skill.mining.OreLocator;
 import com.vmv.rpgplus.skill.mining.VeinMiner;
 import com.vmv.rpgplus.skill.stamina.Dash;
 import com.vmv.rpgplus.skill.woodcutting.TreeFeller;
@@ -32,8 +33,8 @@ public class AbilityManager implements Listener {
                 new Dash("dash", STAMINA),
                 new VeinMiner("vein_miner", MINING),
                 new TreeFeller("tree_feller", WOODCUTTING),
-                new Track("track", ATTACK)
-                /*new OreLocator("ore_locator", MINING)*/);
+                new Track("track", ATTACK),
+                new OreLocator("ore_locator", MINING));
     }
 
     public void registerAbility(Listener... ab) {

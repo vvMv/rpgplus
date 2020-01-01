@@ -115,7 +115,7 @@
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.14.4-R0.1-SNAPSHOT</version>
+      <version>1.15.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -202,6 +202,6 @@
     </dependency>
   </dependencies>
   <properties>
-    <bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
+    <bukkit.version>1.15.1-R0.1-SNAPSHOT</bukkit.version>
   </properties>
 </project>

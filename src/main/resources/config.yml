@@ -3,6 +3,7 @@ General:
   saveData: 6000
   ExperienceGrowth: 1.618
   ExperienceAnimation: true
-  scoreboard: true
 Sounds:
   LevelUp: 'ENTITY_PLAYER_LEVELUP'
+scoreboard:
+  enabled: true

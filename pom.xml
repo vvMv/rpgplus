@@ -12,7 +12,7 @@
     <description>A skill based rgg plugin</description>
 
     <properties>
-        <bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.15.1-R0.1-SNAPSHOT</bukkit.version>
     </properties>
 
     <repositories>
@@ -89,11 +89,6 @@
             <groupId>fr.minuskube</groupId>
             <artifactId>netherboard-bukkit</artifactId>
             <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.vvMv</groupId>
-            <artifactId>vLibs</artifactId>
-            <version>Tag</version>
         </dependency>
     </dependencies>
 

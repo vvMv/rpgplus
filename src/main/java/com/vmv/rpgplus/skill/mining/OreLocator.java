@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +42,12 @@ public class OreLocator extends Ability implements Listener {
 
     }
 
-    @EventHandler
-    public void onLocateMove(PlayerMoveEvent e) {
-        if (getActive().containsKey(e.getPlayer())) {
-            locate(e.getPlayer());
-        }
-    }
+//    @EventHandler
+//    public void onLocateMove(PlayerMoveEvent e) {
+//        if (getActive().containsKey(e.getPlayer())) {
+//            locate(e.getPlayer());
+//        }
+//    }
 
     public void locate(Player player) {
 
@@ -57,10 +58,13 @@ public class OreLocator extends Ability implements Listener {
             if (highlighted.contains(l)) continue;
 
             if (blocks.contains(block.getType())) {
-                Shulker sh = (Shulker) player.getLocation().getWorld().spawnEntity(l, EntityType.SHULKER);
+                Slime sh = (Slime)  player.getLocation().getWorld().spawnEntity(l, EntityType.SLIME);
+                //Shulker sh = (Shulker) player.getLocation().getWorld().spawnEntity(l, EntityType.SHULKER);
+                sh.setWander(false);
+                sh.setSize(1);
                 sh.setGlowing(true);
                 sh.setAI(false);
-                sh.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10, 1));
+                sh.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000, 10));
                 sh.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 100));
                 sh.setCollidable(false);
                 sh.setGravity(false);

@@ -3,7 +3,9 @@ package com.vmv.rpgplus.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.vmv.core.config.FileManager;
+import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
@@ -12,11 +14,16 @@ import com.vmv.rpgplus.skill.SkillType;
 import fr.minuskube.netherboard.Netherboard;
 import fr.minuskube.netherboard.bukkit.BPlayerBoard;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -26,22 +33,36 @@ public class Commands extends BaseCommand {
     @Default
     public void onDefault(Player p) {
 
-        ChatUtil.sendChatMessage(p, "Please specify a subcommand");
+        ItemStack s = new ItemStack(Material.STONE);
+        ItemMeta im = s.getItemMeta();
+        im.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
+        s.setItemMeta(im);
+        p.getInventory().addItem(s);
+        //s.removeEnchantment(Enchantment.ARROW_DAMAGE);
 
-        BPlayerBoard board = Netherboard.instance().createBoard(p, p.getName() + "!");
 
-        int index = 0;
-        for(Skill s : SkillManager.getInstance().getSkills()) {
-            board.set(StringUtils.rightPad(s.getSkillType().toString() + s.getExpDropColor(), 2) + " » " + ChatColor.RESET + (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType()), index++);
-        }
     }
 
     @Subcommand("stats")
     @CommandPermission("rpgplus.player")
     public void displayStats(Player p) {
-        for (SkillType st : SkillType.values()) {
-            p.sendMessage(st.toString() + " " + RPGPlayerManager.getInstance().getPlayer(p).getLevel(st));
+
+        if (RPGPlus.getInstance().getConfig().getBoolean("scoreboard.enabled")) {
+            if (Netherboard.instance().getBoard(p) == null) {
+                BPlayerBoard board = Netherboard.instance().createBoard(p, ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("scoreboardTitle")));
+
+                int index = 0;
+                for (Skill s : SkillManager.getInstance().getSkills()) {
+                    int num = (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType());
+                    board.set(StringUtils.rightPad(s.getExpDropColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
+                }
+            } else {
+                Netherboard.instance().getBoard(p).delete();
+            }
+        } else {
+
         }
+
     }
 
     @Subcommand("debug")
@@ -49,7 +70,6 @@ public class Commands extends BaseCommand {
     public void debug(CommandSender sender) {
         List<String> mats = SkillManager.getInstance().getSkill(SkillType.ARCHERY).getConfig().getStringList("materials");
         mats.forEach(m -> sender.sendMessage(m));
-
     }
 
     @Subcommand("setlevel|setlev|setlvl")
