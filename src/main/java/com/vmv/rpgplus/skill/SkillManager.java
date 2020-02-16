@@ -27,6 +27,21 @@ public class SkillManager {
         skills.add(new Mining(SkillType.MINING));
         skills.add(new Stamina(SkillType.STAMINA));
         skills.add(new Woodcutting(SkillType.WOODCUTTING));
+
+        skills.removeIf(skill -> !skill.isEnabled());
+        skills.forEach(skill -> skill.registerEvents());
+
+//        List<Skill> toRemove = new ArrayList();
+//
+//        for (Skill skill : skills) {
+//            if (!skill.isEnabled()) toRemove.add(skill);
+//        }
+//
+//        skills.removeAll(toRemove);
+//
+//        for (Skill skill : skills) {
+//            skill.registerEvents();
+//        }
     }
 
     public static SkillManager getInstance() {
@@ -45,7 +60,7 @@ public class SkillManager {
     }
 
     public double getExperience(double level) {
-        double modifier = RPGPlus.getInstance().getConfig().getDouble("General.ExperienceGrowth");
+        double modifier = RPGPlus.getInstance().getConfig().getDouble("general.experience_growth");
         return MathUtils.round(((level * 50) * (level * modifier) / 3), 2);
     }
 

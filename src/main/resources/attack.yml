@@ -1,4 +1,5 @@
 enabled: true
+display: 'DIAMOND_SWORD'
 maxLevel: 100
 expDropColor: GOLD
 expRequiresMatieral: true

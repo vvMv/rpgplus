@@ -1,4 +1,5 @@
 enabled: true
+display: 'DIAMOND_PICKAXE'
 maxLevel: 100
 expDropColor: BLUE
 expRequiresMaterial: true
@@ -72,6 +73,8 @@ ability:
     level: 0
     cooldown: 10
     duration: 5
+    maxsize: 17
+    delay: 5
     blocks:
       - 'COAL_ORE'
       - 'IRON_ORE'

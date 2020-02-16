@@ -1,12 +1,18 @@
 package com.vmv.rpgplus.player;
 
+import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
-import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.main.RPGPlus;
+import com.vmv.rpgplus.skill.*;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
-import com.vmv.rpgplus.skill.SkillManager;
-import com.vmv.rpgplus.skill.SkillType;
+import fr.minuskube.netherboard.Netherboard;
+import fr.minuskube.netherboard.bukkit.BPlayerBoard;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -14,20 +20,22 @@ import java.util.UUID;
 public class RPGPlayer {
     private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
+    private HashMap<Ability, Boolean> enableAbility;
     private UUID uuid;
 
     public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp) {
         this.uuid = uuid;
         this.exp = exp;
         this.activeAbility = new HashMap<SkillType, Ability>();
+        this.enableAbility = new HashMap<Ability, Boolean>();
 
-//        if (this.exp == null) {
-//            for (SkillType s : SkillType.values()) {
-//                this.exp.put(s, 0.0);
-//            }
-//        } else {
-//            this.exp = exp;
-//        }
+        //TODO add from database entry
+        for (Skill skill : SkillManager.getInstance().getSkills()) {
+            for (Ability ability : AbilityManager.getAbilities(skill.getSkillType())) {
+                enableAbility.put(ability, true);
+            }
+        }
+
     }
 
     public Ability getActiveAbility(SkillType st) {
@@ -62,17 +70,41 @@ public class RPGPlayer {
         setXP(skill, 0);
     }
 
-    public boolean hasAbilityEnabled(Ability a) {
-        //TODO user ability menu
-        return true;
+    public void toggleScoreboard() {
+        if (RPGPlus.getInstance().getConfig().getBoolean("scoreboard.enabled")) {
+            Player p = Bukkit.getPlayer(this.uuid);
+            if (Netherboard.instance().getBoard(p) == null) {
+                BPlayerBoard board = Netherboard.instance().createBoard(p, ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("scoreboard_title")));
+
+                int index = 0;
+                for (Skill s : SkillManager.getInstance().getSkills()) {
+                    int num = (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType());
+                    board.set(StringUtils.rightPad(s.getExpDropColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
+                }
+            } else {
+                Netherboard.instance().getBoard(p).delete();
+            }
+        }
     }
 
-    public boolean hasAbilityRequirements(Ability a) {
-        if (getLevel(a.getSkillType()) >= a.getRequiredLevel()) {
-            return true;
+    public boolean hasAbilityEnabled(Ability a) {
+        if (a == null) return false;
+        return enableAbility.get(a);
+    }
+
+    public void toggleAbilityEnabled(Ability a) {
+        if (!hasAbilityLevelRequirement(a)) return;
+        setActiveAbility(a.getSkillType(), null);
+        if (enableAbility.get(a)) {
+            enableAbility.put(a, false);
         } else {
-            return false;
+            enableAbility.put(a, true);
         }
+    }
+
+    public boolean hasAbilityLevelRequirement(Ability a) {
+        if (a == null) return false;
+        return getLevel(a.getSkillType()) >= a.getRequiredLevel() ? true : false;
     }
 
     public void setXP(SkillType skill, double xp) {

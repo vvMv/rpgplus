@@ -2,6 +2,7 @@ package com.vmv.rpgplus.skill;
 
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.event.AbilityCycleEvent;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import org.apache.commons.lang.WordUtils;
@@ -42,7 +43,7 @@ public class AbilityCycle implements Listener {
 
     public void tryNextCycle(SkillType st, RPGPlayer rp) {
         List<Ability> a = new ArrayList<>();
-        a = AbilityManager.getAbilities().stream().filter(ability -> ability.getSkillType() == st && ability.isEnabled() && !ability.isPassive() && rp.hasAbilityRequirements(ability) && rp.hasAbilityEnabled(ability)).collect(Collectors.toList());
+        a = AbilityManager.getAbilities().stream().filter(ability -> ability.getSkillType() == st && !ability.isPassive() && rp.hasAbilityLevelRequirement(ability) && rp.hasAbilityEnabled(ability)).collect(Collectors.toList());
         a.add(null);
         if (a.size() == 0) return;
         if (a.indexOf(rp.getActiveAbility(st)) + 1 >= a.size()) {
@@ -55,10 +56,16 @@ public class AbilityCycle implements Listener {
 
     @EventHandler
     public void onAbilityCycle(AbilityCycleEvent e) {
-        if (e.getAbility() == null) {
-            ChatUtil.sendActionMessage(e.getPlayer(), "&eDefault");
+//        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(e.getPlayer());
+//        List<Ability> abilities = AbilityManager.getAbilities(e.getAbility().getSkillType());
+//        if (abilities.stream().filter(ability -> rp.hasAbilityEnabled(ability) || rp.hasAbilityLevelRequirement(ability)).collect(Collectors.toList()).size() == 0) {
+//            return; //returns if the user has no ability active/unlocked in that skilltype
+//        }//TODO work on this to find away around the null entry in abilities
+
+        if (e.getAbility() == null) { //For when a user has >=1 ability enabled but on null rotation
+            ChatUtil.sendActionMessage(e.getPlayer(), "&eDefault", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
         } else {
-            ChatUtil.sendActionMessage(e.getPlayer(), "&e" + WordUtils.capitalizeFully(e.getAbility().getName().replaceAll("_", " ")));
+            ChatUtil.sendActionMessage(e.getPlayer(), "&e" + e.getAbility().getFormattedName(), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
 
         }
     }

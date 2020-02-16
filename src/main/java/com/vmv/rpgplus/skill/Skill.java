@@ -21,10 +21,12 @@ import java.util.List;
 
 public abstract class Skill implements Listener {
 
+    private boolean enabled;
     private SkillType skillType;
     private ChatColor expDropColor;
     private int maxLevel = 100;
     private List<Material> materials = new ArrayList<>();
+    private Material display = Material.BARRIER;
     private AbilityCycleType cycleType;
 
     public Skill(SkillType skillType) {
@@ -32,12 +34,22 @@ public abstract class Skill implements Listener {
         this.expDropColor = getExpDropColor();
         this.cycleType = getCycleType();
         this.maxLevel = getConfig().getInt("maxLevel");
+        this.enabled = getConfig().getBoolean("enabled");
         try {
             getConfig().getStringList("materials").forEach(m -> materials.add(Material.valueOf(m)));
         } catch (Exception e) {
             InformationHandler.printMessage(InformationType.ERROR, "Invalid materials in " + skillType.toString().toLowerCase() + ".yml");
         }
+        try {
+            display = Material.valueOf(getConfig().getString("display"));
+        } catch (Exception e) {
+            InformationHandler.printMessage(InformationType.ERROR, "Invalid display material in " + skillType.toString().toLowerCase() + ".yml");
+        }
     }
+
+    protected abstract void registerAbilities();
+
+    protected abstract void registerEvents();
 
     public FileConfiguration getConfig() {
         return FileManager.getSkillFile(skillType);
@@ -53,6 +65,10 @@ public abstract class Skill implements Listener {
 
     public List<Material> getMaterials() {
         return materials;
+    }
+
+    public Material getDisplay() {
+        return display;
     }
 
     public AbilityCycleType getCycleType() {
@@ -77,6 +93,10 @@ public abstract class Skill implements Listener {
         RPGPlus.getInstance().registerEvents(listeners);
     }
 
+    public void registerAbilities(Listener... listeners) {
+        AbilityManager.registerAbility(listeners);
+    }
+
     public boolean hasBuildPermission(Location blockLocation, Player player) {
         return (DependencyManager.getInstance().testWorldGuardFlag(blockLocation, player, Flags.BUILD));
 
@@ -93,5 +113,7 @@ public abstract class Skill implements Listener {
             return !DependencyManager.getInstance().testWorldGuardFlag(player.getLocation(), player, Flags.PVP);
     }
 
-
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

@@ -1,5 +1,6 @@
 package com.vmv.core.minecraft.chat;
 
+import com.vmv.rpgplus.main.RPGPlus;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -9,7 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class ActionMessage {
+
     public static void send(Player player, String message) {
 
         if (player == null) return;
@@ -19,6 +24,7 @@ public class ActionMessage {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, bc);
 
     }
+
 
     public static void send(Plugin plugin, final Player player, final String message, int duration) {
         send(player, message);
@@ -54,7 +60,7 @@ public class ActionMessage {
 
     public static void sendToAll(Plugin plugin,String message, int duration) {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            send(plugin ,p, message, duration);
+            send(plugin, p, message, duration);
         }
     }
 }

@@ -43,7 +43,7 @@ public class RPGPlayerManager implements Listener {
         players = new ArrayList<RPGPlayer>();
         dataToSave = new ArrayList<String>();
         registerPlayers();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("General.saveData"),  RPGPlus.getInstance().getConfig().getLong("General.saveData"));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
     }
 
     public ArrayList<RPGPlayer> getPlayers() {
@@ -98,7 +98,7 @@ public class RPGPlayerManager implements Listener {
             }
         }
         message.append(ChatColor.DARK_GREEN + "]");
-        ChatUtil.sendActionMessage(e.getPlayer(), WordUtils.capitalizeFully(e.getSkill().toString()) + " +" + MathUtils.round(e.getExp(), 2) + " " + message.toString());
+        ChatUtil.sendActionMessage(e.getPlayer(), WordUtils.capitalizeFully(e.getSkill().toString()) + " +" + MathUtils.round(e.getExp(), 2) + " " + message.toString(), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.experience_gain"));
 
 
     }
@@ -106,7 +106,7 @@ public class RPGPlayerManager implements Listener {
     @EventHandler
     public void onLevelUp(LevelModifyEvent e) {
 
-        List<String> msg = FileManager.getLang().getStringList("levelUp");
+        List<String> msg = FileManager.getLang().getStringList("level_up");
         Player p = e.getPlayer();
 
         for (String s : msg) {
@@ -119,9 +119,9 @@ public class RPGPlayerManager implements Listener {
         }
 
         try {
-            p.playSound(p.getLocation(), Sound.valueOf(RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp")), 1f, 1f);
+            p.playSound(p.getLocation(), Sound.valueOf(RPGPlus.getInstance().getConfig().getString("sounds.level_up")), 1f, 1f);
         } catch (Exception e2) {
-            InformationHandler.printMessage(InformationType.ERROR, "Config value for Sounds.LevelUp '" + RPGPlus.getInstance().getConfig().getString("Sounds.LevelUp") + "' is invalid");
+            InformationHandler.printMessage(InformationType.ERROR, "Config value for sounds.level_up '" + RPGPlus.getInstance().getConfig().getString("sounds.level_up") + "' is invalid");
         }
     }
 

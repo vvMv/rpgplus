@@ -1,6 +1,7 @@
-expDropColor: DARK_PURPLE
-expRequiresMaterial: false
 enabled: true
+expDropColor: DARK_PURPLE
+display: 'DIAMOND_AXE'
+expRequiresMaterial: false
 materials:
   - 'WOODEN_AXE'
   - 'STONE_AXE'

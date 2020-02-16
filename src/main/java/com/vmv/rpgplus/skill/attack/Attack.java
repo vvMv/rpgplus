@@ -19,9 +19,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import static com.vmv.rpgplus.skill.SkillType.ATTACK;
+
 public class Attack extends Skill implements Listener {
     public Attack(SkillType skillType) {
         super(skillType);
+    }
+
+    @Override
+    protected void registerAbilities() {
+        registerAbilities(new Track("track", ATTACK));
+    }
+
+    @Override
+    protected void registerEvents() {
         registerEvents(this);
     }
 
@@ -45,7 +56,7 @@ public class Attack extends Skill implements Listener {
         if (!super.hasMaterial((Player) e.getDamager()) || !super.hasDamagePermission((Player) e.getDamager())) return;
 
         double xp = MathUtils.round(e.getDamage(), 2);
-        RPGPlayerManager.getInstance().getPlayer((Player) e.getDamager()).addXP(SkillType.ATTACK, xp);
+        RPGPlayerManager.getInstance().getPlayer((Player) e.getDamager()).addXP(ATTACK, xp);
     }
 
 

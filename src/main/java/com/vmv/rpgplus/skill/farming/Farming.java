@@ -24,6 +24,15 @@ public class Farming extends Skill implements Listener {
 
     public Farming(SkillType skillType) {
         super(skillType);
+    }
+
+    @Override
+    protected void registerAbilities() {
+
+    }
+
+    @Override
+    protected void registerEvents() {
         registerEvents(this);
     }
 

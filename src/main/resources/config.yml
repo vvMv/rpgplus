@@ -1,9 +1,17 @@
-prefix: "&eRPGPlus » "
-General:
-  saveData: 6000
-  ExperienceGrowth: 1.618
-  ExperienceAnimation: true
-Sounds:
-  LevelUp: 'ENTITY_PLAYER_LEVELUP'
+general:
+  save_data: 6000
+  experience_growth: 1.618
+  experience_animation: true
+sounds:
+  level_up: 'ENTITY_PLAYER_LEVELUP'
 scoreboard:
   enabled: true
+actionbar:
+  priority:
+    timer: 2500
+    priorities:
+      ability_cycle: 30
+      ability_active: 30
+      ability_cooldown: 20
+      experience_gain: 10
+      other: 0

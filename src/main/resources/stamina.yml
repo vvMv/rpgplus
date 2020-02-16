@@ -1,4 +1,5 @@
 enabled: true
+display: 'GOLDEN_BOOTS'
 maxLevel: 100
 expDropColor: YELLOW
 abilityCycle: DOUBLE_CROUCH

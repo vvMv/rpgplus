@@ -164,6 +164,7 @@ public class Database {
         //TODO implement use of ScriptRunner when more tables are created
         List<String> queries = new ArrayList<>();
         executeSQL("CREATE TABLE IF NOT EXISTS [player_experience] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
+        executeSQL("CREATE TABLE IF NOT EXISTS [player_settings] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
 
         for (SkillType skill : SkillType.values()) {
             queries.add("ALTER TABLE player_experience ADD " + skill.toString().toLowerCase() + " DOUBLE DEFAULT 0");

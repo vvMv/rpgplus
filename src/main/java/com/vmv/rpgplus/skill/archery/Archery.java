@@ -14,6 +14,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
 import net.citizensnpcs.api.CitizensAPI;
@@ -27,10 +28,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import static com.vmv.rpgplus.skill.SkillType.ARCHERY;
+
 public class Archery extends Skill implements Listener {
 
     public Archery(SkillType skillType) {
         super(skillType);
+    }
+
+    @Override
+    public void registerAbilities() {
+        registerAbilities(new MultiArrow("multi_arrow", ARCHERY),
+                new ExplosiveArrow("explosive_arrow", ARCHERY),
+                new TeleportArrow("teleport_arrow", ARCHERY),
+                new SplitShot("split_shot", ARCHERY));
+    }
+
+    @Override
+    protected void registerEvents() {
         registerEvents(this);
     }
 
@@ -72,7 +87,7 @@ public class Archery extends Skill implements Listener {
 
         double xp = MathUtils.round(distanceXP + e.getDamage(), 2);
 
-        RPGPlayerManager.getInstance().getPlayer(shooter).addXP(SkillType.ARCHERY, xp);
+        RPGPlayerManager.getInstance().getPlayer(shooter).addXP(ARCHERY, xp);
 
     }
 

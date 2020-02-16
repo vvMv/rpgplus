@@ -28,9 +28,17 @@ public class Stamina extends Skill implements Listener {
         super(skillType);
         this.expDistance = getConfig().getDouble("experience.distance");
         this.time = getConfig().getDouble("experience.time");
-        registerEvents(this);
-        //registerAbility(new Dash("dash", getSkillType()));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> grantExperience(), (long) (time) * 20, (long) (time) * 20);
+    }
+
+    @Override
+    protected void registerAbilities() {
+        registerAbilities(new Dash("dash", getSkillType()));
+    }
+
+    @Override
+    protected void registerEvents() {
+        registerEvents(this);
     }
 
     @EventHandler

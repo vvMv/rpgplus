@@ -16,12 +16,23 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.vmv.rpgplus.skill.SkillType.MINING;
+
 public class Mining extends Skill implements Listener {
 
     ArrayList<String> blocks = new ArrayList<String>();
 
     public Mining(SkillType skillType) {
         super(skillType);
+    }
+
+    @Override
+    protected void registerAbilities() {
+        registerAbilities(new VeinMiner("vein_miner", MINING), new OreLocator("ore_locator", MINING));
+    }
+
+    @Override
+    protected void registerEvents() {
         registerEvents(this);
     }
 
@@ -35,7 +46,7 @@ public class Mining extends Skill implements Listener {
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
                 if (e.getBlock().getType() == Material.valueOf(b)) {
                     double xp = MathUtils.getRandom(getConfig().getDouble("experience." + b + ".max"), getConfig().getDouble("experience." + b + ".min"));
-                    RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(SkillType.MINING, xp);
+                    RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(MINING, xp);
                 }
             }
         }

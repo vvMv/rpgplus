@@ -1,4 +1,5 @@
 enabled: true
+display: 'FISHING_ROD'
 maxLevel: 100
 expDropColor: AQUA
 materials:

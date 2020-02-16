@@ -15,6 +15,15 @@ public class Fishing extends Skill implements Listener {
 
     public Fishing(SkillType skillType) {
         super(skillType);
+    }
+
+    @Override
+    protected void registerAbilities() {
+
+    }
+
+    @Override
+    protected void registerEvents() {
         registerEvents(this);
     }
 

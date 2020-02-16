@@ -10,7 +10,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 public class Track extends Ability implements Listener {
     
@@ -21,6 +20,7 @@ public class Track extends Ability implements Listener {
 
     @EventHandler
     public void onTrackHit(EntityDamageByEntityEvent e) {
+        if (!(e.getDamager() instanceof LivingEntity)) return;
         if (!checkReady((LivingEntity) e.getDamager())) return;
 
         if (e.getEntity().isGlowing()) return;

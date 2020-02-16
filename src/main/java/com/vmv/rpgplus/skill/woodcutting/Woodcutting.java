@@ -19,16 +19,25 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.vmv.rpgplus.skill.SkillType.WOODCUTTING;
+
 public class Woodcutting extends Skill implements Listener {
 
     ArrayList<String> logs = new ArrayList<String>();
 
     public Woodcutting(SkillType skillType) {
         super(skillType);
-        registerEvents(this);
     }
 
+    @Override
+    protected void registerAbilities() {
+        registerAbilities(new TreeFeller("tree_feller", WOODCUTTING));
+    }
 
+    @Override
+    protected void registerEvents() {
+        registerEvents(this);
+    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
@@ -39,7 +48,7 @@ public class Woodcutting extends Skill implements Listener {
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
                 if (e.getBlock().getType() == Material.valueOf(b)) {
                     double xp = MathUtils.getRandom(getConfig().getDouble("experience." + b + ".max"), getConfig().getDouble("experience." + b + ".min"));
-                    RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(SkillType.WOODCUTTING, xp);
+                    RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(WOODCUTTING, xp);
                 }
             }
         }

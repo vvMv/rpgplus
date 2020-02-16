@@ -2,12 +2,14 @@ package com.vmv.rpgplus.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.player.RPGPlayerSettings;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
@@ -33,36 +35,27 @@ public class Commands extends BaseCommand {
     @Default
     public void onDefault(Player p) {
 
-        ItemStack s = new ItemStack(Material.STONE);
-        ItemMeta im = s.getItemMeta();
-        im.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
-        s.setItemMeta(im);
-        p.getInventory().addItem(s);
-        //s.removeEnchantment(Enchantment.ARROW_DAMAGE);
+        p.sendMessage("yeet");
+        //RPGPlayerSettings.openMenu(RPGPlayerManager.getInstance().getPlayer(p));
 
 
+    }
+
+    @Subcommand("menu")
+    @CommandPermission("rpgplus.player")
+    @CommandCompletion("@players")
+    public void displayMenu(Player p, @Optional OnlinePlayer target) {
+        if (p.hasPermission("rpgplus.admin") && target != null) {
+            RPGPlayerSettings.openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
+        } else {
+            RPGPlayerSettings.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+        }
     }
 
     @Subcommand("stats")
     @CommandPermission("rpgplus.player")
     public void displayStats(Player p) {
-
-        if (RPGPlus.getInstance().getConfig().getBoolean("scoreboard.enabled")) {
-            if (Netherboard.instance().getBoard(p) == null) {
-                BPlayerBoard board = Netherboard.instance().createBoard(p, ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("scoreboardTitle")));
-
-                int index = 0;
-                for (Skill s : SkillManager.getInstance().getSkills()) {
-                    int num = (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType());
-                    board.set(StringUtils.rightPad(s.getExpDropColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
-                }
-            } else {
-                Netherboard.instance().getBoard(p).delete();
-            }
-        } else {
-
-        }
-
+        RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
     }
 
     @Subcommand("debug")
@@ -77,9 +70,9 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players @skills @range:1-100")
     public void setLevel(CommandSender p, OfflinePlayer player, String skill, int level) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), SkillManager.getInstance().getExperience(level));
-        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("setLevelSender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_level_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
         if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("setLevelReceiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
+            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
         }
     }
 
@@ -89,9 +82,9 @@ public class Commands extends BaseCommand {
     public void addLevel(CommandSender p, OfflinePlayer player, String skill, int level) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         rp.setXP(SkillType.valueOf(skill.toUpperCase()), SkillManager.getInstance().getExperience(rp.getLevel(SkillType.valueOf(skill.toUpperCase())) + level));
-        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("addLevelSender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("add_level_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
         if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("addLevelReceiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
+            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
         }
     }
 
@@ -100,9 +93,9 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players @skills")
     public void setExperience(CommandSender p, OfflinePlayer player, String skill, int experience) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), experience);
-        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("setExperienceSender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_experience_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
         if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("setExperienceReceiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
+            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
         }
     }
 
@@ -112,9 +105,9 @@ public class Commands extends BaseCommand {
     public void addExperience(CommandSender p, OfflinePlayer player, String skill, int experience) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         rp.setXP(SkillType.valueOf(skill.toUpperCase()), rp.getExperience(SkillType.valueOf(skill.toUpperCase())) + experience);
-        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("addExperienceSender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("add_experience_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
         if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("addExperienceReceiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
+            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
         }
     }
 

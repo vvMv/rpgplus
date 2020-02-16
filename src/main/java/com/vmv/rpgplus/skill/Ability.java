@@ -8,6 +8,7 @@ import com.vmv.core.minecraft.misc.BarTimer;
 import com.vmv.core.minecraft.misc.Cooldowns;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -61,6 +62,10 @@ public abstract class Ability {
         return name;
     }
 
+    public String getFormattedName() {
+        return WordUtils.capitalizeFully(getName().replaceAll("_", " "));
+    }
+
     public double getCooldown() {
         return cooldown;
     }
@@ -96,6 +101,7 @@ public abstract class Ability {
     public void setActive(Player p, double duration) {
         active.put(p, duration);
         //if bar timer enabled
+        ChatUtil.sendActionMessage(p, "&f" + this.name + " &aactivated!", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_active"));
         new BarTimer(p, duration, this.name);
     }
 
@@ -106,7 +112,7 @@ public abstract class Ability {
 
     public boolean onCooldown(Player p) {
         if (!Cooldowns.tryCooldown(p, this.name, getAbilityConfigSection().getLong("cooldown") * 1000)) {
-            ChatUtil.sendActionMessage(p, "&3" + this.name + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1) + "s");
+            ChatUtil.sendActionMessage(p, "&3" + this.name + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1) + "s", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cooldown"));
             return true;
         }
         return false;
@@ -117,11 +123,15 @@ public abstract class Ability {
         return (isSelected(entity) && !isActive((Player) entity) && !onCooldown((Player) entity)) ? true : false;
     }
 
+    public FileConfiguration getSkillConfig() {
+        return skillConfig;
+    }
+
     public double getDuration() {
         return duration;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
 }
