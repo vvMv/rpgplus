@@ -6,6 +6,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.gui.PrivateInventory;
 import com.vmv.core.minecraft.misc.BarTimerManager;
+import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.command.CommandManager;
@@ -29,7 +30,7 @@ public class RPGPlus extends JavaPlugin {
         new InformationHandler(this);
         new DependencyManager(this);
         new CommandManager(this);
-        new Database(this, "rpg.db", getDataFolder());
+        new DatabaseManager(this);
         new FileManager(this);
         new BarTimerManager(this);
         new SkillManager();

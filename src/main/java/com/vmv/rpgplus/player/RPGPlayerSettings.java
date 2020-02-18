@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,9 @@ public class RPGPlayerSettings {
                     @Override
                     public void run(InventoryClickEvent e) {
 
-                        e.getCurrentItem().setLore(Arrays.asList(Netherboard.instance().getBoard(p2) == null ? ChatColor.translateAlternateColorCodes('&', "&7Value: &aTrue") : ChatColor.translateAlternateColorCodes('&', "&7Value: &cFalse"), ChatColor.translateAlternateColorCodes('&', "&8Click to toggle")));
+                        ItemMeta im = e.getCurrentItem().getItemMeta();
+                        im.setLore(Arrays.asList(Netherboard.instance().getBoard(p2) == null ? ChatColor.translateAlternateColorCodes('&', "&7Value: &aTrue") : ChatColor.translateAlternateColorCodes('&', "&7Value: &cFalse"), ChatColor.translateAlternateColorCodes('&', "&8Click to toggle")));
+                        e.getCurrentItem().setItemMeta(im);
                         target.toggleScoreboard();
                     }
                 }, Netherboard.instance().getBoard(p2) == null ? "&7Value: &cFalse" : "&7Value: &aTrue", "&8Click to toggle");
