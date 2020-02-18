@@ -76,6 +76,7 @@ public class SplitShot extends Ability implements Listener {
             a.setPickupStatus(p.getGameMode() == GameMode.CREATIVE ? AbstractArrow.PickupStatus.CREATIVE_ONLY : AbstractArrow.PickupStatus.ALLOWED);
             a.setCustomName("splitshot_arrow");
             a.setBounce(false);
+            a.setDamage(((Arrow) e.getProjectile()).getDamage());
             //a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1F, 1F);
         }
         e.setCancelled(true);
