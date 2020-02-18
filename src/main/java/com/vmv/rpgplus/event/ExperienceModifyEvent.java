@@ -9,6 +9,7 @@ import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -76,7 +77,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
 
     private void spawnExperienceAnimation(double duration) {
         if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_animation")) return;
-        if (player == null) return;
+        if (player == null || player.getGameMode() == GameMode.SPECTATOR) return;
         ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
         as.setVisible(false);
         as.setSmall(true);
