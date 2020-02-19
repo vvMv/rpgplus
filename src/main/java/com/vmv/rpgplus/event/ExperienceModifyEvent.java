@@ -77,7 +77,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
 
     private void spawnExperienceAnimation(double duration) {
         if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_animation")) return;
-        if (player == null || player.getGameMode() == GameMode.SPECTATOR) return;
+        if (player == null || player.getGameMode() == GameMode.SPECTATOR || player.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
         ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
         as.setVisible(false);
         as.setSmall(true);
