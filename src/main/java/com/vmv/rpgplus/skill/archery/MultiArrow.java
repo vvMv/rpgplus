@@ -35,7 +35,7 @@ public class MultiArrow extends Ability implements Listener {
         final Vector velocity = e.getProjectile().getVelocity();
         double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
         Player p = ((Player) e.getEntity());
-        double firstArrowSpeed = (Math.abs(velocity.getX()) + Math.abs(velocity.getY()) + Math.abs(velocity.getZ()));
+        double firstArrowSpeed = velocity.length();
         for (int i = 0; i < (playerLevel / extra) + 1; i++) {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
                 @Override
