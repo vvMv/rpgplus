@@ -11,12 +11,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TeleportArrow extends Ability implements Listener {
 
-    private static final int TELEPORT_INVALID_TIME = 200;
-    private ArrayList<Projectile> arrows = new ArrayList<Projectile>();
+    private static final int TELEPORT_INVALID_TIME_MILLIS = 10000;
+    private HashMap<Projectile, Long> arrows = new HashMap<Projectile, Long>();
 
     public TeleportArrow(String name, SkillType st) {
         super(name, st);
@@ -28,16 +28,16 @@ public class TeleportArrow extends Ability implements Listener {
 
         if (!checkReady(e.getEntity())) return;
 
-        arrows.add((Projectile) e.getProjectile());
+        arrows.put((Projectile) e.getProjectile(), System.currentTimeMillis());
         e.getProjectile().setGlowing(true);
 
     }
 
     @EventHandler
     public void onArrowLand(ProjectileHitEvent e) {
-        if (arrows.contains(e.getEntity())) {
+        if (arrows.containsKey(e.getEntity())) {
             arrows.remove(e.getEntity());
-            if (e.getEntity().getTicksLived() > TELEPORT_INVALID_TIME) return;
+            if (System.currentTimeMillis() - arrows.get(e.getEntity()) > TELEPORT_INVALID_TIME_MILLIS) return;
             Player p = (Player) e.getEntity().getShooter();
             Location loc = e.getEntity().getLocation();
             p.teleport(new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), p.getLocation().getYaw(), p.getLocation().getPitch()));
