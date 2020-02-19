@@ -31,6 +31,11 @@ public abstract class Skill implements Listener {
 
     public Skill(SkillType skillType) {
         this.skillType = skillType;
+        reload();
+    }
+
+    public void reload() {
+        FileManager.getSkillFile(getSkillType()).reload();
         this.expDropColor = getExpDropColor();
         this.cycleType = getCycleType();
         this.maxLevel = getConfig().getInt("maxLevel");
@@ -109,8 +114,9 @@ public abstract class Skill implements Listener {
         return true;
     }
 
-        public boolean hasDamagePermission(Player player) {
-            return !DependencyManager.getInstance().testWorldGuardFlag(player.getLocation(), player, Flags.PVP);
+    public boolean hasDamagePermission(Player player) {
+        return true;
+        //return !DependencyManager.getInstance().testWorldGuardFlag(player.getLocation(), player, Flags.PVP);
     }
 
     public boolean isEnabled() {

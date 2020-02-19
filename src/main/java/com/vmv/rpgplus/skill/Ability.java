@@ -35,11 +35,15 @@ public abstract class Ability {
         this.skillType = st;
         this.name = name;
         this.skillConfig = SkillManager.getInstance().getSkill(st).getConfig();
+        reload();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> updateActive(), 0, 2);
+    }
+
+    public void reload() {
         this.requiredLevel = getAbilityConfigSection().getInt("level");
         this.cooldown = getAbilityConfigSection().getInt("cooldown");
         this.duration = getAbilityConfigSection().getInt("duration");
         this.enabled = getAbilityConfigSection().getBoolean("enabled");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> updateActive(), 0, 2);
     }
 
     private void updateActive() {
