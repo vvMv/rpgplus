@@ -16,11 +16,12 @@ import java.util.HashMap;
 public class TeleportArrow extends Ability implements Listener {
 
     private static final int TELEPORT_INVALID_TIME_MILLIS = 10000;
-    private HashMap<Projectile, Long> arrows = new HashMap<Projectile, Long>();
+    private HashMap<Projectile, Long> arrows;
 
     public TeleportArrow(String name, SkillType st) {
         super(name, st);
         this.description = "Fire an arrow that teleports you to its location";
+        this.arrows = new HashMap<Projectile, Long>();
     }
 
     @EventHandler
@@ -36,13 +37,16 @@ public class TeleportArrow extends Ability implements Listener {
     @EventHandler
     public void onArrowLand(ProjectileHitEvent e) {
         if (arrows.containsKey(e.getEntity())) {
-            arrows.remove(e.getEntity());
-            if (System.currentTimeMillis() - arrows.get(e.getEntity()) > TELEPORT_INVALID_TIME_MILLIS) return;
+            if (System.currentTimeMillis() - arrows.get(e.getEntity()) > TELEPORT_INVALID_TIME_MILLIS) {
+                arrows.remove(e.getEntity());
+                return;
+            }
             Player p = (Player) e.getEntity().getShooter();
             Location loc = e.getEntity().getLocation();
             p.teleport(new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), p.getLocation().getYaw(), p.getLocation().getPitch()));
             p.damage(getAbilityConfigSection().getInt("selfdamage"));
             e.getEntity().setGlowing(false);
+            arrows.remove(e.getEntity());
         }
     }
 }
