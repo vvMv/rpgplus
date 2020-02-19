@@ -26,7 +26,7 @@ public class Track extends Ability implements Listener {
         if (!checkReady((LivingEntity) e.getDamager())) return;
 
         if (e.getEntity().isGlowing()) return;
-        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) return;
+        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) return;
         if (!isHoldingAbilityItem((Player) e.getDamager())) return;
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
