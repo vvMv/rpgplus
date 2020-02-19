@@ -48,7 +48,6 @@ public class SplitShot extends Ability implements Listener {
         if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE) {
             int am = 0;
             for (ItemStack item : p.getInventory().getContents()) {
-                //l
                 if (item == null) continue;
                 if (item.getType() == Material.ARROW) am += item.getAmount();
             }
