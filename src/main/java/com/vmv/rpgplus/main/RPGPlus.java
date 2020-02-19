@@ -48,7 +48,6 @@ public class RPGPlus extends JavaPlugin {
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
         InformationHandler.printMessage(InformationType.INFO, "Removing locator entities [" + OreLocator.slimes.size() + "]");
         OreLocator.killAllSlimes();
-
     }
 
     public static RPGPlus getInstance() {

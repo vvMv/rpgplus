@@ -38,12 +38,12 @@ public class RPGPlayerManager implements Listener {
     public List<String> dataToSave;
 
     public RPGPlayerManager() {
-        RPGPlus.getInstance().registerEvents(this);
-        this.instance = this;
+        instance = this;
         players = new ArrayList<RPGPlayer>();
         dataToSave = new ArrayList<String>();
         registerPlayers();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
+        RPGPlus.getInstance().registerEvents(this);
     }
 
     public ArrayList<RPGPlayer> getPlayers() {
