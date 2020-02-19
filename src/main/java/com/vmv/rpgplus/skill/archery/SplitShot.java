@@ -76,6 +76,7 @@ public class SplitShot extends Ability implements Listener {
             a.setCustomName("splitshot_arrow");
             a.setBounce(false);
             a.setDamage(((Arrow) e.getProjectile()).getDamage());
+            a.setFireTicks(e.getProjectile().getFireTicks());
             //a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1F, 1F);
         }
         e.setCancelled(true);

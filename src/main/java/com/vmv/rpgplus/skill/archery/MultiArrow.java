@@ -45,12 +45,15 @@ public class MultiArrow extends Ability implements Listener {
                         p.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
                     }
                     Arrow a = p.launchProjectile(Arrow.class);
-                    a.setVelocity(velocity.add(p.getLocation().getDirection()));
+                    double firstArrowSpeed = velocity.getX() + velocity.getY() + velocity.getZ();
+                    Vector playerCameraVector = p.getPlayer().getEyeLocation().getDirection().normalize();
+                    a.setVelocity(playerCameraVector.multiply(firstArrowSpeed));
                     a.setShooter(e.getEntity());
                     a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
                     a.setCustomName("multishot_arrow");
                     a.setBounce(false);
                     a.setDamage(((Arrow) e.getProjectile()).getDamage());
+                    a.setFireTicks(e.getProjectile().getFireTicks());
                     a.setCritical(true);
                     e.getEntity().setNoDamageTicks(0);
                     a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0F, 1.0F);
