@@ -114,14 +114,16 @@ public class Commands extends BaseCommand {
     @Subcommand("reload|r|rl")
     @CommandPermission("rpgplus.reload|rpgplus.admin")
     public void reloadConfigurations(CommandSender p) {
+        ChatUtil.sendChatMessage(p, "&aReloading config...");
+        ChatUtil.sendChatMessage(p, "&aReloading skills...");
+        ChatUtil.sendChatMessage(p, "&aReloading lang...");
         FileManager.getLang().reload();
         RPGPlus.getInstance().reloadConfig();
-        ChatUtil.sendChatMessage(p, "Reloaded lang.yml");
-        ChatUtil.sendChatMessage(p, "Reloaded config.yml");
         for (Skill skill : SkillManager.getInstance().getSkills()) {
             skill.reload();
-            ChatUtil.sendChatMessage(p, "Reloaded " + skill.getSkillType().toString().toLowerCase() + ".yml");
         }
+        ChatUtil.sendChatMessage(p, "&aAll configurations reloaded successfully.");
+        ChatUtil.sendChatMessage(p, "&cMajor configurations may require a server restart!");
     }
 
 }
