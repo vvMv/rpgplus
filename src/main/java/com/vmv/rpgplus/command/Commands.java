@@ -35,10 +35,6 @@ public class Commands extends BaseCommand {
     @Default
     public void onDefault(Player p) {
 
-        p.sendMessage("yeet");
-        //RPGPlayerSettings.openMenu(RPGPlayerManager.getInstance().getPlayer(p));
-
-
     }
 
     @Subcommand("menu")
