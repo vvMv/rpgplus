@@ -45,7 +45,7 @@ public class MultiArrow extends Ability implements Listener {
                         p.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
                     }
                     Arrow a = p.launchProjectile(Arrow.class);
-                    double firstArrowSpeed = velocity.getX() + velocity.getY() + velocity.getZ();
+                    double firstArrowSpeed = (Math.abs(velocity.getX()) + Math.abs(velocity.getY()) + Math.abs(velocity.getZ()));
                     Vector playerCameraVector = p.getPlayer().getEyeLocation().getDirection().normalize();
                     a.setVelocity(playerCameraVector.multiply(firstArrowSpeed));
                     a.setShooter(e.getEntity());
