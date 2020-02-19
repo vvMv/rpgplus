@@ -7,9 +7,11 @@ import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class Track extends Ability implements Listener {
     
@@ -24,6 +26,8 @@ public class Track extends Ability implements Listener {
         if (!checkReady((LivingEntity) e.getDamager())) return;
 
         if (e.getEntity().isGlowing()) return;
+        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) return;
+        if (!isHoldingAbilityItem((Player) e.getDamager())) return;
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
             public void run() {
