@@ -103,7 +103,8 @@ public abstract class Skill implements Listener {
     }
 
     public boolean hasBuildPermission(Location blockLocation, Player player) {
-        return (DependencyManager.getInstance().testWorldGuardFlag(blockLocation, player, Flags.BUILD));
+        return true;
+        //TODO FIX return (DependencyManager.getInstance().testWorldGuardFlag(blockLocation, player, Flags.BUILD));
 
     }
 

@@ -25,7 +25,7 @@ public class DatabaseManager {
     public DatabaseManager(Plugin plugin) {
         instance = this;
         database = new Database(plugin, "rpg.db", plugin.getDataFolder());
-        plugin = plugin;
+        this.plugin = plugin;
         dataToSave = new ArrayList<String>();
         createTables();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));

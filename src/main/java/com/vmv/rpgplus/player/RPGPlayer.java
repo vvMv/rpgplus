@@ -3,6 +3,7 @@ package com.vmv.rpgplus.player;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.database.DatabaseManager;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
@@ -22,11 +23,13 @@ public class RPGPlayer {
     private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
     private HashMap<Ability, Boolean> enableAbility;
+    private HashMap<PlayerSetting, String> settings;
     private UUID uuid;
 
-    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp) {
+    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp, HashMap<PlayerSetting, String> settings) {
         this.uuid = uuid;
         this.exp = exp;
+        this.settings = settings;
         this.activeAbility = new HashMap<SkillType, Ability>();
         this.enableAbility = new HashMap<Ability, Boolean>();
 
@@ -37,6 +40,18 @@ public class RPGPlayer {
             }
         }
 
+    }
+
+    public HashMap<PlayerSetting, String> getSettings() {
+        return settings;
+    }
+
+    public String getSetting(PlayerSetting setting) {
+        return settings.get(setting);
+    }
+
+    public void setSetting(PlayerSetting setting , String value) {
+        settings.put(setting, value);
     }
 
     public Ability getActiveAbility(SkillType st) {

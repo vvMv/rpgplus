@@ -6,6 +6,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
@@ -72,13 +73,18 @@ public class RPGPlayerManager implements Listener {
         if (getPlayer(e.getPlayer().getUniqueId()) == null) {
             InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
             HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
+            HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
             for (SkillType s : SkillType.values()) {
                 xp.put(s, 0.0);
             }
-            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp));
+            for (PlayerSetting setting : PlayerSetting.values()) {
+                settings.put(setting, setting.getDefaultValue());
+            }
+            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp, settings));
         }
 
         Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_experience(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
+        Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_settings(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
     }
 
     @EventHandler
@@ -122,22 +128,28 @@ public class RPGPlayerManager implements Listener {
     }
 
     private void registerPlayers() {
-        ResultSet data = Database.getInstance().selectData("SELECT * FROM player_experience");
+        ResultSet data = Database.getInstance().selectData("SELECT * FROM player_experience cross join player_settings");
+        //ResultSet settings = Database.getInstance().selectData("SELECT * FROM player_experience");
 
         try {
             int c = 0;
             while (data.next()) {
                 HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
+                HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
                 UUID uuid = UUID.fromString(data.getString("uuid"));
                 for (SkillType s : SkillType.values()) {
                     xp.put(s, data.getDouble(s.toString().toLowerCase()));
                 }
-                RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp));
+                for (PlayerSetting setting : PlayerSetting.values()) {
+                    settings.put(setting, data.getString(setting.toString().toLowerCase()));
+                }
+                RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp, settings));
                 c++;
             }
             InformationHandler.printMessage(InformationType.INFO, "Registered " + c + " RPG Players");
         } catch (SQLException e) {
             InformationHandler.printMessage(InformationType.ERROR, "The connection to the database has been closed");
+            e.printStackTrace();
         } catch (NullPointerException e) {
             InformationHandler.printMessage(InformationType.INFO, "There are no RPG Players");
         }

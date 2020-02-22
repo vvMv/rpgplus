@@ -6,6 +6,7 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -56,9 +57,9 @@ public class Commands extends BaseCommand {
 
     @Subcommand("debug")
     @CommandPermission("rpgplus.admin")
-    public void debug(CommandSender sender) {
-        List<String> mats = SkillManager.getInstance().getSkill(SkillType.ARCHERY).getConfig().getStringList("materials");
-        mats.forEach(m -> sender.sendMessage(m));
+    public void debug(CommandSender sender, String setting) {
+        //RPGPlayerManager.getInstance().getPlayer((Player)sender).getSetting(PlayerSetting.DASH);
+        sender.sendMessage("Setting value: " + RPGPlayerManager.getInstance().getPlayer((Player)sender).getSetting(PlayerSetting.valueOf(setting.toUpperCase())));
     }
 
     @Subcommand("setlevel|setlev|setlvl")
