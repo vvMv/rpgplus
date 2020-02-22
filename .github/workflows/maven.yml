@@ -18,4 +18,4 @@ jobs:
     #- name: Status of jar
     #  run: ls target/
     - name: Deploy
-      run: mvn deploy:deploy-file \ -DrepositoryId=github \ -Dfile=target/RPGCore.jar \ -Durl=https://maven.pkg.github.com/vvMv \ -DpomFile=pom.xml
+      run: -Dregistry=https://maven.pkg.github.com/vvMv -Dfile=target/RPGCore.jar -DpomFile=pom.xml
