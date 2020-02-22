@@ -18,4 +18,5 @@ jobs:
     #- name: Status of jar
     #  run: ls target/
     - name: Deploy
-      run: -Dregistry=https://maven.pkg.github.com/vvMv -Dtoken=GH_TOKEN -Dfile=target/RPGCore.jar
+      #mvn deploy -Dregistry=https://maven.pkg.github.com/vvMv -Dtoken=GH_TOKEN
+      run: mvn deploy -Dregistry=https://maven.pkg.github.com/vvMv -Dtoken=GH_TOKEN -Dfile=target/RPGCore.jar
