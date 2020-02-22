@@ -1,6 +1,8 @@
 package com.vmv.rpgplus.player;
 
 import com.vmv.core.config.FileManager;
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.gui.Item;
 import com.vmv.core.minecraft.gui.PrivateInventory;
@@ -9,6 +11,7 @@ import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import fr.minuskube.netherboard.Netherboard;
+import jdk.internal.jline.internal.Nullable;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -74,7 +77,7 @@ public class RPGPlayerSettings {
             count++;
         }
 
-
+        addBackButton(menu, target);
         menu.openInventory(p);
 
     }
@@ -103,9 +106,20 @@ public class RPGPlayerSettings {
             count++;
         }
 
-
-
+        addBackButton(menu, target);
         menu.openInventory(p);
+    }
+
+    private static void addBackButton(PrivateInventory invFrom, RPGPlayer target) {
+        invFrom.setItem(new ItemStack(Material.BARRIER), "&c&lBack", invFrom.getSize() - 1,
+                new PrivateInventory.ClickRunnable() {
+                    @Override
+                    public void run(InventoryClickEvent e) {
+                        e.getWhoClicked().closeInventory();
+                        openMenu((Player) e.getWhoClicked(), target);
+                    }
+                });
+
     }
 
 }
