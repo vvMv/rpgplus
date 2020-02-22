@@ -14,10 +14,12 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.mining.OreLocator;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class RPGPlus extends JavaPlugin {
 
@@ -39,10 +41,12 @@ public class RPGPlus extends JavaPlugin {
         registerEvents(PrivateInventory.getListener());
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(ArmorStand.class).forEach(entity -> { if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove(); }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
+
     }
 
     @Override
     public void onDisable() {
+        try { OreLocator.unregisterColorTeams(); } catch (Exception e) { InformationHandler.printMessage(InformationType.INFO, "Not unregistering color teams - OreLocator is disabled"); }
         DatabaseManager.getInstance().savePlayerData(false);
         InformationHandler.printMessage(InformationType.INFO, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());

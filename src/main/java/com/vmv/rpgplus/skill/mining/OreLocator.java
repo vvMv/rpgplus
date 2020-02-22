@@ -7,6 +7,7 @@ import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,7 +19,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,10 +35,30 @@ public class OreLocator extends Ability implements Listener {
     public static List<Block> checkedBlocks;
     public static List<Location> highlighted = new ArrayList<>();
     public static List<Slime> slimes = new ArrayList<>();
+    private static Scoreboard scoreboard;
 
     public OreLocator(String name, SkillType st) {
         super(name, st);
         try { getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(Material.valueOf(b))); } catch (IllegalArgumentException ex) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.ore_locator.blocks", ex.getMessage(), "This error is coming from mining.yml" ); }
+        registerColorTeams();
+    }
+
+    private void registerColorTeams() {
+        this.scoreboard = RPGPlus.getInstance().getServer().getScoreboardManager().getMainScoreboard();
+        for (OreColour ore : OreColour.values()) {
+            try {
+                scoreboard.registerNewTeam("rpg_" + ore.toString().toLowerCase());
+                scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).setColor(ore.getColor());
+            } catch(Exception e) {
+                InformationHandler.printMessage(InformationType.ERROR, "Tried to register existing team");
+            }
+        }
+    }
+
+    public static void unregisterColorTeams() {
+        for (OreColour ore : OreColour.values()) {
+            scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).unregister();
+        }
     }
 
     @EventHandler
@@ -60,7 +85,9 @@ public class OreLocator extends Ability implements Listener {
 
     public void locate(Player player) {
 
-        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), 15);
+        Instant start = Instant.now();
+
+        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), 10);
 
         for (HashSet<Block> vein : veins) {
 
@@ -72,7 +99,13 @@ public class OreLocator extends Ability implements Listener {
             if (highlighted.contains(l)) continue;
 
             Slime sh = (Slime) player.getLocation().getWorld().spawnEntity(l, EntityType.SLIME);
-            //sh.setWander(false);
+
+            for (OreColour oc : OreColour.values()) {
+                if (oc.toString().equalsIgnoreCase(block.getType().toString())) {
+                    scoreboard.getTeam("rpg_" + oc.toString().toLowerCase()).addEntry(sh.getUniqueId().toString());
+                }
+            }
+
             sh.setSize(1);
             sh.setGlowing(true);
             sh.setAI(false);
@@ -98,6 +131,10 @@ public class OreLocator extends Ability implements Listener {
 
 
         }
+
+        Instant finish = Instant.now();
+        InformationHandler.printMessage(InformationType.DEBUG, "took " + Duration.between(start, finish).toMillis() + "ms");
+
     }
 
     public ArrayList<HashSet<Block>> getOreVeins(Block start, int radius){
