@@ -43,7 +43,7 @@ public class RPGPlus extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        RPGPlayerManager.getInstance().savePlayerData(false);
+        DatabaseManager.getInstance().savePlayerData(false);
         InformationHandler.printMessage(InformationType.INFO, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
         InformationHandler.printMessage(InformationType.INFO, "Removing locator entities [" + OreLocator.slimes.size() + "]");

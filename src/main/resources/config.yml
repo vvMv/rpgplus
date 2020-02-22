@@ -1,4 +1,5 @@
 general:
+  save_messages: true
   save_data: 6000
   experience_growth: 1.618
   experience_animation: true

@@ -35,14 +35,10 @@ public class RPGPlayerManager implements Listener {
     private static RPGPlayerManager instance;
     private ArrayList<RPGPlayer> players;
 
-    public List<String> dataToSave;
-
     public RPGPlayerManager() {
         instance = this;
         players = new ArrayList<RPGPlayer>();
-        dataToSave = new ArrayList<String>();
         registerPlayers();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
         RPGPlus.getInstance().registerEvents(this);
     }
 
@@ -145,24 +141,5 @@ public class RPGPlayerManager implements Listener {
         } catch (NullPointerException e) {
             InformationHandler.printMessage(InformationType.INFO, "There are no RPG Players");
         }
-    }
-
-    public void savePlayerData(boolean asTask) {
-        InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + dataToSave.size() + "]");
-        Instant start = Instant.now();
-
-        dataToSave.forEach(data -> {
-            String uuid = data.split(":")[0];
-            String skill = data.split(":")[1];
-            Database.getInstance().updateData("player_experience", skill, getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill.toUpperCase())), "uuid", "=", uuid, asTask);
-        });
-
-        Instant finish = Instant.now();
-        InformationHandler.printMessage(InformationType.INFO, "Finished! Took " + Duration.between(start, finish).toMillis() + "ms.");
-        dataToSave.clear();
-    }
-
-    public List<String> getDataToSave() {
-        return dataToSave;
     }
 }

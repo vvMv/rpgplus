@@ -53,7 +53,6 @@ public class MultiArrow extends Ability implements Listener {
                     a.setBounce(false);
                     a.setDamage(((Arrow) e.getProjectile()).getDamage());
                     a.setFireTicks(e.getProjectile().getFireTicks());
-                    a.setCritical(true);
                     e.getEntity().setNoDamageTicks(0);
                     a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0F, 1.0F);
                 }

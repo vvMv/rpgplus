@@ -2,6 +2,7 @@ package com.vmv.rpgplus.player;
 
 import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
+import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
@@ -116,13 +117,14 @@ public class RPGPlayer {
 
         //Checks if the exp skill type and player are already queued to save
         String s = getUuid().toString() + ":" + skill.toString();
-        for(String data : RPGPlayerManager.getInstance().getDataToSave()) {
+        for(String data : DatabaseManager.getInstance().getDataToSave()) {
             if (s.equalsIgnoreCase(data)) {
                 return;
             }
         }
 
-        RPGPlayerManager.getInstance().getDataToSave().add(s);
+        DatabaseManager.getInstance().getDataToSave().add(s);
+
 
     }
 

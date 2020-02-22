@@ -1,21 +1,53 @@
 package com.vmv.rpgplus.database;
 
 import com.vmv.core.database.Database;
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
+import com.vmv.rpgplus.main.RPGPlus;
+import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.SkillType;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DatabaseManager {
 
     public static DatabaseManager instance;
     private static Database database;
+    public List<String> dataToSave;
+    private Plugin plugin;
 
     public DatabaseManager(Plugin plugin) {
         instance = this;
         database = new Database(plugin, "rpg.db", plugin.getDataFolder());
+        plugin = plugin;
+        dataToSave = new ArrayList<String>();
         createTables();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
+    }
+
+    public void savePlayerData(boolean aSync) {
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + dataToSave.size() + "]");
+        Instant start = Instant.now();
+
+        dataToSave.forEach(data -> {
+            String uuid = data.split(":")[0];
+            String skill = data.split(":")[1];
+            Database.getInstance().updateData("player_experience", skill, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill.toUpperCase())), "uuid", "=", uuid, aSync);
+        });
+
+        Instant finish = Instant.now();
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Finished! Took " + Duration.between(start, finish).toMillis() + "ms.");
+        dataToSave.clear();
+    }
+
+    public List<String> getDataToSave() {
+        return dataToSave;
     }
 
     public void createTables() {
