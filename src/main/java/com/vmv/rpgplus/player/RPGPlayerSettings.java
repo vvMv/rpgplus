@@ -89,7 +89,7 @@ public class RPGPlayerSettings {
         int count = 0;
         List<Ability> abilities = AbilityManager.getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList());
         for (Ability ability : abilities) {
-            menu.setItem(new ItemStack(target.hasAbilityEnabled(ability) && target.hasAbilityLevelRequirement(ability) ? Material.GREEN_WOOL : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), count,
+            menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? Material.GREEN_WOOL : Material.ORANGE_WOOL) : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), count,
                     new PrivateInventory.ClickRunnable() {
                         @Override
                         public void run(InventoryClickEvent e) {
