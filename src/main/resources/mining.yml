@@ -53,12 +53,13 @@ abilityCycle: RIGHT_CLICK
 ability:
   ore_locator:
     enabled: true
+    color: true
     level: 0
     cooldown: 120
     duration: 20
-    rangeBase: 15
-    rangePerLevel: 0.2
-    rangeMax: 30
+    range_base: 8
+    range_per_level: 0.2
+    range_max: 12
     blocks:
       - 'COAL_ORE'
       - 'IRON_ORE'

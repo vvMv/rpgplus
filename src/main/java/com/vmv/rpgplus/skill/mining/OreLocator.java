@@ -4,6 +4,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.RPGPlus;
+import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
@@ -41,13 +42,14 @@ public class OreLocator extends Ability implements Listener {
     }
 
     private void registerColorTeams() {
+        if (!getAbilityConfigSection().getBoolean("color")) return;
         this.scoreboard = RPGPlus.getInstance().getServer().getScoreboardManager().getMainScoreboard();
         for (OreColour ore : OreColour.values()) {
             try {
                 scoreboard.registerNewTeam("rpg_" + ore.toString().toLowerCase());
                 scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).setColor(ore.getColor());
             } catch(Exception e) {
-                InformationHandler.printMessage(InformationType.ERROR, "Tried to register existing team");
+                InformationHandler.printMessage(InformationType.ERROR, "OreLocator tried to register existing team");
             }
         }
     }
@@ -64,13 +66,7 @@ public class OreLocator extends Ability implements Listener {
         if (!isHoldingAbilityItem(e.getPlayer())) return;
         if (checkReady(e.getPlayer())) {
             setActive(e.getPlayer(), getDuration());
-            //BukkitRunnable r = new BukkitRunnable() {
-            //    @Override
-            //    public void run() {
-                    locate(e.getPlayer());
-             //   }
-            //};
-            //r.runTaskAsynchronously(RPGPlus.getInstance());
+            locate(e.getPlayer());
         }
     }
 
@@ -89,8 +85,13 @@ public class OreLocator extends Ability implements Listener {
     public void locate(Player player) {
 
         Instant start = Instant.now();
+        double rangemax = getAbilityConfigSection().getDouble("range_max");
+        int radius = (int) (getAbilityConfigSection().getDouble("range_base") + (getAbilityConfigSection().getDouble("range_per_level") * RPGPlayerManager.getInstance().getPlayer(player).getLevel(SkillType.MINING)));
+        if (radius > rangemax) radius = (int) rangemax;
 
-        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), 15);
+        InformationHandler.printMessage(InformationType.DEBUG, "radius is " + radius);
+
+        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), radius);
 
         for (HashSet<Block> vein : veins) {
 
@@ -101,13 +102,13 @@ public class OreLocator extends Ability implements Listener {
 
             if (highlighted.contains(l)) continue;
 
-            //Slime sh = (Slime) player.getLocation().getWorld().spawnEntity(l, EntityType.SLIME);
             MagmaCube sh = (MagmaCube) player.getLocation().getWorld().spawnEntity(l, EntityType.MAGMA_CUBE);
 
-
-            for (OreColour oc : OreColour.values()) {
-                if (oc.toString().equalsIgnoreCase(block.getType().toString())) {
-                    scoreboard.getTeam("rpg_" + oc.toString().toLowerCase()).addEntry(sh.getUniqueId().toString());
+            if (getAbilityConfigSection().getBoolean("color")) {
+                for (OreColour oc : OreColour.values()) {
+                    if (oc.toString().equalsIgnoreCase(block.getType().toString())) {
+                        scoreboard.getTeam("rpg_" + oc.toString().toLowerCase()).addEntry(sh.getUniqueId().toString());
+                    }
                 }
             }
 
