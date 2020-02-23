@@ -7,7 +7,6 @@ import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,25 +15,23 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 public class OreLocator extends Ability implements Listener {
 
     public static List<Material> blocks = new ArrayList<>();
     public static List<Block> checkedBlocks;
     public static List<Location> highlighted = new ArrayList<>();
-    public static List<Slime> slimes = new ArrayList<>();
+    public static List<MagmaCube> magmas = new ArrayList<>();
     private static Scoreboard scoreboard;
 
     public OreLocator(String name, SkillType st) {
@@ -67,17 +64,23 @@ public class OreLocator extends Ability implements Listener {
         if (!isHoldingAbilityItem(e.getPlayer())) return;
         if (checkReady(e.getPlayer())) {
             setActive(e.getPlayer(), getDuration());
-            locate(e.getPlayer());
+            //BukkitRunnable r = new BukkitRunnable() {
+            //    @Override
+            //    public void run() {
+                    locate(e.getPlayer());
+             //   }
+            //};
+            //r.runTaskAsynchronously(RPGPlus.getInstance());
         }
     }
 
     @EventHandler
     public void mineBlock(BlockBreakEvent e) {
-        for (Slime slime : slimes) {
-            if (slime.getLocation().getBlock().getLocation().equals(e.getBlock().getLocation())) {
-                slimes.remove(slime);
+        for (MagmaCube magma : magmas) {
+            if (magma.getLocation().getBlock().getLocation().equals(e.getBlock().getLocation())) {
+                magmas.remove(magma);
                 highlighted.remove(e.getBlock().getLocation());
-                slime.remove();
+                magma.remove();
                 return;
             }
         }
@@ -87,7 +90,7 @@ public class OreLocator extends Ability implements Listener {
 
         Instant start = Instant.now();
 
-        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), 10);
+        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), 15);
 
         for (HashSet<Block> vein : veins) {
 
@@ -98,7 +101,9 @@ public class OreLocator extends Ability implements Listener {
 
             if (highlighted.contains(l)) continue;
 
-            Slime sh = (Slime) player.getLocation().getWorld().spawnEntity(l, EntityType.SLIME);
+            //Slime sh = (Slime) player.getLocation().getWorld().spawnEntity(l, EntityType.SLIME);
+            MagmaCube sh = (MagmaCube) player.getLocation().getWorld().spawnEntity(l, EntityType.MAGMA_CUBE);
+
 
             for (OreColour oc : OreColour.values()) {
                 if (oc.toString().equalsIgnoreCase(block.getType().toString())) {
@@ -117,14 +122,14 @@ public class OreLocator extends Ability implements Listener {
             sh.setHealth(1);
             sh.setLootTable(null);
             sh.setSilent(true);
-            slimes.add(sh);
+            magmas.add(sh);
             highlighted.add(l);
 
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
                     sh.remove();
-                    slimes.remove(sh);
+                    magmas.remove(sh);
                     highlighted.remove(l);
                 }
             }, (long) (getDuration() * 20));
@@ -181,8 +186,8 @@ public class OreLocator extends Ability implements Listener {
     }
 
     public static void killAllSlimes() {
-        slimes.forEach(slime -> slime.remove());
-        slimes.clear();
+        magmas.forEach(magma -> magma.remove());
+        magmas.clear();
         highlighted.clear();
     }
 }

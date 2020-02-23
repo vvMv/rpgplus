@@ -50,7 +50,7 @@ public class RPGPlus extends JavaPlugin {
         DatabaseManager.getInstance().savePlayerData(false);
         InformationHandler.printMessage(InformationType.INFO, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
-        InformationHandler.printMessage(InformationType.INFO, "Removing locator entities [" + OreLocator.slimes.size() + "]");
+        InformationHandler.printMessage(InformationType.INFO, "Removing locator entities [" + OreLocator.magmas.size() + "]");
         OreLocator.killAllSlimes();
     }
 
