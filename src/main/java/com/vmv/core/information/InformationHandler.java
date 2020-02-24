@@ -22,7 +22,7 @@ public class InformationHandler {
     public static void printMessage(InformationType type, String info, String... additional) {
         printMessage(type, info);
         for (String s : additional) {
-            printMessage(InformationType.ERROR, s);
+            printMessage(type, s);
         }
     }
 
