@@ -1,15 +1,15 @@
 enabled: true
-expDropColor: DARK_PURPLE
+skill_color: DARK_PURPLE
 display: 'DIAMOND_AXE'
-expRequiresMaterial: false
+exp_requires_material: false
 materials:
   - 'WOODEN_AXE'
   - 'STONE_AXE'
   - 'IRON_AXE'
   - 'GOLDEN_AXE'
   - 'DIAMOND_AXE'
-abilityCycle: RIGHT_CLICK
-maxLevel: 100
+ability_cycle: RIGHT_CLICK
+max_level: 100
 experience:
   ACACIA_LOG:
     min: 30

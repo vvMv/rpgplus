@@ -66,7 +66,7 @@ public class RPGPlayerSettings {
         int count = 0;
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
-            menu.setItem(new ItemStack(skill.getDisplay()), skill.getExpDropColor() + WordUtils.capitalizeFully(skill.getSkillType().name()), count,
+            menu.setItem(new ItemStack(skill.getDisplay()), skill.getSkillColor() + WordUtils.capitalizeFully(skill.getSkillType().name()), count,
                     new PrivateInventory.ClickRunnable() {
                         @Override
                         public void run(InventoryClickEvent e) {

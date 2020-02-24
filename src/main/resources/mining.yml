@@ -1,8 +1,8 @@
 enabled: true
 display: 'DIAMOND_PICKAXE'
-maxLevel: 100
-expDropColor: BLUE
-expRequiresMaterial: true
+max_level: 100
+skill_color: BLUE
+exp_requires_material: true
 experience:
   STONE:
     min: 0.2
@@ -49,12 +49,12 @@ materials:
   - 'IRON_PICKAXE'
   - 'GOLDEN_PICKAXE'
   - 'DIAMOND_PICKAXE'
-abilityCycle: RIGHT_CLICK
+ability_cycle: RIGHT_CLICK
 ability:
   ore_locator:
     enabled: true
     color: true
-    level: 0
+    level: 30
     cooldown: 120
     duration: 20
     range_base: 8
@@ -71,8 +71,8 @@ ability:
       - 'NETHER_QUARTZ_ORE'
   vein_miner:
     enabled: true
-    level: 0
-    cooldown: 10
+    level: 15
+    cooldown: 20
     duration: 5
     maxsize: 17
     delay: 5

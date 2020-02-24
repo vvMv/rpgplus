@@ -75,15 +75,15 @@ public class Archery extends Skill implements Listener {
 
         Player shooter = (Player) a.getShooter();
 
-        double distanceXP = shooter.getLocation().distance(e.getEntity().getLocation()) / 1.5;
+        double distanceXP = shooter.getLocation().distance(e.getEntity().getLocation()) / getConfig().getDouble("divide_distance_exp");
 
-        if (distanceXP > 15) {
-            distanceXP = 15;
+        if (distanceXP > getConfig().getDouble("max_distance_exp")) {
+            distanceXP = getConfig().getDouble("max_distance_exp");
         }
 
         if (!super.hasMaterial(shooter) || !super.hasDamagePermission(shooter)) return;
 
-        if (!getConfig().getBoolean("allowDistanceExperience")) distanceXP = 0;
+        if (!getConfig().getBoolean("allow_distance_exp")) distanceXP = 0;
 
         double xp = MathUtils.round(distanceXP + e.getDamage(), 2);
 

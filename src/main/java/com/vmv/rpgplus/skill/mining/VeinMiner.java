@@ -7,6 +7,7 @@ import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -45,11 +46,12 @@ public class VeinMiner extends Ability implements Listener {
 
         checkedBlocks = new ArrayList<Block>();
         HashSet<Block> vein = findBlocks(e.getBlock(), new HashSet<Block>());
-        int delay = 0;
+        int delay = 5;
         for (Block block : vein) {
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
+                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_STONE_BREAK, 1.0F, 1.0F);
                     block.breakNaturally();
                 }
             }, (long) delay);

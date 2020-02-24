@@ -1,7 +1,9 @@
 enabled: true
-maxLevel: 100
-expDropColor: DARK_GREEN
-allowDistanceExperience: true
+max_level: 100
+skill_color: DARK_GREEN
+allow_distance_exp: true
+max_distance_exp: 15
+divide_distance_exp: 1.5
 display: 'BOW'
 materials:
   - 'BOW'
@@ -10,23 +12,23 @@ experience:
   player: 30.0
   monster: 50.0
   animal: 15.0
-abilityCycle: LEFT_CLICK
+ability_cycle: LEFT_CLICK
 ability:
   multi_arrow:
     enabled: true
-    level: 1
+    level: 0
     cooldown: 5
     amount: 2
     extra: 10
   split_shot:
     enabled: true
-    level: 1
+    level: 10
     cooldown: 5
     angle: 45
     extra: 10
   explosive_arrow:
     enabled: true
-    level: 15
+    level: 20
     cooldown: 10
     power: 3
     destructive: false

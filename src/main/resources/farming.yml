@@ -1,8 +1,8 @@
 enabled: true
 display: 'DIAMOND_HOE'
-maxLevel: 100
-expDropColor: GREEN
-expRequiresMaterial: false
+max_level: 100
+skill_color: GREEN
+exp_requires_material: false
 materials:
   - 'WOODEN_HOE'
   - 'STONE_HOE'
@@ -43,4 +43,4 @@ experience:
   COCOA_BEANS:
     min: 30
     max: 50
-abilityCycle: LEFT_CLICK
+ability_cycle: LEFT_CLICK

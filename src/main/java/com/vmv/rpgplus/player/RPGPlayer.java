@@ -95,7 +95,7 @@ public class RPGPlayer {
                 int index = 0;
                 for (Skill s : SkillManager.getInstance().getSkills()) {
                     int num = (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType());
-                    board.set(StringUtils.rightPad(s.getExpDropColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
+                    board.set(StringUtils.rightPad(s.getSkillColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
                 }
             } else {
                 Netherboard.instance().getBoard(p).delete();

@@ -1,18 +1,18 @@
 enabled: true
 display: 'DIAMOND_SWORD'
-maxLevel: 100
-expDropColor: GOLD
-expRequiresMatieral: true
+max_level: 100
+skill_color: GOLD
+exp_requires_material: true
 materials:
   - 'WOODEN_SWORD'
   - 'STONE_SWORD'
   - 'IRON_SWORD'
   - 'GOLDEN_SWORD'
   - 'DIAMOND_SWORD'
-abilityCycle: RIGHT_CLICK
+ability_cycle: RIGHT_CLICK
 ability:
   track:
     enabled: true
-    level: 10
+    level: 0
     cooldown: 0
     duration: 10

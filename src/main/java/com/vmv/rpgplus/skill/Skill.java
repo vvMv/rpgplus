@@ -36,9 +36,9 @@ public abstract class Skill implements Listener {
 
     public void reload() {
         FileManager.getSkillFile(getSkillType()).reload();
-        this.expDropColor = getExpDropColor();
+        this.expDropColor = getSkillColor();
         this.cycleType = getCycleType();
-        this.maxLevel = getConfig().getInt("maxLevel");
+        this.maxLevel = getConfig().getInt("max_level");
         this.enabled = getConfig().getBoolean("enabled");
         try {
             getConfig().getStringList("materials").forEach(m -> materials.add(Material.valueOf(m)));
@@ -78,16 +78,16 @@ public abstract class Skill implements Listener {
 
     public AbilityCycleType getCycleType() {
         try {
-            return AbilityCycleType.valueOf(getConfig().getString("abilityCycle"));
+            return AbilityCycleType.valueOf(getConfig().getString("ability_cycle"));
         } catch (Exception e) {
-            InformationHandler.printMessage(InformationType.ERROR, "abilityCycle in " + skillType.toString().toLowerCase() + ".yml is invalid");
+            InformationHandler.printMessage(InformationType.ERROR, "ability_cycle in " + skillType.toString().toLowerCase() + ".yml is invalid");
         }
         return null;
     }
 
-    public ChatColor getExpDropColor() {
+    public ChatColor getSkillColor() {
         try {
-            return ChatColor.valueOf(getConfig().getString("expDropColor"));
+            return ChatColor.valueOf(getConfig().getString("skill_color"));
         } catch (Exception e) {
             InformationHandler.printMessage(InformationType.WARN, "Invalid configuration value expDropColor at " + getSkillType().name().toLowerCase() + ".yml");
         }
@@ -109,7 +109,7 @@ public abstract class Skill implements Listener {
     }
 
     public boolean hasMaterial(Player player) {
-        if (getConfig().getBoolean("expRequiresMaterial")) {
+        if (getConfig().getBoolean("exp_requires_material")) {
             return Arrays.stream(SkillManager.getInstance().getSkill(getSkillType()).getMaterials().toArray()).anyMatch(m -> m == player.getInventory().getItemInMainHand().getType());
         }
         return true;

@@ -83,7 +83,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
         as.setSmall(true);
         as.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, (int) (duration*20), 1));
         as.setCustomNameVisible(true);
-        as.setCustomName(SkillManager.getInstance().getSkill(getSkill()).getExpDropColor() + "+" + getExp() + "xp");
+        as.setCustomName(SkillManager.getInstance().getSkill(getSkill()).getSkillColor() + "+" + getExp() + "xp");
 
         animationStands.add(as);
 
