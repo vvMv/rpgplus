@@ -1,23 +1,23 @@
 ---
 name: Bug report
-about: Please use this template to submit a bug.
+about: Please use this template to submit a bug
 title: ''
 labels: 'Status: Pending Review, Type: Bug'
-assignees: ''
+assignees: vvMv
 
 ---
 
 **Description of the bug**
-Provide a clear and concise description of what the bug is.
+Replace this line with a clear and concise description of what the bug is.
 
 **To reproduce**
-Provide steps to reproduce the behaviour of this bug.
+Replace this line with steps to reproduce the behaviour of this bug.
 
 **Expected behavior**
-Provide a clear and concise description of what you expected to happen.
+Replace this line with a clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, replace this line with screenshots to help explain your problem.
 
 **Additional context**
-Add any other context about the problem here.
+Replace this line with any other context about the problem here.
