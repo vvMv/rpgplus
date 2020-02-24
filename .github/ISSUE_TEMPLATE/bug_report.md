@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us fix a bug
+about: Please use this template to submit a bug.
 title: ''
 labels: 'Status: Pending Review, Type: Bug'
 assignees: ''
