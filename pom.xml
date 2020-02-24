@@ -184,7 +184,7 @@
     </build>
     <profiles>
         <profile>
-            <id>JacksDevEnvironment</id>
+            <id>v-env</id>
             <build>
                 <directory>server/plugins/update</directory>
             </build>
