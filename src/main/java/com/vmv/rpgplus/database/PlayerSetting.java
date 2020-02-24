@@ -27,7 +27,7 @@ public enum PlayerSetting {
     TREE_FELLER("1"),
 
     //Misc
-    SCOREBOARD("1");
+    SCOREBOARD("0");
 
     private String defaultValue;
 

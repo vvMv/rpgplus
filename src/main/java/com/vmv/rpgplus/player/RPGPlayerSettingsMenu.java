@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RPGPlayerSettings {
+public class RPGPlayerSettingsMenu {
 
     public static void openMenu(Player p, RPGPlayer target) {
 

@@ -4,31 +4,19 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
-import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
-import com.vmv.rpgplus.player.RPGPlayerSettings;
+import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
-import fr.minuskube.netherboard.Netherboard;
-import fr.minuskube.netherboard.bukkit.BPlayerBoard;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.List;
 
 @CommandAlias("rpg")
 public class Commands extends BaseCommand {
@@ -43,9 +31,9 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players")
     public void displayMenu(Player p, @Optional OnlinePlayer target) {
         if (p.hasPermission("rpgplus.admin") && target != null) {
-            RPGPlayerSettings.openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
+            RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
         } else {
-            RPGPlayerSettings.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+            RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
         }
     }
 
@@ -59,7 +47,7 @@ public class Commands extends BaseCommand {
     @CommandPermission("rpgplus.admin")
     public void debug(CommandSender sender, String setting) {
         //RPGPlayerManager.getInstance().getPlayer((Player)sender).getSetting(PlayerSetting.DASH);
-        sender.sendMessage("Setting value: " + RPGPlayerManager.getInstance().getPlayer((Player)sender).getSetting(PlayerSetting.valueOf(setting.toUpperCase())));
+        sender.sendMessage("Setting value: " + RPGPlayerManager.getInstance().getPlayer((Player)sender).getSettingValue(PlayerSetting.valueOf(setting.toUpperCase())));
     }
 
     @Subcommand("setlevel|setlev|setlvl")

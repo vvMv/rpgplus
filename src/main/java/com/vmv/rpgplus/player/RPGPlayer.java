@@ -1,6 +1,8 @@
 package com.vmv.rpgplus.player;
 
 import com.vmv.core.config.FileManager;
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.database.PlayerSetting;
@@ -22,7 +24,7 @@ import java.util.UUID;
 public class RPGPlayer {
     private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
-    private HashMap<Ability, Boolean> enableAbility;
+    //private HashMap<Ability, Boolean> enabledAbilities;
     private HashMap<PlayerSetting, String> settings;
     private UUID uuid;
 
@@ -31,14 +33,14 @@ public class RPGPlayer {
         this.exp = exp;
         this.settings = settings;
         this.activeAbility = new HashMap<SkillType, Ability>();
-        this.enableAbility = new HashMap<Ability, Boolean>();
+        //this.enabledAbilities = new HashMap<Ability, Boolean>();
 
         //TODO add from database entry
-        for (Skill skill : SkillManager.getInstance().getSkills()) {
-            for (Ability ability : AbilityManager.getAbilities(skill.getSkillType())) {
-                enableAbility.put(ability, true);
-            }
-        }
+//        for (Skill skill : SkillManager.getInstance().getSkills()) {
+//            for (Ability ability : AbilityManager.getAbilities(skill.getSkillType())) {
+//                enableAbility.put(ability, true);
+//            }
+//        }
 
     }
 
@@ -46,11 +48,11 @@ public class RPGPlayer {
         return settings;
     }
 
-    public String getSetting(PlayerSetting setting) {
+    public String getSettingValue(PlayerSetting setting) {
         return settings.get(setting);
     }
 
-    public void setSetting(PlayerSetting setting , String value) {
+    public void setSettingValue(PlayerSetting setting , String value) {
         settings.put(setting, value);
     }
 
@@ -105,17 +107,30 @@ public class RPGPlayer {
 
     public boolean hasAbilityEnabled(Ability a) {
         if (a == null) return false;
-        return enableAbility.get(a);
+        if (PlayerSetting.valueOf(a.getName().toUpperCase()) == null) {
+            InformationHandler.printMessage(InformationType.ERROR, "Missing ability setting " + a.getName().toUpperCase() + " please report this issue");
+        }
+        return getSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase())).equalsIgnoreCase("1.0") ? true : false;
     }
 
     public void toggleAbilityEnabled(Ability a) {
         if (!hasAbilityLevelRequirement(a)) return;
         setActiveAbility(a.getSkillType(), null);
-        if (enableAbility.get(a)) {
-            enableAbility.put(a, false);
+        if (hasAbilityEnabled(a)) {
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "0.0");
         } else {
-            enableAbility.put(a, true);
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "1.0");
         }
+
+        //Checks if the setting and player are already queued to save
+        String s = getUuid().toString() + ":" + a.getName();
+        for(String data : DatabaseManager.getInstance().getSettingDataToSave()) {
+            if (s.equalsIgnoreCase(data)) {
+                return;
+            }
+        }
+
+        DatabaseManager.getInstance().getSettingDataToSave().add(s);
     }
 
     public boolean hasAbilityLevelRequirement(Ability a) {
@@ -132,13 +147,13 @@ public class RPGPlayer {
 
         //Checks if the exp skill type and player are already queued to save
         String s = getUuid().toString() + ":" + skill.toString();
-        for(String data : DatabaseManager.getInstance().getDataToSave()) {
+        for(String data : DatabaseManager.getInstance().getExpDataToSave()) {
             if (s.equalsIgnoreCase(data)) {
                 return;
             }
         }
 
-        DatabaseManager.getInstance().getDataToSave().add(s);
+        DatabaseManager.getInstance().getExpDataToSave().add(s);
 
 
     }

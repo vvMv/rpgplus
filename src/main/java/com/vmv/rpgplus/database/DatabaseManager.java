@@ -19,35 +19,48 @@ public class DatabaseManager {
 
     public static DatabaseManager instance;
     private static Database database;
-    public List<String> dataToSave;
+    public List<String> expDataToSave, settingDataToSave;
     private Plugin plugin;
 
     public DatabaseManager(Plugin plugin) {
         instance = this;
         database = new Database(plugin, "rpg.db", plugin.getDataFolder());
         this.plugin = plugin;
-        dataToSave = new ArrayList<String>();
+        expDataToSave = new ArrayList<String>();
+        settingDataToSave = new ArrayList<String>();
         createTables();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
     }
 
     public void savePlayerData(boolean aSync) {
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + dataToSave.size() + "]");
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + (settingDataToSave.size() + expDataToSave.size()) + "]");
         Instant start = Instant.now();
 
-        dataToSave.forEach(data -> {
+        expDataToSave.forEach(data -> {
             String uuid = data.split(":")[0];
-            String skill = data.split(":")[1];
-            Database.getInstance().updateData("player_experience", skill, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill.toUpperCase())), "uuid", "=", uuid, aSync);
+            String skill = data.split(":")[1].toUpperCase();
+            Database.getInstance().updateData("player_experience", skill, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill)), "uuid", "=", uuid, aSync);
+        });
+
+        settingDataToSave.forEach(data -> {
+            String uuid = data.split(":")[0];
+            String setting = data.split(":")[1].toUpperCase();
+            Database.getInstance().updateData("player_settings", setting, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getSettingValue(PlayerSetting.valueOf(setting)), "uuid", "=", uuid, aSync);
         });
 
         Instant finish = Instant.now();
         if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Finished! Took " + Duration.between(start, finish).toMillis() + "ms.");
-        dataToSave.clear();
+        expDataToSave.clear();
+        settingDataToSave.clear();
     }
 
-    public List<String> getDataToSave() {
-        return dataToSave;
+    public List<String> getExpDataToSave() {
+        return expDataToSave;
+    }
+
+
+    public List<String> getSettingDataToSave() {
+        return settingDataToSave;
     }
 
     public void createTables() {
