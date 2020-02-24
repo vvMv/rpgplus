@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-Provide clear and concise description of what the bug is.
+**Description of the bug**
+Provide a clear and concise description of what the bug is.
 
 **To Reproduce**
 Provide steps to reproduce the behaviour of this bug.

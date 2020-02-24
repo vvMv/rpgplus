@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-**Describe the feature you'd like**
+**Description of the feature**
 Provide a clear and concise description of what you want added.
 
-**Describe alternatives you've considered**
+**Description of alternatives you've considered**
 If applicable, provide a clear and concise description of any alternative solutions or features you've considered.
 
 **Additional context**
