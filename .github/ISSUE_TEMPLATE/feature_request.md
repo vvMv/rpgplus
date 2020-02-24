@@ -2,7 +2,7 @@
 name: Feature request
 about: Please use this template to suggest a feature or enhancement
 title: ''
-labels: 'Status: Pending Review'
+labels: 'Status: Pending Review, Type: Feature Request'
 assignees: ''
 
 ---
