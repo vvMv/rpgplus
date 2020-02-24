@@ -10,7 +10,7 @@ assignees: ''
 **Description of the bug**
 Provide a clear and concise description of what the bug is.
 
-**To Reproduce**
+**To reproduce**
 Provide steps to reproduce the behaviour of this bug.
 
 **Expected behavior**
