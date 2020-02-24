@@ -62,7 +62,7 @@ public class RPGPlayerSettingsMenu {
     private static void openSkillsMenu(Player p, RPGPlayer target) {
 
         Player p2 = Bukkit.getPlayer(target.getUuid());
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_skills_title").replaceAll("%p", p2.getName())), 9, p.getUniqueId(), Item.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_ability_title").replaceAll("%p", p2.getName())), 54, p.getUniqueId(), Item.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
         int count = 0;
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
@@ -71,44 +71,64 @@ public class RPGPlayerSettingsMenu {
                         @Override
                         public void run(InventoryClickEvent e) {
                             p.closeInventory();
-                            openSkillAbilityMenu(p, target, skill);
+                            //openSkillAbilityMenu(p, target, skill);
                         }
                     }, "&7Edit your " + skill.getSkillType().name().toLowerCase() + " abilities");
-            count++;
-        }
 
-        addBackButton(menu, target);
-        menu.openInventory(p);
-
-    }
-
-    private static void openSkillAbilityMenu(Player p, RPGPlayer target, Skill skill) {
-        Player p2 = Bukkit.getPlayer(target.getUuid());
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_skills_ability_title").replaceAll("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replaceAll("%p", p2.getName())), 9, p.getUniqueId(), Item.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
-
-        int count = 0;
-        List<Ability> abilities = AbilityManager.getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList());
-        for (Ability ability : abilities) {
-            menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? Material.GREEN_WOOL : Material.ORANGE_WOOL) : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), count,
-                    new PrivateInventory.ClickRunnable() {
-                        @Override
-                        public void run(InventoryClickEvent e) {
-                            if (target.hasAbilityLevelRequirement(ability)) {
-                                target.toggleAbilityEnabled(ability);
-                                p.closeInventory();
-                                openSkillAbilityMenu(p, target, skill);
-                                ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_skills_ability_toggle").replaceAll("%a", ability.getFormattedName()).replaceAll("%s", target.hasAbilityEnabled(ability) ? FileManager.getLang().getString("settings_skills_ability_toggle_activated") : FileManager.getLang().getString("settings_skills_ability_toggle_deactivated")));
-                            } else {
-                                ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_skills_ability_toggle_denied").replaceAll("%a", ability.getFormattedName()).replaceAll("%r", String.valueOf(ability.getRequiredLevel())));
+            List<Ability> abilities = AbilityManager.getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList()); //sorts abiltiy by level
+            int acount = 0;
+            for (Ability ability : abilities) {
+                menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? Material.GREEN_WOOL : Material.ORANGE_WOOL) : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), ((acount + 1) * 9) + count,
+                        new PrivateInventory.ClickRunnable() {
+                            @Override
+                            public void run(InventoryClickEvent e) {
+                                if (target.hasAbilityLevelRequirement(ability)) {
+                                    target.toggleAbilityEnabled(ability);
+                                    p.closeInventory();
+                                    openSkillsMenu(p, target);
+                                    ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_ability_toggle").replaceAll("%a", ability.getFormattedName()).replaceAll("%s", target.hasAbilityEnabled(ability) ? FileManager.getLang().getString("settings_ability_toggle_activated") : FileManager.getLang().getString("settings_ability_toggle_deactivated")));
+                                } else {
+                                    ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_ability_toggle_denied").replaceAll("%a", ability.getFormattedName()).replaceAll("%r", String.valueOf(ability.getRequiredLevel())));
+                                }
                             }
-                        }
-                    }, "&fActive: " + (target.hasAbilityEnabled(ability) && target.hasAbilityLevelRequirement(ability) ? "&aTrue" : "&cFalse"), "&fRequired: " + (target.hasAbilityLevelRequirement(ability) ? "&aLevel " + ability.getRequiredLevel() : "&cLevel " + ability.getRequiredLevel()));
+                        }, "&fActive: " + (target.hasAbilityEnabled(ability) && target.hasAbilityLevelRequirement(ability) ? "&aTrue" : "&cFalse"), "&fRequired: " + (target.hasAbilityLevelRequirement(ability) ? "&aLevel " + ability.getRequiredLevel() : "&cLevel " + ability.getRequiredLevel()));
+                acount++;
+            }
             count++;
         }
 
         addBackButton(menu, target);
         menu.openInventory(p);
+
     }
+
+//    private static void openSkillAbilityMenu(Player p, RPGPlayer target, Skill skill) {
+//        Player p2 = Bukkit.getPlayer(target.getUuid());
+//        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_skills_ability_title").replaceAll("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replaceAll("%p", p2.getName())), 9, p.getUniqueId(), Item.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+//
+//        int count = 0;
+//        List<Ability> abilities = AbilityManager.getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList());
+//        for (Ability ability : abilities) {
+//            menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? Material.GREEN_WOOL : Material.ORANGE_WOOL) : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), count,
+//                    new PrivateInventory.ClickRunnable() {
+//                        @Override
+//                        public void run(InventoryClickEvent e) {
+//                            if (target.hasAbilityLevelRequirement(ability)) {
+//                                target.toggleAbilityEnabled(ability);
+//                                p.closeInventory();
+//                                openSkillAbilityMenu(p, target, skill);
+//                                ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_skills_ability_toggle").replaceAll("%a", ability.getFormattedName()).replaceAll("%s", target.hasAbilityEnabled(ability) ? FileManager.getLang().getString("settings_skills_ability_toggle_activated") : FileManager.getLang().getString("settings_skills_ability_toggle_deactivated")));
+//                            } else {
+//                                ChatUtil.sendChatMessage(p, FileManager.getLang().getString("settings_skills_ability_toggle_denied").replaceAll("%a", ability.getFormattedName()).replaceAll("%r", String.valueOf(ability.getRequiredLevel())));
+//                            }
+//                        }
+//                    }, "&fActive: " + (target.hasAbilityEnabled(ability) && target.hasAbilityLevelRequirement(ability) ? "&aTrue" : "&cFalse"), "&fRequired: " + (target.hasAbilityLevelRequirement(ability) ? "&aLevel " + ability.getRequiredLevel() : "&cLevel " + ability.getRequiredLevel()));
+//            count++;
+//        }
+//
+//        addBackButton(menu, target);
+//        menu.openInventory(p);
+//    }
 
     private static void addBackButton(PrivateInventory invFrom, RPGPlayer target) {
         invFrom.setItem(new ItemStack(Material.BARRIER), "&c&lBack", invFrom.getSize() - 1,
