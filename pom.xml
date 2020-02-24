@@ -105,7 +105,7 @@
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        <finalName>RPGCore</finalName>
+        <finalName>RPGPlus</finalName>
         <resources>
             <resource>
                 <targetPath>.</targetPath>

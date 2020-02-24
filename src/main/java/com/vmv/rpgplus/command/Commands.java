@@ -22,12 +22,13 @@ import org.bukkit.entity.Player;
 public class Commands extends BaseCommand {
 
     @Default
+    @CommandPermission("rpgplus.player")
     public void onDefault(Player p) {
-
+        RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
     }
 
     @Subcommand("menu")
-    @CommandPermission("rpgplus.player")
+    @CommandPermission("rpgplus.player|rpgplus.menu")
     @CommandCompletion("@players")
     public void displayMenu(Player p, @Optional OnlinePlayer target) {
         if (p.hasPermission("rpgplus.admin") && target != null) {
@@ -38,16 +39,15 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("stats")
-    @CommandPermission("rpgplus.player")
+    @CommandPermission("rpgplus.player|rpgplus.stats")
     public void displayStats(Player p) {
         RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
     }
 
     @Subcommand("debug")
-    @CommandPermission("rpgplus.admin")
+    @CommandPermission("rpgplus.debug|rpgplus.admin")
     public void debug(CommandSender sender, String setting) {
-        //RPGPlayerManager.getInstance().getPlayer((Player)sender).getSetting(PlayerSetting.DASH);
-        sender.sendMessage("Setting value: " + RPGPlayerManager.getInstance().getPlayer((Player)sender).getSettingValue(PlayerSetting.valueOf(setting.toUpperCase())));
+        ChatUtil.sendChatMessage(sender, "Nothing to see here :)");
     }
 
     @Subcommand("setlevel|setlev|setlvl")
