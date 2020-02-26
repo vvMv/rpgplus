@@ -2,19 +2,19 @@ enabled: true
 display: 'GOLDEN_BOOTS'
 max_level: 100
 skill_color: YELLOW
-ability_cycle: DOUBLE_CROUCH
+ability_cycle: DOUBLE_CROUCH      #Define the method used to cycle through abilities
 experience:
-  distance: 0.1
-  time: 60
+  distance: 0.1                   #The amount of experience given per block traveled
+  time: 60                        #Time in seconds experience is granted
 ability:
-  dash:
+  dash:                           #Makes you run faster for x time
     enabled: true
     level: 0
     cooldown: 20
-    duration: 3
-    durationIncrease: 0.1
-    durationMaximum: 10
-    speed: 4
+    duration: 3                   #The base duration in seconds
+    durationIncrease: 0.1         #The duration increase per level
+    durationMaximum: 10           #The maximum duration
+    speed: 4                      #How fast the player will run
   stealth:
     enabled: true
     level: 15

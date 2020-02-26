@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -62,6 +63,12 @@ public class RPGPlayer {
 
     public double getLevel(SkillType skill) {
         return SkillManager.getInstance().getLevel(exp.get(skill), skill);
+    }
+
+    public int getTotalLevel() {
+        int c = 0;
+        for (Skill skill : SkillManager.getInstance().getSkills()) c += (int) getLevel(skill.getSkillType());
+        return c;
     }
 
     public double getExperience(SkillType skill) {

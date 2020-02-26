@@ -11,7 +11,6 @@ import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import fr.minuskube.netherboard.Netherboard;
-import jdk.internal.jline.internal.Nullable;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

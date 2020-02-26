@@ -2,15 +2,15 @@ enabled: true
 skill_color: DARK_PURPLE
 display: 'DIAMOND_AXE'
 exp_requires_material: false
-materials:
+materials:                        #Materials define which items are used in the skill for abilities
   - 'WOODEN_AXE'
   - 'STONE_AXE'
   - 'IRON_AXE'
   - 'GOLDEN_AXE'
   - 'DIAMOND_AXE'
-ability_cycle: RIGHT_CLICK
+ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 max_level: 100
-experience:
+experience:                       #Set the amount of experience chopping blocks gives, you can add new ones
   ACACIA_LOG:
     min: 30
     max: 60
@@ -39,14 +39,14 @@ experience:
     min: 40
     max: 80
 ability:
-  tree_feller:
+  tree_feller:                    #Chops down the whole tree
     enabled: true
     duration: 5
-    delay: 0.1
+    delay: 0.1                    #Delay between blocks falling
     level: 40
     cooldown: 60
     sound:
-    logs:
+    logs:                         #Which blocks are effected by tree_feller
       - 'OAK_WOOD'
       - 'SPRUCE_WOOD'
       - 'BIRCH_WOOD'

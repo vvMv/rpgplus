@@ -2,8 +2,8 @@ enabled: true
 display: 'DIAMOND_PICKAXE'
 max_level: 100
 skill_color: BLUE
-exp_requires_material: true
-experience:
+exp_requires_material: true       #If a block is mined without a specified material will xp be given
+experience:                       #Set the amount of experience mining blocks gives, you can add new ones
   STONE:
     min: 0.2
     max: 2
@@ -43,24 +43,24 @@ experience:
   DIORITE:
     min: 1
     max: 5
-materials:
+materials:                        #Materials define which items are used in the skill for abilities
   - 'WOODEN_PICKAXE'
   - 'STONE_PICKAXE'
   - 'IRON_PICKAXE'
   - 'GOLDEN_PICKAXE'
   - 'DIAMOND_PICKAXE'
-ability_cycle: RIGHT_CLICK
+ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 ability:
-  ore_locator:
+  ore_locator:                    #This ability will highlight ores so the player can locate them
     enabled: true
     color: true
     level: 30
     cooldown: 120
     duration: 20
-    range_base: 8
-    range_per_level: 0.2
-    range_max: 12
-    blocks:
+    range_base: 8                 #The radius to find ores in based from the block mined
+    range_per_level: 0.2          #The bonus range given to players based off their mining level
+    range_max: 12                 #The maximum range possible WARNING: higher values can cause exponential lag
+    blocks:                       #Blocks that are identified by ore_locator
       - 'COAL_ORE'
       - 'IRON_ORE'
       - 'GOLD_ORE'
@@ -69,14 +69,14 @@ ability:
       - 'REDSTONE_ORE'
       - 'EMERALD_ORE'
       - 'NETHER_QUARTZ_ORE'
-  vein_miner:
+  vein_miner:                     #Mines the whole ore vein
     enabled: true
     level: 15
     cooldown: 20
     duration: 5
-    maxsize: 17
-    delay: 5
-    blocks:
+    maxsize: 27                   #The maximum vein size to mine
+    delay: 5                      #Delay in ticks for effect of each block to mine
+    blocks:                       #Blocks that work with vein_miner
       - 'COAL_ORE'
       - 'IRON_ORE'
       - 'GOLD_ORE'

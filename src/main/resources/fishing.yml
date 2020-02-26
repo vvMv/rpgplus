@@ -2,13 +2,13 @@ enabled: true
 display: 'FISHING_ROD'
 max_level: 100
 skill_color: AQUA
-materials:
+materials:                        #Materials define which items are used in the skill for abilities
   - 'FISHING_ROD'
-ability_cycle: LEFT_CLICK
-exclude:
+ability_cycle: LEFT_CLICK         #Define the method used to cycle through abilities
+exclude:                          #Which fish/items should not receive any experience
   - 'FISH_ONE'
   - 'ITEM2'
-experience:
+experience:                       #Set the amount of experience fishing specific items gives, you can add new ones
   RAW_COD:
     min: 50
     max: 200

@@ -27,7 +27,7 @@ public class Commands extends BaseCommand {
         RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
     }
 
-    @Subcommand("menu")
+    @Subcommand("menu|settings")
     @CommandPermission("rpgplus.player|rpgplus.menu")
     @CommandCompletion("@players")
     public void displayMenu(Player p, @Optional OnlinePlayer target) {
@@ -38,20 +38,20 @@ public class Commands extends BaseCommand {
         }
     }
 
-    @Subcommand("stats")
+    @Subcommand("stats|stat|level|levels")
     @CommandPermission("rpgplus.player|rpgplus.stats")
     public void displayStats(Player p) {
         RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
     }
 
     @Subcommand("debug")
-    @CommandPermission("rpgplus.debug|rpgplus.admin")
+    @CommandPermission("rpgplus.debug")
     public void debug(CommandSender sender, String setting) {
         ChatUtil.sendChatMessage(sender, "Nothing to see here :)");
     }
 
     @Subcommand("setlevel|setlev|setlvl")
-    @CommandPermission("rpgplus.setlevel|rpgplus.admin")
+    @CommandPermission("rpgplus.setlevel")
     @CommandCompletion("@players @skills @range:1-100")
     public void setLevel(CommandSender p, OfflinePlayer player, String skill, int level) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), SkillManager.getInstance().getExperience(level));
@@ -62,7 +62,7 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("addlevel|addlev|addlvl")
-    @CommandPermission("rpgplus.addlevel|rpgplus.admin")
+    @CommandPermission("rpgplus.addlevel")
     @CommandCompletion("@players @skills @range:1-100")
     public void addLevel(CommandSender p, OfflinePlayer player, String skill, int level) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
@@ -74,7 +74,7 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("setexp|setexperience|setxp")
-    @CommandPermission("rpgplus.setexperience|rpgplus.admin")
+    @CommandPermission("rpgplus.setexperience")
     @CommandCompletion("@players @skills")
     public void setExperience(CommandSender p, OfflinePlayer player, String skill, int experience) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), experience);
@@ -85,7 +85,7 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("addexp|addexperience|addxp")
-    @CommandPermission("rpgplus.addexperience|rpgplus.admin")
+    @CommandPermission("rpgplus.addexperience")
     @CommandCompletion("@players @skills")
     public void addExperience(CommandSender p, OfflinePlayer player, String skill, int experience) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
@@ -97,7 +97,7 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("reload|r|rl")
-    @CommandPermission("rpgplus.reload|rpgplus.admin")
+    @CommandPermission("rpgplus.reload")
     public void reloadConfigurations(CommandSender p) {
         ChatUtil.sendChatMessage(p, "&aReloading config...");
         ChatUtil.sendChatMessage(p, "&aReloading skills...");

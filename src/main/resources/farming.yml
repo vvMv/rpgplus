@@ -2,14 +2,15 @@ enabled: true
 display: 'DIAMOND_HOE'
 max_level: 100
 skill_color: GREEN
-exp_requires_material: false
-materials:
+ability_cycle: LEFT_CLICK         #Define the method used to cycle through abilities
+exp_requires_material: false      #Does the player need the material to gain experience from crops
+materials:                        #Materials define which items are used in the skill for abilities
   - 'WOODEN_HOE'
   - 'STONE_HOE'
   - 'IRON_HOE'
   - 'GOLDEN_HOE'
   - 'DIAMOND_HOE'
-experience:
+experience:                       #Set the amount of experience mining specific crops gives, you can add new ones
   WHEAT:
     min: 15
     max: 30
@@ -43,4 +44,3 @@ experience:
   COCOA_BEANS:
     min: 30
     max: 50
-ability_cycle: LEFT_CLICK

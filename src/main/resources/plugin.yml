@@ -1,7 +1,7 @@
 name: RPGPlus
 version: 1.0
 api-version: 1.15
-description: Rpgplus plugin
+description: Player Levelling and Ability plugin.
 author: v_M_v
 main: com.vmv.rpgplus.main.RPGPlus
 softdepend: [Citizens, WorldGuard]

@@ -2,16 +2,16 @@ enabled: true
 display: 'DIAMOND_SWORD'
 max_level: 100
 skill_color: GOLD
-exp_requires_material: true
-materials:
+ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
+exp_requires_material: true       #If an entity is hit without a specified material will xp be given
+materials:                        #Materials define which items are used in the skill for abilities
   - 'WOODEN_SWORD'
   - 'STONE_SWORD'
   - 'IRON_SWORD'
   - 'GOLDEN_SWORD'
   - 'DIAMOND_SWORD'
-ability_cycle: RIGHT_CLICK
 ability:
-  track:
+  track:                          #Track will highlight the target for a specified amount of time
     enabled: true
     level: 0
     cooldown: 0

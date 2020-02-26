@@ -1,39 +1,39 @@
 enabled: true
 max_level: 100
 skill_color: DARK_GREEN
-allow_distance_exp: true
-max_distance_exp: 15
-divide_distance_exp: 1.5
-display: 'BOW'
-materials:
+allow_distance_exp: true          #Give experience based on the distance the arrow flew
+max_distance_exp: 15              #Maximum experience given by distance
+divide_distance_exp: 1.5          #Extra experience is distance divided by this number
+display: 'BOW'                    #Item used to display the skill in ui's
+ability_cycle: LEFT_CLICK         #Define the method used to cycle through abilities
+materials:                        #Materials define which items are used in the skill for abilities
   - 'BOW'
   - 'CROSSBOW'
 experience:
   player: 30.0
   monster: 50.0
   animal: 15.0
-ability_cycle: LEFT_CLICK
 ability:
   multi_arrow:
     enabled: true
     level: 0
     cooldown: 5
-    amount: 2
-    extra: 10
+    amount: 2                     #The amount of base arrows the multiarrow produces
+    extra: 10                     #This number defines how many levels until another arrow is fired
   split_shot:
     enabled: true
     level: 10
     cooldown: 5
-    angle: 45
-    extra: 10
+    angle: 45                     #The total angle in front of the player the arrow will split
+    extra: 10                     #This number defines how many levels until another arrow is fired
   explosive_arrow:
     enabled: true
     level: 20
     cooldown: 10
-    power: 3
-    destructive: false
+    power: 3                      #Controls the size of the explosion
+    destructive: false            #Wether or not the explosion will destroy blocks
   teleport_arrow:
     enabled: true
     level: 30
     cooldown: 20
-    selfdamage: 4
+    selfdamage: 4                 #The damage dealt to the player upon landing

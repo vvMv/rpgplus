@@ -1,16 +1,16 @@
 general:
-  save_messages: true
-  save_data: 6000
-  experience_growth: 1.618
-  experience_animation: true
+  save_messages: true               #Should data saving messages be displayed in console
+  save_data: 6000                   #How often data should save in ticks 20 ticks is 1 second
+  experience_growth: 1.618          #The rate of experience growth per level
+  experience_animation: true        #Should the experience popups appear
 sounds:
-  level_up: 'ENTITY_PLAYER_LEVELUP'
+  level_up: 'ENTITY_PLAYER_LEVELUP' #Sound played when a player levels up in a skill
 scoreboard:
-  enabled: true
+  enabled: true                     #Scoreboard for displaying stats
 actionbar:
   priority:
-    timer: 2500
-    priorities:
+    timer: 2500                     #How long should an actionbar message last before it can be replaced
+    priorities:                     #Priorities set which actionbar messages can be overridden
       ability_cycle: 30
       ability_active: 30
       ability_cooldown: 20
