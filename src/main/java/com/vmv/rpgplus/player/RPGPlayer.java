@@ -112,21 +112,27 @@ public class RPGPlayer {
         }
     }
 
+    public boolean getSettingBoolean(PlayerSetting setting) {
+
+        int value = Double.valueOf(getSettingValue(setting)).intValue();
+        return value == 1 ? true : false;
+    }
+
     public boolean hasAbilityEnabled(Ability a) {
         if (a == null) return false;
         if (PlayerSetting.valueOf(a.getName().toUpperCase()) == null) {
             InformationHandler.printMessage(InformationType.ERROR, "Missing ability setting " + a.getName().toUpperCase() + " please report this issue");
         }
-        return getSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase())).equalsIgnoreCase("1.0") ? true : false;
+        return getSettingBoolean(PlayerSetting.valueOf(a.getName().toUpperCase()));
     }
 
     public void toggleAbilityEnabled(Ability a) {
         if (!hasAbilityLevelRequirement(a)) return;
         setActiveAbility(a.getSkillType(), null);
         if (hasAbilityEnabled(a)) {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "0.0");
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "0");
         } else {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "1.0");
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "1");
         }
 
         //Checks if the setting and player are already queued to save

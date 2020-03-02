@@ -6,7 +6,7 @@ general:
 sounds:
   level_up: 'ENTITY_PLAYER_LEVELUP' #Sound played when a player levels up in a skill
 scoreboard:
-  enabled: true                     #Scoreboard for displaying stats
+  enabled: false                    #Scoreboard for displaying stats, breaks colour features
 actionbar:
   priority:
     timer: 2500                     #How long should an actionbar message last before it can be replaced

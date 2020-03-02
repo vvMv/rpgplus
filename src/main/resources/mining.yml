@@ -1,6 +1,7 @@
 enabled: true
 display: 'DIAMOND_PICKAXE'
 max_level: 100
+ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 skill_color: BLUE
 exp_requires_material: true       #If a block is mined without a specified material will xp be given
 experience:                       #Set the amount of experience mining blocks gives, you can add new ones
@@ -49,7 +50,6 @@ materials:                        #Materials define which items are used in the 
   - 'IRON_PICKAXE'
   - 'GOLDEN_PICKAXE'
   - 'DIAMOND_PICKAXE'
-ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 ability:
   ore_locator:                    #This ability will highlight ores so the player can locate them
     enabled: true
