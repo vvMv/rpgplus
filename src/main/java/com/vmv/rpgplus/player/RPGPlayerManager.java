@@ -51,9 +51,9 @@ public class RPGPlayerManager implements Listener {
         return instance;
     }
 
-    public RPGPlayer getPlayer(UUID uuid){
+    public RPGPlayer getPlayer(UUID uuid) {
         for (RPGPlayer p : players) {
-            if (p.getUuid().equals(uuid)){
+            if (p.getUuid().equals(uuid)) {
                 return p;
             }
         }
@@ -116,7 +116,7 @@ public class RPGPlayerManager implements Listener {
             ChatUtil.sendCenteredChatMessage(p, s
                     .replaceAll("%s", StringUtils.capitalize(e.getSkill().toString().toLowerCase()))
                     .replaceAll("%f", String.valueOf(e.getFromLevel()))
-                    .replaceAll("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1)  - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
+                    .replaceAll("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
                     .replaceAll("%n", String.valueOf(e.getLevel() + 1))
                     .replaceAll("%t", String.valueOf(e.getLevel())));
         }
