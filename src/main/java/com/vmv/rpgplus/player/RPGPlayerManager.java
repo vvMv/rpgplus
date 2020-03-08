@@ -89,7 +89,7 @@ public class RPGPlayerManager implements Listener {
 
     @EventHandler
     public void onExperienceGain(ExperienceModifyEvent e) {
-        if (!e.getPlayer().isOnline()) return;
+        if (e.getPlayer() == null) return;
         int progress = Integer.parseInt(String.valueOf(MathUtils.round(e.getRPGPlayer().getLevel(e.getSkill()), 2)).split("\\.")[1]);
         StringBuilder message = new StringBuilder();
         message.append(ChatColor.DARK_GREEN + "[");
