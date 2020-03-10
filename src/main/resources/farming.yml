@@ -41,6 +41,9 @@ experience:                       #Set the amount of experience mining specific 
   BAMBOO:
     min: 10
     max: 20
-  COCOA_BEANS:
+  COCOA:
     min: 30
     max: 50
+  NETHER_WART:
+    min: 20
+    max: 30
