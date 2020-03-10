@@ -33,8 +33,8 @@ public class ChatUtil {
 
     public static void sendActionMessage(Player p, String message, int priority) {
 
-        if (barPriority.get(p.getUniqueId()) == null) barPriority.put(p.getUniqueId(), 0);
-        if (barTimestamp.get(p.getUniqueId()) == null) barTimestamp.put(p.getUniqueId(), (long) 0);
+        barPriority.putIfAbsent(p.getUniqueId(), 0);
+        barTimestamp.putIfAbsent(p.getUniqueId(), (long) 0);
 
         if (priority >= barPriority.get(p.getUniqueId()) || System.currentTimeMillis() - barTimestamp.get(p.getUniqueId()) >= RPGPlus.getInstance().getConfig().getInt("actionbar.priority.timer")) {
             ActionMessage.send(p, message);

@@ -1,5 +1,7 @@
 package com.vmv.rpgplus.skill;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.archery.Archery;
@@ -65,7 +67,8 @@ public class SkillManager {
     }
 
     public double getLevel(double exp, SkillType skillType) {
-        int maxLevel = SkillManager.getInstance().getSkill(skillType).getConfig().getInt("maxLevel");
+        int maxLevel = SkillManager.getInstance().getSkill(skillType).getConfig().getInt("max_level");
+        InformationHandler.printMessage(InformationType.DEBUG, "max level is " + maxLevel);
         for (int level = 0; level <= maxLevel; level++) {
             if (getExperience(level) > exp) {
                 double decimal = MathUtils.round((exp - getExperience(level - 1)) / (getExperience(level) - getExperience(level - 1)), 2);
