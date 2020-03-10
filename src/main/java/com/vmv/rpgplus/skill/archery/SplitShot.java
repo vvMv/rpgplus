@@ -46,7 +46,7 @@ public class SplitShot extends Ability implements Listener {
 
         Location loc = e.getEntity().getLocation();
 
-        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE || !e.getBow().getEnchantments().containsValue(Enchantment.ARROW_INFINITE)) {
+        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE || !e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE)) {
             int am = 0;
             for (ItemStack item : p.getInventory().getContents()) {
                 if (item == null) continue;
@@ -73,7 +73,7 @@ public class SplitShot extends Ability implements Listener {
             a.setVelocity(velocity);
 
             a.setShooter(e.getEntity());
-            a.setPickupStatus(p.getGameMode() == GameMode.CREATIVE ? AbstractArrow.PickupStatus.CREATIVE_ONLY : AbstractArrow.PickupStatus.ALLOWED);
+            a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
             a.setCustomName("splitshot_arrow");
             a.setBounce(false);
             a.setDamage(((Arrow) e.getProjectile()).getDamage());

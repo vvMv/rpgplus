@@ -41,7 +41,7 @@ public class MultiArrow extends Ability implements Listener {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    if (p.getGameMode() != GameMode.CREATIVE || !e.getBow().getEnchantments().containsValue(Enchantment.ARROW_INFINITE)) {
+                    if (!e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) && p.getGameMode() != GameMode.CREATIVE) {
                         if (!p.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) return;
                         p.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
                     }
@@ -49,7 +49,7 @@ public class MultiArrow extends Ability implements Listener {
                     Vector playerCameraVector = p.getPlayer().getEyeLocation().getDirection().normalize();
                     a.setVelocity(playerCameraVector.multiply(firstArrowSpeed));
                     a.setShooter(e.getEntity());
-                    a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
+                    a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
                     a.setCustomName("multishot_arrow");
                     a.setBounce(false);
                     a.setDamage(((Arrow) e.getProjectile()).getDamage());
