@@ -9,6 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ public class SplitShot extends Ability implements Listener {
 
         Location loc = e.getEntity().getLocation();
 
-        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE) {
+        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE || !e.getBow().getEnchantments().containsValue(Enchantment.ARROW_INFINITE)) {
             int am = 0;
             for (ItemStack item : p.getInventory().getContents()) {
                 if (item == null) continue;

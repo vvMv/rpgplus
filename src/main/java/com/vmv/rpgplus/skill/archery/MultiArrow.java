@@ -8,6 +8,7 @@ import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,7 +41,7 @@ public class MultiArrow extends Ability implements Listener {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    if (p.getGameMode() != GameMode.CREATIVE) {
+                    if (p.getGameMode() != GameMode.CREATIVE || !e.getBow().getEnchantments().containsValue(Enchantment.ARROW_INFINITE)) {
                         if (!p.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) return;
                         p.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
                     }
