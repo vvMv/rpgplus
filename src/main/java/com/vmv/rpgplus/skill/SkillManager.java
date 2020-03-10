@@ -68,7 +68,6 @@ public class SkillManager {
 
     public double getLevel(double exp, SkillType skillType) {
         int maxLevel = SkillManager.getInstance().getSkill(skillType).getConfig().getInt("max_level");
-        InformationHandler.printMessage(InformationType.DEBUG, "max level is " + maxLevel);
         for (int level = 0; level <= maxLevel; level++) {
             if (getExperience(level) > exp) {
                 double decimal = MathUtils.round((exp - getExperience(level - 1)) / (getExperience(level) - getExperience(level - 1)), 2);

@@ -46,8 +46,11 @@ public class Commands extends BaseCommand {
 
     @Subcommand("debug")
     @CommandPermission("rpgplus.debug")
-    public void debug(CommandSender sender, String setting) {
-        ChatUtil.sendChatMessage(sender, "Nothing to see here :)");
+    public void debug(Player player) {
+        player.sendMessage(RPGPlayerManager.getInstance().getPlayer(player).getExperience(SkillType.ARCHERY) + "");
+        player.sendMessage(RPGPlayerManager.getInstance().getPlayer(player).getLevel(SkillType.ARCHERY) + "");
+        //SkillManager.getInstance().getSkills().forEach(skill -> sender.sendMessage(RPGPlayerManager.getInstance().getPlayer((Player) sender).getLevel(skill.getSkillType()) + " " + skill.getSkillType()));
+        //sender.sendMessage("");
     }
 
     @Subcommand("setlevel|setlev|setlvl")

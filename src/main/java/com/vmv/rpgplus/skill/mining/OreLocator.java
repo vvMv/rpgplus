@@ -84,12 +84,10 @@ public class OreLocator extends Ability implements Listener {
 
     public void locate(Player player) {
 
-        Instant start = Instant.now();
         double rangemax = getAbilityConfigSection().getDouble("range_max");
         int radius = (int) (getAbilityConfigSection().getDouble("range_base") + (getAbilityConfigSection().getDouble("range_per_level") * RPGPlayerManager.getInstance().getPlayer(player).getLevel(SkillType.MINING)));
         if (radius > rangemax) radius = (int) rangemax;
 
-        InformationHandler.printMessage(InformationType.DEBUG, "radius is " + radius);
 
         ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), radius);
 
@@ -137,9 +135,6 @@ public class OreLocator extends Ability implements Listener {
 
 
         }
-
-        Instant finish = Instant.now();
-        InformationHandler.printMessage(InformationType.DEBUG, "took " + Duration.between(start, finish).toMillis() + "ms");
 
     }
 
