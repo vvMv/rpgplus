@@ -46,7 +46,7 @@ public class SplitShot extends Ability implements Listener {
 
         Location loc = e.getEntity().getLocation();
 
-        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE || !e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE)) {
+        if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE && !e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE)) {
             int am = 0;
             for (ItemStack item : p.getInventory().getContents()) {
                 if (item == null) continue;
