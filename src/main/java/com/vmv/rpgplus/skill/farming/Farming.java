@@ -7,7 +7,9 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -41,8 +43,8 @@ public class Farming extends Skill implements Listener {
 
         if (e.isCancelled()) return;
         if (!super.hasBuildPermission(e.getBlock().getLocation(), e.getPlayer()) || !super.hasMaterial(e.getPlayer())) return;
-
         if (!farmed.contains(e.getBlock().toString())) {
+            if (!isFullyGrown(e.getBlock())) return;
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
                 if (e.getBlock().getType() == Material.valueOf(b)) {
                     if (e.getBlock().getRelative(BlockFace.UP).getType() == e.getBlock().getType()) {
@@ -61,6 +63,14 @@ public class Farming extends Skill implements Listener {
     @EventHandler
     public void blockPlace(BlockPlaceEvent e) {
         farmed.add(e.getBlock().toString());
+    }
+
+    public boolean isFullyGrown(Block block) {
+        if(block.getBlockData() instanceof Ageable) {
+            Ageable crop = (Ageable) block.getBlockData();
+            return (crop.getMaximumAge() == crop.getAge());
+        }
+        return true;
     }
 
 }
