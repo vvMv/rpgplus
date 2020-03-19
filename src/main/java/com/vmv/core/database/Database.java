@@ -20,6 +20,7 @@ public class Database {
     private Plugin plugin;
     public static Database instance;
     public static String url;
+    private Connection c = null;
 
     /**
      *
@@ -28,55 +29,23 @@ public class Database {
      * @param location where the database will be generated
      */
     public Database(Plugin plugin, String fileName, File location) {
-        this(plugin, fileName, location, null);
-    }
-
-    /**
-     *
-     * @param queriesFileLocation location for the queries .sql file to excecute
-     */
-    public Database(Plugin plugin, String fileName, File location, String queriesFileLocation) {
         this.plugin = plugin;
         url = "jdbc:sqlite:" + location + "/" + fileName;
         instance = this;
-        initialize(fileName);
-        if (queriesFileLocation != null) {
-            try {
-                ScriptRunner sr = new ScriptRunner(DriverManager.getConnection(url));
-                sr.runScript(new BufferedReader(new FileReader(queriesFileLocation)));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public static Database getInstance() {
         return instance;
     }
 
-    private Connection connect() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+    public Connection getConnection() throws SQLException {
+        if (c == null) {
+            c = (Connection) DriverManager.getConnection(url);
+        } else {
+            c.close();
+            c = (Connection) DriverManager.getConnection(url);
         }
-        return conn;
-    }
-
-    public void initialize(String url) {
-        try (Connection conn = this.connect()) {
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                InformationHandler.printMessage(InformationType.INFO, "Using Database driver " + meta.getDriverName());
-                InformationHandler.printMessage(InformationType.INFO, "A database connection has been established.");
-            }
-        } catch (SQLException e) {
-            InformationHandler.printMessage(InformationType.ERROR, "A database connection has not been established.");
-            Bukkit.getPluginManager().disablePlugin(plugin);
-        }
+        return c;
     }
 
     public void executeSQL(final String sql, boolean aSync) {
@@ -84,65 +53,41 @@ public class Database {
     }
 
     public void executeSQL(final String sql, boolean aSync, final boolean debug) {
-        BukkitRunnable r = new BukkitRunnable() {
-            @Override
-            public void run() {
-                try (Connection conn = DriverManager.getConnection(url); Statement statement = conn.createStatement()) {
-                    statement.execute(sql);
-                } catch (SQLException e) {
-                    if (debug) {
-                        System.out.println(e.getMessage());
-                    }
-                } finally {
-                    try {
-                        DriverManager.getConnection(url).close();
+        if (aSync) {
+            BukkitRunnable r = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    try (Connection conn = getConnection(); Statement statement = conn.createStatement()) {
+                        statement.execute(sql);
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        if (debug) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
-            }
-        };
-        if (aSync) {
+            };
             r.runTaskAsynchronously(plugin);
         } else {
-            r.runTask(plugin);
-        }
-
-    }
-
-    public void executeSQLFinal(final String sql) {
-        try (Connection conn = DriverManager.getConnection(url); Statement statement = conn.createStatement()) {
-            statement.execute(sql);
-        } catch (SQLException e) {
-            return;
-        } finally {
-            try {
-                DriverManager.getConnection(url).close();
+            try (Connection conn = DriverManager.getConnection(url); Statement statement = conn.createStatement()) {
+                statement.execute(sql);
             } catch (SQLException e) {
-                e.printStackTrace();
+                return; //Returning all errors here because sqllite doesnt support alter table if not exists so it will error with "already exists"
             }
         }
+
     }
 
     public void insertData(String tablename, String fieldnames, String values, boolean aSync) {
-        executeSQL("INSERT INTO " + tablename + " (" + fieldnames + ") VALUES (" + values + ")", aSync);
+        executeSQL("INSERT INTO " + tablename + " (" + fieldnames + ") VALUES (" + values + ");", aSync);
     }
 
-    public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value, boolean asTask) {
+    public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value, boolean aSync) {
         String sql = "UPDATE " + tablename + " SET " + fieldname + " = '" + object + "' WHERE " + column + logic_gate + "'" + value + "';";
-        if (!asTask) {
-            executeSQLFinal(sql);
-        } else {
-            executeSQL(sql, true);
-        }
+        executeSQL(sql, aSync);
     }
 
-    public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value) {
-        updateData(tablename, fieldname, object, column, logic_gate, value, true);
-    }
-
-    public void deleteData(String tablename, String fieldname, String logic_gate, String value) {
-        executeSQL("DELETE FROM " + tablename + " WHERE " + fieldname + " " + logic_gate + " '" + value + "';", true);
+    public void deleteData(String tablename, String fieldname, String logic_gate, String value, boolean aSync) {
+        executeSQL("DELETE FROM " + tablename + " WHERE " + fieldname + " " + logic_gate + " '" + value + "';", aSync);
     }
 
     public ResultSet selectData(String sql) {
@@ -152,9 +97,16 @@ public class Database {
             ResultSet rs = stmt.executeQuery(sql);
             return rs;
         } catch (Exception e) {
+            InformationHandler.printMessage(InformationType.DEBUG, "error is here");
             System.out.println(e.getMessage());
         }
-
+//        } finally {
+//            try {
+//                getConnection().close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return null;
     }
 }
