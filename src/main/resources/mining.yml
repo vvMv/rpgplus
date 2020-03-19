@@ -1,6 +1,7 @@
 enabled: true
 display: 'DIAMOND_PICKAXE'
 max_level: 100
+points_per_level: 0.5             #How many ability points should the user get per level
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 skill_color: BLUE
 exp_requires_material: true       #If a block is mined without a specified material will xp be given
@@ -56,10 +57,18 @@ ability:
     color: true
     level: 30
     cooldown: 120
-    duration: 20
-    range_base: 8                 #The radius to find ores in based from the block mined
-    range_per_level: 0.2          #The bonus range given to players based off their mining level
-    range_max: 12                 #The maximum range possible WARNING: higher values can cause exponential lag
+    duration: 10
+    range: 7                      #The radius to find ores in based from the block mined
+    attributes:
+      increase_duration:
+        per_point: 2
+        max_point: 10
+      decrease_cooldown:
+        per_point: -6
+        max_point: 10
+      increase_range:
+        per_point: 0.5
+        max_point: 10             #WARNING: higher values will cause exponential lag
     blocks:                       #Blocks that are identified by ore_locator
       - 'COAL_ORE'
       - 'IRON_ORE'
@@ -72,10 +81,17 @@ ability:
   vein_miner:                     #Mines the whole ore vein
     enabled: true
     level: 15
-    cooldown: 20
-    duration: 5
+    cooldown: 40
+    duration: 1
     maxsize: 27                   #The maximum vein size to mine
     delay: 5                      #Delay in ticks for effect of each block to mine
+    attributes:
+      increase_duration:
+        per_point: 2
+        max_point: 5
+      decrease_cooldown:
+        per_point: -2
+        max_point: 5
     blocks:                       #Blocks that work with vein_miner
       - 'COAL_ORE'
       - 'IRON_ORE'

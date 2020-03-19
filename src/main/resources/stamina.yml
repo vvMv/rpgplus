@@ -1,10 +1,11 @@
 enabled: true
 display: 'GOLDEN_BOOTS'
 max_level: 100
+points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: YELLOW
 ability_cycle: DOUBLE_CROUCH      #Define the method used to cycle through abilities
 experience:
-  distance: 0.1                   #The amount of experience given per block traveled
+  distance: 0.25                   #The amount of experience given per block traveled
   time: 60                        #Time in seconds experience is granted
 ability:
   dash:                           #Makes you run faster for x time
@@ -12,9 +13,24 @@ ability:
     level: 0
     cooldown: 20
     duration: 3                   #The base duration in seconds
-    durationIncrease: 0.1         #The duration increase per level
-    durationMaximum: 10           #The maximum duration
-    speed: 4                      #How fast the player will run
+    speed: 2                      #The base speed effect
+    attributes:
+      increase_duration:
+        per_point: 1
+        max_point: 5
+      increase_speed:
+        per_point: 1
+        max_point: 5
+      decrease_cooldown:
+        per_point: -1
+        max_point: 5
+  health:
+    enabled: true
+    hearts: 14                    #How many hearts should a player have by default
+    attributes:
+      increase_hearts:
+        per_point: 2              #How much health increase per point (1 = half a heart)
+        max_point: 23             #The maximum ability points that can be assigned
   stealth:
     enabled: true
     level: 15

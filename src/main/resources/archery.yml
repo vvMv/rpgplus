@@ -1,5 +1,6 @@
 enabled: true
 max_level: 100
+points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: DARK_GREEN
 allow_distance_exp: true          #Give experience based on the distance the arrow flew
 max_distance_exp: 15              #Maximum experience given by distance
@@ -17,9 +18,15 @@ ability:
   multi_arrow:
     enabled: true
     level: 0
-    cooldown: 5
-    amount: 2                     #The amount of base arrows the multiarrow produces
-    extra: 10                     #This number defines how many levels until another arrow is fired
+    cooldown: 15
+    arrows: 3                     #The amount of base arrows the multiarrow fires
+    attributes:
+      decrease_cooldown:
+        per_point: -2
+        max_point: 5
+      increase_arrows:
+        per_point: 1
+        max_point: 6
   split_shot:
     enabled: true
     level: 10
@@ -29,11 +36,25 @@ ability:
   explosive_arrow:
     enabled: true
     level: 20
-    cooldown: 10
-    power: 3                      #Controls the size of the explosion
+    cooldown: 20
+    explosion: 2                  #Controls the size of the explosion
     destructive: false            #Wether or not the explosion will destroy blocks
+    attributes:
+      decrease_cooldown:
+        per_point: -2
+        max_point: 10
+      increase_explosion:
+        per_point: 0.5
+        max_point: 8
   teleport_arrow:
     enabled: true
     level: 30
-    cooldown: 20
+    cooldown: 30
     selfdamage: 4                 #The damage dealt to the player upon landing
+    attributes:
+      decrease_cooldown:
+        per_point: -2
+        max_point: 10
+      decrease_selfdamage:
+        per_point: -1
+        max_point: 4

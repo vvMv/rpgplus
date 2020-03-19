@@ -6,6 +6,13 @@ level_up:
   - '&7You need &e%axp &7for level &e%n'
   - ' '
   - '&6&m&l---------------------------------------------'
+points_reminder:
+  - '&6&m&l------------------&f&l REMINDER &6&m&l------------------'
+  - ' '
+  - '&eYou have the following ability points to spend using /rpg'
+  - '&a%a'
+  - ' '
+  - '&6&m&l---------------------------------------------'
 set_level_sender: "&b%p &7now has level &b%l &7%s"
 set_level_receiver: "&b%p &7set your &b%s &7level to &b%l"
 add_level_sender: "&b%p &7has been given &b%l &7%s levels"
@@ -16,9 +23,10 @@ add_experience_sender: "&b%p &7has been given &b%e &7%s experience"
 add_experience_receiver: "&b%p &7has given you &b%e &7%s experience"
 scoreboard_title: "&6&lStats"
 
-settings_menu_title: "&e&lSettings &f&l%p"
-settings_ability_title: "&e&lToggle abilities &f&l%p"
-settings_ability_toggle_activated: "&aActivated"
-settings_ability_toggle_deactivated: "&cDeactivated"
+settings_menu_title: "&1&lSettings &f&l%p"
+settings_ability_title: "&1&lToggle abilities &f&l%p"
+settings_ability_toggle_activated: "&aactivated"
+settings_ability_toggle_deactivated: "&cdeactivated"
 settings_ability_toggle: "Ability %a %s"
-settings_ability_toggle_denied: "&cYou don't have the required level to activate %a (%r)"
+settings_ability_toggle_denied: "&c%a requires level (%r)"
+settings_points_title: "&1&l%s points: &9&l%n&1&l/&9&l%t"

@@ -1,6 +1,7 @@
 enabled: true
 display: 'DIAMOND_SWORD'
 max_level: 100
+points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: GOLD
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 exp_requires_material: true       #If an entity is hit without a specified material will xp be given
@@ -16,3 +17,10 @@ ability:
     level: 0
     cooldown: 0
     duration: 10
+    attributes:
+      increase_duration:
+        per_point: 3
+        max_point: 10
+      decrease_cooldown:
+        per_point: 0
+        max_point: 0

@@ -1,5 +1,6 @@
 enabled: true
 skill_color: DARK_PURPLE
+points_per_level: 0.5             #How many ability points should the user get per level
 display: 'DIAMOND_AXE'
 exp_requires_material: false
 materials:                        #Materials define which items are used in the skill for abilities
@@ -12,32 +13,32 @@ ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abili
 max_level: 100
 experience:                       #Set the amount of experience chopping blocks gives, you can add new ones
   ACACIA_LOG:
-    min: 30
-    max: 60
+    min: 20
+    max: 30
   BIRCH_LOG:
-    min: 20
-    max: 50
+    min: 5
+    max: 20
   DARK_OAK_LOG:
-    min: 10
-    max: 70
+    min: 5
+    max: 30
   JUNGLE_LOG:
-    min: 20
-    max: 45
-  OAK_LOG:
     min: 10
-    max: 50
+    max: 25
+  OAK_LOG:
+    min: 5
+    max: 25
   SPRUCE_LOG:
-    min: 20
-    max: 60
+    min: 10
+    max: 30
   BROWN_MUSHROOM_BLOCK:
-    min: 40
-    max: 80
+    min: 20
+    max: 40
   RED_MUSHROOM_BLOCK:
-    min: 40
-    max: 80
+    min: 20
+    max: 40
   MUSHROOM_STEM:
-    min: 40
-    max: 80
+    min: 20
+    max: 40
 ability:
   tree_feller:                    #Chops down the whole tree
     enabled: true
@@ -46,6 +47,13 @@ ability:
     level: 40
     cooldown: 60
     sound:
+    attributes:
+      increase_duration:
+        per_point: 1
+        max_point: 5
+      decrease_cooldown:
+        per_point: -4
+        max_point: 10
     logs:                         #Which blocks are effected by tree_feller
       - 'OAK_WOOD'
       - 'SPRUCE_WOOD'
