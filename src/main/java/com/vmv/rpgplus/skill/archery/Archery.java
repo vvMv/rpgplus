@@ -14,6 +14,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
@@ -38,9 +39,9 @@ public class Archery extends Skill implements Listener {
 
     @Override
     public void registerAbilities() {
-        registerAbilities(new MultiArrow("multi_arrow", ARCHERY),
-                new ExplosiveArrow("explosive_arrow", ARCHERY),
-                new TeleportArrow("teleport_arrow", ARCHERY),
+        registerAbilities(new MultiArrow("multi_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_ARROWS),
+                new ExplosiveArrow("explosive_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_EXPLOSION),
+                new TeleportArrow("teleport_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.DECREASE_SELFDAMAGE),
                 new SplitShot("split_shot", ARCHERY));
     }
 

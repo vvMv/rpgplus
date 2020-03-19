@@ -57,4 +57,13 @@ return instance;
         return abilities.stream().filter(a -> a.getSkillType() == st).collect(Collectors.toList());
     }
 
+    public static Ability getAbility(String name) {
+        for (Ability ability : abilities) {
+            if (ability.getName().equalsIgnoreCase(name)) {
+                return ability;
+            }
+        }
+        return null;
+    }
+
 }

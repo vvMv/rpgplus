@@ -5,6 +5,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -33,7 +35,8 @@ public class Stamina extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        registerAbilities(new Dash("dash", getSkillType()));
+        registerAbilities(new Dash("dash", getSkillType(), AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.INCREASE_SPEED),
+                new Health("health", getSkillType(), AbilityAttribute.INCREASE_HEARTS));
     }
 
     @Override

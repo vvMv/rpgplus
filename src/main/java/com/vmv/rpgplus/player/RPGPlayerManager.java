@@ -10,8 +10,7 @@ import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
-import com.vmv.rpgplus.skill.SkillManager;
-import com.vmv.rpgplus.skill.SkillType;
+import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -19,6 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -39,7 +39,7 @@ public class RPGPlayerManager implements Listener {
     public RPGPlayerManager() {
         instance = this;
         players = new ArrayList<RPGPlayer>();
-        registerPlayers();
+        new RPGPlayerSettingsMenu();
         RPGPlus.getInstance().registerEvents(this);
     }
 
@@ -68,23 +68,35 @@ public class RPGPlayerManager implements Listener {
         players.add(p);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void checkJoin(PlayerJoinEvent e) {
         if (getPlayer(e.getPlayer().getUniqueId()) == null) {
             InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
             HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
             HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
+            HashMap<String, Double> pointAllocations = new HashMap<String, Double>();
             for (SkillType s : SkillType.values()) {
                 xp.put(s, 0.0);
             }
             for (PlayerSetting setting : PlayerSetting.values()) {
                 settings.put(setting, setting.getDefaultValue());
             }
-            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp, settings));
+            for (Ability ability : AbilityManager.getAbilities()) {
+                for (AbilityAttribute attribute : ability.getAttributes()) {
+                    String loc = ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
+                    pointAllocations.put(loc, 0.0);
+                }
+            }
+            AbilityManager.getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> pointAllocations.put(ability.toString() + ":" + attribute.toString(), 0.0)));
+            addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp, settings, pointAllocations));
         }
 
         Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_experience(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
         Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_settings(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
+        Database.getInstance().executeSQL("INSERT OR IGNORE INTO player_allocations(uuid) VALUES('" + e.getPlayer().getUniqueId() + "')", true);
+
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(e.getPlayer());
+        Bukkit.getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), () -> { rp.sendAbilityPointReminder();}, 100);
     }
 
     @EventHandler
@@ -109,6 +121,7 @@ public class RPGPlayerManager implements Listener {
     @EventHandler
     public void onLevelUp(LevelModifyEvent e) {
 
+        if (e.getPlayer() == null) return;
         List<String> msg = FileManager.getLang().getStringList("level_up");
         Player p = e.getPlayer();
 
@@ -125,34 +138,6 @@ public class RPGPlayerManager implements Listener {
             p.playSound(p.getLocation(), Sound.valueOf(RPGPlus.getInstance().getConfig().getString("sounds.level_up")), 1f, 1f);
         } catch (Exception e2) {
             InformationHandler.printMessage(InformationType.ERROR, "Config value for sounds.level_up '" + RPGPlus.getInstance().getConfig().getString("sounds.level_up") + "' is invalid");
-        }
-    }
-
-    private void registerPlayers() {
-        ResultSet data = Database.getInstance().selectData("SELECT * FROM player_experience cross join player_settings");
-        //ResultSet settings = Database.getInstance().selectData("SELECT * FROM player_experience");
-
-        try {
-            int c = 0;
-            while (data.next()) {
-                HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
-                HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
-                UUID uuid = UUID.fromString(data.getString("uuid"));
-                for (SkillType s : SkillType.values()) {
-                    xp.put(s, data.getDouble(s.toString().toLowerCase()));
-                }
-                for (PlayerSetting setting : PlayerSetting.values()) {
-                    settings.put(setting, data.getString(setting.toString().toLowerCase()));
-                }
-                RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp, settings));
-                c++;
-            }
-            InformationHandler.printMessage(InformationType.INFO, "Registered " + c + " RPG Players");
-        } catch (SQLException e) {
-            InformationHandler.printMessage(InformationType.ERROR, "The connection to the database has been closed");
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            InformationHandler.printMessage(InformationType.INFO, "There are no RPG Players");
         }
     }
 }

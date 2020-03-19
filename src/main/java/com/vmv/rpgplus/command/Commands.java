@@ -4,15 +4,17 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.PlayerSetting;
+import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
-import com.vmv.rpgplus.skill.Skill;
-import com.vmv.rpgplus.skill.SkillManager;
-import com.vmv.rpgplus.skill.SkillType;
+import com.vmv.rpgplus.skill.*;
+import com.vmv.rpgplus.skill.stamina.Health;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -24,7 +26,7 @@ public class Commands extends BaseCommand {
     @Default
     @CommandPermission("rpgplus.player")
     public void onDefault(Player p) {
-        RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+        RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
     }
 
     @Subcommand("menu|settings")
@@ -32,25 +34,26 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players")
     public void displayMenu(Player p, @Optional OnlinePlayer target) {
         if (p.hasPermission("rpgplus.admin") && target != null) {
-            RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
+            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
         } else {
-            RPGPlayerSettingsMenu.openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
         }
     }
 
     @Subcommand("stats|stat|level|levels")
     @CommandPermission("rpgplus.player|rpgplus.stats")
     public void displayStats(Player p) {
-        RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
+        for (Skill skill : SkillManager.getInstance().getSkills()) {
+            ChatUtil.sendChatMessage(p, skill.getSkillType().toString().toLowerCase() + ": " + RPGPlayerManager.getInstance().getPlayer(p).getLevel(skill.getSkillType()));
+        }
+        //RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
     }
 
     @Subcommand("debug")
     @CommandPermission("rpgplus.debug")
     public void debug(Player player) {
-        player.sendMessage(RPGPlayerManager.getInstance().getPlayer(player).getExperience(SkillType.ARCHERY) + "");
-        player.sendMessage(RPGPlayerManager.getInstance().getPlayer(player).getLevel(SkillType.ARCHERY) + "");
-        //SkillManager.getInstance().getSkills().forEach(skill -> sender.sendMessage(RPGPlayerManager.getInstance().getPlayer((Player) sender).getLevel(skill.getSkillType()) + " " + skill.getSkillType()));
-        //sender.sendMessage("");
+        //RPGPlayerManager.getInstance().getPlayer(player).addPointAllocation(AbilityManager.getAbility("dash"), AbilityAttribute.INCREASE_SPEED);
+        //InformationHandler.printMessage(InformationType.DEBUG, "dash speed points: " + RPGPlayerManager.getInstance().getPlayer(player).getPointAllocation(AbilityManager.getAbility("dash"), AbilityAttribute.INCREASE_SPEED));
     }
 
     @Subcommand("setlevel|setlev|setlvl")

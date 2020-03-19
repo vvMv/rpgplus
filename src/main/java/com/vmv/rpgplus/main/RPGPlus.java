@@ -32,12 +32,12 @@ public class RPGPlus extends JavaPlugin {
         new InformationHandler(this);
         new DependencyManager(this);
         new CommandManager(this);
-        new DatabaseManager(this);
         new FileManager(this);
         new BarTimerManager(this);
         new SkillManager();
         new AbilityManager();
         new RPGPlayerManager();
+        new DatabaseManager(this);
         registerEvents(PrivateInventory.getListener());
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(ArmorStand.class).forEach(entity -> { if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove(); }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));

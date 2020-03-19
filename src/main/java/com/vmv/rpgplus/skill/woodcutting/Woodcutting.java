@@ -7,6 +7,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
@@ -31,7 +32,7 @@ public class Woodcutting extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        registerAbilities(new TreeFeller("tree_feller", WOODCUTTING));
+        registerAbilities(new TreeFeller("tree_feller", WOODCUTTING, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION));
     }
 
     @Override

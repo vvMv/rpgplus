@@ -3,8 +3,10 @@ package com.vmv.rpgplus.skill.archery;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
+import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.*;
@@ -20,12 +22,9 @@ import org.bukkit.util.Vector;
 
 public class MultiArrow extends Ability implements Listener {
 
-    private int extra;
-
-    public MultiArrow(String name, SkillType st) {
-        super(name, st);
+    public MultiArrow(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         this.description = "Fire multiple arrows one after another";
-        this.extra = getAbilityConfigSection().getInt("extra");
     }
 
     @EventHandler
@@ -36,8 +35,10 @@ public class MultiArrow extends Ability implements Listener {
         final Vector velocity = e.getProjectile().getVelocity();
         double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
         Player p = ((Player) e.getEntity());
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(p);
         double firstArrowSpeed = velocity.length();
-        for (int i = 0; i < (playerLevel / extra) + 1; i++) {
+        int arrowAmount = (int) rp.getAttributeValue(this, AbilityAttribute.INCREASE_ARROWS);
+        for (int i = 0; i < arrowAmount; i++) {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {

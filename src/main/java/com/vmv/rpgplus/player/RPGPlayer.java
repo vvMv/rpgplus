@@ -4,8 +4,10 @@ import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
+import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.database.PlayerSetting;
+import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
@@ -16,33 +18,29 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class RPGPlayer {
     private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
-    //private HashMap<Ability, Boolean> enabledAbilities;
     private HashMap<PlayerSetting, String> settings;
+    private HashMap<String, Double> pointAllocations;
     private UUID uuid;
 
-    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp, HashMap<PlayerSetting, String> settings) {
+    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp, HashMap<PlayerSetting, String> settings, HashMap<String, Double> pointAllocations) {
         this.uuid = uuid;
         this.exp = exp;
         this.settings = settings;
+        this.pointAllocations = pointAllocations;
+        //AbilityManager.getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> setPointAllocation(ability, attribute, 0, false))); //set all ability and attribute values
+
         this.activeAbility = new HashMap<SkillType, Ability>();
-        //this.enabledAbilities = new HashMap<Ability, Boolean>();
-
-        //TODO add from database entry
-//        for (Skill skill : SkillManager.getInstance().getSkills()) {
-//            for (Ability ability : AbilityManager.getAbilities(skill.getSkillType())) {
-//                enableAbility.put(ability, true);
-//            }
-//        }
-
     }
 
     public HashMap<PlayerSetting, String> getSettings() {
@@ -93,6 +91,71 @@ public class RPGPlayer {
 
     public void resetXP(SkillType skill) {
         setXP(skill, 0);
+    }
+
+    public double getAttributeValue(Ability ability, AbilityAttribute attribute) {
+        double base = attribute.getBaseValue(ability);
+        double playersAllocation = getPointAllocation(ability, attribute);
+        double attributeIncrease = attribute.getValuePerPoint(ability);
+        return base + (playersAllocation * attributeIncrease);
+    }
+
+    public double getAbilityPoints(Skill skill) {
+        double truePoints = skill.getPointsPerLevel() * getLevel(skill.getSkillType());
+        double spentPoints = 0;
+        for (Ability ability : AbilityManager.getAbilities(skill.getSkillType()) ) {
+            for (AbilityAttribute attribute : ability.getAttributes()) {
+                spentPoints += getPointAllocation(ability, attribute);
+            }
+        }
+        return truePoints - spentPoints;
+    }
+
+    public double getAbilityPoints() {
+        int count = 0;
+        for (Skill skill : SkillManager.getInstance().getSkills()) {
+            count += getAbilityPoints(skill);
+        }
+        return count;
+    }
+
+    public double getPointAllocation(Ability ability, AbilityAttribute attribute) {
+        String key = ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
+        if (pointAllocations.containsKey(key)) {
+            return pointAllocations.get(key);
+        }
+        return 0;
+    }
+
+    public double getOverallPoints(Skill skill) {
+        return skill.getPointsPerLevel() * getLevel(skill.getSkillType());
+    }
+
+    public boolean attemptAddPointAllocation(Ability ability, AbilityAttribute attribute) {
+        Player p = Bukkit.getPlayer(getUuid());
+        if (getPointAllocation(ability, attribute) >= attribute.getValueMaxPoint(ability)) {
+            return false;
+        }
+        if (getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) <= 0) {
+            return false;
+        }
+        setPointAllocation(ability, attribute, getPointAllocation(ability, attribute) + 1, true);
+        return true;
+    }
+
+    public void setPointAllocation(Ability ability, AbilityAttribute attribute, double value, boolean callEvent) {
+        pointAllocations.put(ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase(), value);
+        if (callEvent) { Bukkit.getPluginManager().callEvent(new PointModifyEvent(this, ability)); }
+
+        //Checks if the point data already queued to save
+        String s = getUuid().toString() + ":" + ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
+        for(String data : DatabaseManager.getInstance().getPointDataToSave()) {
+            if (s.equalsIgnoreCase(data)) {
+                return;
+            }
+        }
+        DatabaseManager.getInstance().getPointDataToSave().add(s);
+
     }
 
     public void toggleScoreboard() {
@@ -169,6 +232,27 @@ public class RPGPlayer {
         DatabaseManager.getInstance().getExpDataToSave().add(s);
 
 
+    }
+
+    public void sendAbilityPointReminder() {
+        try {
+            if (getAbilityPoints() > 0) {
+
+                List<String> reminder = FileManager.getLang().getStringList("points_reminder");
+                StringBuilder sb = new StringBuilder();
+
+                for (Skill skill : SkillManager.getInstance().getSkills()) {
+                    if (getAbilityPoints(skill) < 1) continue;
+                    sb.append(WordUtils.capitalizeFully(skill.getSkillType().name()) + " " + (int) getAbilityPoints(skill) + ", ");
+                }
+
+                sb.deleteCharAt(sb.length() - 2);
+
+                for (String s : reminder) {
+                    ChatUtil.sendCenteredChatMessage(Bukkit.getPlayer(getUuid()), s.replaceAll("%a", sb.toString()));
+                }
+            }
+        } catch (Exception e) {}
     }
 
 }

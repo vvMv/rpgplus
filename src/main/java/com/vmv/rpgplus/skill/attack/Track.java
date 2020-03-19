@@ -4,6 +4,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
@@ -15,8 +16,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class Track extends Ability implements Listener {
     
-    public Track(String name, SkillType st) {
-        super(name, st);
+    public Track(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         this.description = "Makes the target glow";
     }
 
@@ -33,7 +34,7 @@ public class Track extends Ability implements Listener {
             public void run() {
                 e.getEntity().setGlowing(false);
             }
-        }, (long) (getDuration() * 20));
+        }, (long) (getDuration((Player) e.getDamager()) * 20));
 
         e.getEntity().setGlowing(true);
     }

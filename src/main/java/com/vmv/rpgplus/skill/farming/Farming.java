@@ -38,9 +38,6 @@ public class Farming extends Skill implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void checkBlockBreak(BlockBreakEvent e) {
-
-        InformationHandler.printMessage(InformationType.DEBUG, "broken " + e.getBlock().getY());
-
         if (e.isCancelled()) return;
         if (!super.hasBuildPermission(e.getBlock().getLocation(), e.getPlayer()) || !super.hasMaterial(e.getPlayer())) return;
         if (!farmed.contains(e.getBlock().toString())) {
@@ -50,7 +47,6 @@ public class Farming extends Skill implements Listener {
                     if (e.getBlock().getRelative(BlockFace.UP).getType() == e.getBlock().getType()) {
                         InformationHandler.printMessage(InformationType.DEBUG, "true");
                         checkBlockBreak(new BlockBreakEvent(e.getBlock().getRelative(BlockFace.UP), e.getPlayer()));
-                        //new BlockBreakEvent(e.getBlock().getRelative(BlockFace.UP), e.getPlayer());
                     }
                     double xp = MathUtils.getRandom(getConfig().getDouble("experience." + b + ".max"), getConfig().getDouble("experience." + b + ".min"));
                     RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(SkillType.FARMING, xp);

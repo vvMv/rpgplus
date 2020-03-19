@@ -1,9 +1,12 @@
 package com.vmv.rpgplus.skill.stamina;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,12 +22,10 @@ import java.util.UUID;
 public class Dash extends Ability implements Listener {
 
     private HashMap<UUID, Integer> count = new HashMap<UUID, Integer>();
-    private double durationIncrease, durationMaximum, speed;
+    private double speed;
 
-    public Dash(String name, SkillType st) {
-        super(name, st);
-        this.durationIncrease = getAbilityConfigSection().getDouble("durationIncrease");
-        this.durationMaximum = getAbilityConfigSection().getDouble("durationMaximum") * 20;
+    public Dash(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         this.speed = getAbilityConfigSection().getDouble("speed");
     }
 
@@ -52,10 +53,10 @@ public class Dash extends Ability implements Listener {
             if (count.get(p.getUniqueId()) >= 3) {
                 count.put(p.getUniqueId(), 0);
                 if (onCooldown(p)) return;
-                double finalDuration = (20 * (duration + (durationIncrease * level)));
-                finalDuration = finalDuration > durationMaximum ? durationMaximum : finalDuration; //If duration longer than max set to max
+                double finalDuration = (20 * getDuration(p));
+                double finalSpeed = speed + (AbilityAttribute.INCREASE_SPEED.getValuePerPoint(this) * rp.getPointAllocation(this, AbilityAttribute.INCREASE_SPEED));
                 setActive(e.getPlayer(), finalDuration / 20 );
-                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) finalDuration, (int) speed));
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) finalDuration, (int) finalSpeed));
             }
         }
     }

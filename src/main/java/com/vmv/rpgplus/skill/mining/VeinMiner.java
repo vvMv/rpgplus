@@ -4,6 +4,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,8 +25,8 @@ public class VeinMiner extends Ability implements Listener {
     public static List<Block> checkedBlocks;
     public int maxSize, delay;
 
-    public VeinMiner(String name, SkillType st) {
-        super(name, st);
+    public VeinMiner(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         maxSize = getAbilityConfigSection().getInt("maxsize");
         delay = getAbilityConfigSection().getInt("delay");
         try {
@@ -39,7 +40,7 @@ public class VeinMiner extends Ability implements Listener {
     public void blockBreakEvent(BlockBreakEvent e) {
 
         if (!isHoldingAbilityItem(e.getPlayer())) return;
-        if (checkReady(e.getPlayer())) setActive(e.getPlayer(), getDuration());
+        if (checkReady(e.getPlayer())) setActive(e.getPlayer(), getDuration(e.getPlayer()));
         if (!isActive(e.getPlayer())) return;
 
         if (!blocks.contains(e.getBlock().getType())) return;

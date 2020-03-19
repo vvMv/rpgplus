@@ -2,6 +2,7 @@ package com.vmv.rpgplus.skill.mining;
 
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
@@ -28,7 +29,8 @@ public class Mining extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        registerAbilities(new VeinMiner("vein_miner", MINING), new OreLocator("ore_locator", MINING));
+        registerAbilities(new VeinMiner("vein_miner", MINING, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.DECREASE_COOLDOWN),
+                new OreLocator("ore_locator", MINING, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.INCREASE_RANGE));
     }
 
     @Override

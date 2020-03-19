@@ -23,8 +23,9 @@ public abstract class Skill implements Listener {
 
     private boolean enabled;
     private SkillType skillType;
-    private ChatColor expDropColor;
+    private ChatColor skillColor;
     private int maxLevel = 100;
+    private double pointsPerLevel = 0.5;
     private List<Material> materials = new ArrayList<>();
     private Material display = Material.BARRIER;
     private AbilityCycleType cycleType;
@@ -36,9 +37,10 @@ public abstract class Skill implements Listener {
 
     public void reload() {
         FileManager.getSkillFile(getSkillType()).reload();
-        this.expDropColor = getSkillColor();
+        this.skillColor = getSkillColor();
         this.cycleType = getCycleType();
         this.maxLevel = getConfig().getInt("max_level");
+        this.pointsPerLevel = getConfig().getDouble("points_per_level");
         this.enabled = getConfig().getBoolean("enabled");
         try {
             getConfig().getStringList("materials").forEach(m -> materials.add(Material.valueOf(m)));
@@ -76,6 +78,10 @@ public abstract class Skill implements Listener {
         return display;
     }
 
+    public double getPointsPerLevel() {
+        return pointsPerLevel;
+    }
+
     public AbilityCycleType getCycleType() {
         try {
             return AbilityCycleType.valueOf(getConfig().getString("ability_cycle"));
@@ -89,7 +95,7 @@ public abstract class Skill implements Listener {
         try {
             return ChatColor.valueOf(getConfig().getString("skill_color"));
         } catch (Exception e) {
-            InformationHandler.printMessage(InformationType.WARN, "Invalid configuration value expDropColor at " + getSkillType().name().toLowerCase() + ".yml");
+            InformationHandler.printMessage(InformationType.WARN, "Invalid configuration value skill_color at " + getSkillType().name().toLowerCase() + ".yml");
         }
         return ChatColor.WHITE;
     }

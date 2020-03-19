@@ -6,6 +6,7 @@ import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,8 +36,8 @@ public class OreLocator extends Ability implements Listener {
     public static List<MagmaCube> magmas = new ArrayList<>();
     private static Scoreboard scoreboard;
 
-    public OreLocator(String name, SkillType st) {
-        super(name, st);
+    public OreLocator(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         try { getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(Material.valueOf(b))); } catch (IllegalArgumentException ex) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.ore_locator.blocks", ex.getMessage(), "This error is coming from mining.yml" ); }
         registerColorTeams();
     }
@@ -65,7 +66,7 @@ public class OreLocator extends Ability implements Listener {
 
         if (!isHoldingAbilityItem(e.getPlayer())) return;
         if (checkReady(e.getPlayer())) {
-            setActive(e.getPlayer(), getDuration());
+            setActive(e.getPlayer(), getDuration(e.getPlayer()));
             locate(e.getPlayer());
         }
     }
@@ -84,12 +85,8 @@ public class OreLocator extends Ability implements Listener {
 
     public void locate(Player player) {
 
-        double rangemax = getAbilityConfigSection().getDouble("range_max");
-        int radius = (int) (getAbilityConfigSection().getDouble("range_base") + (getAbilityConfigSection().getDouble("range_per_level") * RPGPlayerManager.getInstance().getPlayer(player).getLevel(SkillType.MINING)));
-        if (radius > rangemax) radius = (int) rangemax;
-
-
-        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), radius);
+        int range = (int) RPGPlayerManager.getInstance().getPlayer(player).getAttributeValue(this, AbilityAttribute.INCREASE_RANGE);
+        ArrayList<HashSet<Block>> veins = getOreVeins(player.getLocation().getBlock(), range);
 
         for (HashSet<Block> vein : veins) {
 
@@ -114,7 +111,7 @@ public class OreLocator extends Ability implements Listener {
             sh.setGlowing(true);
             sh.setAI(false);
             sh.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000, 10));
-            sh.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 100));
+            sh.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000, 100));
             sh.setCollidable(false);
             sh.setGravity(false);
             sh.setInvulnerable(true);
@@ -131,7 +128,7 @@ public class OreLocator extends Ability implements Listener {
                     magmas.remove(sh);
                     highlighted.remove(l);
                 }
-            }, (long) (getDuration() * 20));
+            }, (long) (getDuration(player) * 20));
 
 
         }

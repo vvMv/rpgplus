@@ -1,6 +1,10 @@
 package com.vmv.rpgplus.skill.archery;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
+import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -18,8 +22,8 @@ public class TeleportArrow extends Ability implements Listener {
     private static final int TELEPORT_INVALID_TIME_MILLIS = 10000;
     private HashMap<Projectile, Long> arrows;
 
-    public TeleportArrow(String name, SkillType st) {
-        super(name, st);
+    public TeleportArrow(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         this.description = "Fire an arrow that teleports you to its location";
         this.arrows = new HashMap<Projectile, Long>();
     }
@@ -44,7 +48,7 @@ public class TeleportArrow extends Ability implements Listener {
             Player p = (Player) e.getEntity().getShooter();
             Location loc = e.getEntity().getLocation();
             p.teleport(new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), p.getLocation().getYaw(), p.getLocation().getPitch()));
-            p.damage(getAbilityConfigSection().getInt("selfdamage"));
+            p.damage(RPGPlayerManager.getInstance().getPlayer(p).getAttributeValue(this, AbilityAttribute.DECREASE_SELFDAMAGE));
             e.getEntity().setGlowing(false);
             arrows.remove(e.getEntity());
         }
