@@ -30,9 +30,17 @@ ability:
   split_shot:
     enabled: true
     level: 10
-    cooldown: 5
+    arrows: 3
+    cooldown: 0
     angle: 45                     #The total angle in front of the player the arrow will split
     extra: 10                     #This number defines how many levels until another arrow is fired
+    attributes:
+      decrease_cooldown:
+        per_point: -1
+        max_point: 5
+      increase_arrows:
+        per_point: 2
+        max_point: 5
   explosive_arrow:
     enabled: true
     level: 20

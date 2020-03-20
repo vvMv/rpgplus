@@ -42,7 +42,7 @@ public class Archery extends Skill implements Listener {
         registerAbilities(new MultiArrow("multi_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_ARROWS),
                 new ExplosiveArrow("explosive_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_EXPLOSION),
                 new TeleportArrow("teleport_arrow", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.DECREASE_SELFDAMAGE),
-                new SplitShot("split_shot", ARCHERY));
+                new SplitShot("split_shot", ARCHERY, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_ARROWS));
     }
 
     @Override

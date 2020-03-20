@@ -2,8 +2,10 @@ package com.vmv.rpgplus.skill.archery;
 
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
+import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -26,10 +28,9 @@ public class SplitShot extends Ability implements Listener {
 
     private int extra;
 
-    public SplitShot(String name, SkillType st) {
-        super(name, st);
+    public SplitShot(String name, SkillType st, AbilityAttribute... attributes) {
+        super(name, st, attributes);
         this.description = "fire a rally of arrows";
-        this.extra = getAbilityConfigSection().getInt("extra");
         this.cooldown = 0;
     }
 
@@ -38,11 +39,12 @@ public class SplitShot extends Ability implements Listener {
 
         if (!checkReady(e.getEntity())) return;
 
+        Player p = (Player) e.getEntity();
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(p);
         double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
-        int amount = ((int) (playerLevel / extra)) + 1;
+        int amount = (int) rp.getAttributeValue(this, AbilityAttribute.INCREASE_ARROWS);
         int angle = getAbilityConfigSection().getInt("angle");
         int separation = angle / amount;
-        Player p = (Player) e.getEntity();
 
         Location loc = e.getEntity().getLocation();
 
