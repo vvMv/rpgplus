@@ -29,7 +29,7 @@ public class Mining extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        registerAbilities(new VeinMiner("vein_miner", MINING, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.DECREASE_COOLDOWN),
+        registerAbilities(new VeinMiner("vein_miner", MINING, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION),
                 new OreLocator("ore_locator", MINING, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.INCREASE_RANGE));
     }
 
