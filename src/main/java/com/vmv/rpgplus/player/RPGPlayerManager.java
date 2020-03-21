@@ -7,9 +7,9 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.PlayerSetting;
-import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -20,12 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +94,11 @@ public class RPGPlayerManager implements Listener {
 
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(e.getPlayer());
         Bukkit.getScheduler().scheduleSyncDelayedTask(RPGPlus.getInstance(), () -> { rp.sendAbilityPointReminder();}, 100);
+    }
+
+    @EventHandler
+    public void onitempickup(EntityPickupItemEvent e) {
+        e.setCancelled(true);
     }
 
     @EventHandler

@@ -4,17 +4,12 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.chat.ChatUtil;
-import com.vmv.rpgplus.database.PlayerSetting;
-import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
 import com.vmv.rpgplus.skill.*;
-import com.vmv.rpgplus.skill.stamina.Health;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -102,6 +97,44 @@ public class Commands extends BaseCommand {
         }
     }
 
+    @Subcommand("setattribute|setatt")
+    @CommandPermission("rpgplus.setattribute")
+    @CommandCompletion("@players @abilities @attributes @range:1-10 @boolean")
+    public void setAttribute(CommandSender p, OfflinePlayer player, String ability, String attribute, int points, @Optional String forceUnsafe) {
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
+        Ability ab = AbilityManager.getAbility(ability);
+        AbilityAttribute at = AbilityAttribute.valueOf(attribute.toUpperCase());
+        if (forceUnsafe != null) {
+            if (!forceUnsafe.equalsIgnoreCase("true") && !forceUnsafe.equalsIgnoreCase("false")) return;
+        }
+        if (!ab.getAttributes().contains(at)) {
+            ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_attribute_invalid").replace("%ab", ability).replace("%at", attribute));
+            return;
+        }
+
+        if (rp.attemptSetPointAllocation(ab, at, points, Boolean.valueOf(forceUnsafe))) {
+            ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_attribute_sender").replace("%ab", ability).replace("%at", attribute).replace("%n", points + "").replace("%p", player.getName()));
+            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_attribute_receiver").replace("%ab", ability).replace("%at", attribute).replace("%n", points + "").replace("%p", p.getName()));
+        } else {
+            ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_attribute_failed").replace("%p", player.getName()));
+        }
+    }
+
+    @Subcommand("resetattributes|resetattribute|resetatt")
+    @CommandPermission("rpgplus.resetattribute")
+    @CommandCompletion("@players")
+    public void resetAttribute(CommandSender p, OfflinePlayer player) {
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
+        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_receiver").replace("%p", p.getName()));
+        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_sender").replace("%p", Bukkit.getPlayer(player.getName()).getName()));
+
+        for (Ability ability : AbilityManager.getAbilities()) {
+            for (AbilityAttribute attribute : ability.getAttributes()) {
+                rp.attemptSetPointAllocation(ability, attribute, 0, true);
+            }
+        }
+    }
+
     @Subcommand("reload|r|rl")
     @CommandPermission("rpgplus.reload")
     public void reloadConfigurations(CommandSender p) {
@@ -114,7 +147,7 @@ public class Commands extends BaseCommand {
             skill.reload();
         }
         ChatUtil.sendChatMessage(p, "&aAll configurations reloaded successfully.");
-        ChatUtil.sendChatMessage(p, "&cMajor configurations may require a server restart!");
+        ChatUtil.sendChatMessage(p, "&7Some configs may require a server restart!");
     }
 
 }

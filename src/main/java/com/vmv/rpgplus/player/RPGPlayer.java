@@ -7,21 +7,19 @@ import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.database.PlayerSetting;
+import com.vmv.rpgplus.event.ExperienceModifyEvent;
+import com.vmv.rpgplus.event.LevelModifyEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
-import com.vmv.rpgplus.event.ExperienceModifyEvent;
-import com.vmv.rpgplus.event.LevelModifyEvent;
 import fr.minuskube.netherboard.Netherboard;
 import fr.minuskube.netherboard.bukkit.BPlayerBoard;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -131,19 +129,21 @@ public class RPGPlayer {
         return skill.getPointsPerLevel() * getLevel(skill.getSkillType());
     }
 
-    public boolean attemptAddPointAllocation(Ability ability, AbilityAttribute attribute) {
+    public boolean attemptSetPointAllocation(Ability ability, AbilityAttribute attribute, int points,  boolean forceUnsafe) {
         Player p = Bukkit.getPlayer(getUuid());
-        if (getPointAllocation(ability, attribute) >= attribute.getValueMaxPoint(ability)) {
-            return false;
+        if (!forceUnsafe) {
+            if (points > attribute.getValueMaxPoint(ability) || points < 0) {
+                return false;
+            }
+            if (!(getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) > points - getPointAllocation(ability, attribute))) {
+                return false;
+            }
         }
-        if (getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) <= 0) {
-            return false;
-        }
-        setPointAllocation(ability, attribute, getPointAllocation(ability, attribute) + 1, true);
+        setPointAllocation(ability, attribute, points, true);
         return true;
     }
 
-    public void setPointAllocation(Ability ability, AbilityAttribute attribute, double value, boolean callEvent) {
+    private void setPointAllocation(Ability ability, AbilityAttribute attribute, double value, boolean callEvent) {
         pointAllocations.put(ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase(), value);
         if (callEvent) { Bukkit.getPluginManager().callEvent(new PointModifyEvent(this, ability)); }
 

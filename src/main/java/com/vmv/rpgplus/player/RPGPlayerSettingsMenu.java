@@ -1,8 +1,6 @@
 package com.vmv.rpgplus.player;
 
 import com.vmv.core.config.FileManager;
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.gui.Item;
 import com.vmv.core.minecraft.gui.PrivateInventory;
@@ -18,7 +16,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -127,13 +124,13 @@ public class RPGPlayerSettingsMenu {
             int count2 = 1;
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 boolean max = target.getPointAllocation(ability, attribute) >= attribute.getValueMaxPoint(ability) ? true : false;
-                boolean noPoints = target.getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) <= 0 ? true : false;
+                boolean noPoints = points <= 0 ? true : false;
                 boolean canLevel = !max && !noPoints;
                 menu.setItem(new ItemStack(max ? Material.PURPLE_STAINED_GLASS_PANE : noPoints ? Material.YELLOW_STAINED_GLASS_PANE : Material.GREEN_STAINED_GLASS_PANE), "&2&l" + WordUtils.capitalizeFully(attribute.name().replace("_", " ")), count + (9 * count2),
                         new PrivateInventory.ClickRunnable() {
                             @Override
                             public void run(InventoryClickEvent e) {
-                                if (target.attemptAddPointAllocation(ability, attribute)) {
+                                if (target.attemptSetPointAllocation(ability, attribute, (int) target.getPointAllocation(ability, attribute) + 1, false)) {
                                     sendConfirmedSound(p);
                                 } else {
                                     sendDeniedSound(p);
