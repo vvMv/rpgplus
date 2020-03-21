@@ -1,5 +1,6 @@
 package com.vmv.core.minecraft.misc;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
@@ -19,7 +20,7 @@ public class BarTimer {
         this.durationLeft = duration * 20;
         this.title = title;
         this.player = p;
-        bossBar = Bukkit.createBossBar(ChatColor.translateAlternateColorCodes('&', title), BarColor.BLUE, BarStyle.SOLID);
+        bossBar = Bukkit.createBossBar(ChatColor.translateAlternateColorCodes('&', WordUtils.capitalizeFully(title).replace("_", " ")), BarColor.BLUE, BarStyle.SOLID);
         bossBar.addPlayer(p);
         BarTimerManager.addBarCooldown(this, p, title);
     }
