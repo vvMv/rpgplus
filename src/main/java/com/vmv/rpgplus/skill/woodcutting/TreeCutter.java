@@ -35,10 +35,11 @@ public class TreeCutter extends BukkitRunnable {
     @Override
     public void run() {
         blocks.add(startBlock);
-        runBlockLoop(startBlock, startBlock.getX(), startBlock.getZ(), 0);
+        runBlockLoop(startBlock, startBlock.getX(), startBlock.getZ());
 
         int c = 0;
         for (Block b : blocks) {
+            if (c >= maxsize) break;
             Bukkit.getServer().getScheduler().runTaskLater(RPGPlus.getInstance(), () -> {
                 Location center = b.getLocation().add(0.5, 0.5, 0.5);
                 for (ItemStack stack : b.getDrops()) {
@@ -56,14 +57,13 @@ public class TreeCutter extends BukkitRunnable {
         this.cancel();
     }
 
-    public void runBlockLoop(Block b1, final int x1, final int z1, int size) {
+    public void runBlockLoop(Block b1, final int x1, final int z1) {
         for (int x = -2; x <= 2; x++) {
             for (int y = -2; y <= 2; y++) {
                 for (int z = -2; z <= 1; z++) {
                     if (x == 0 && y == 0 && z == 0)
                         continue;
 
-                    if (size >= maxsize) break;
                     Block b2 = b1.getRelative(x, y, z);
                     String s = b2.getX() + ":" + b2.getY() + ":" + b2.getZ();
 
@@ -78,7 +78,7 @@ public class TreeCutter extends BukkitRunnable {
                     if (!comparisonBlockArray.contains(s)) {
                         comparisonBlockArray.add(s);
                         blocks.add(b2);
-                        this.runBlockLoop(b2, x1, z1, size++);
+                        this.runBlockLoop(b2, x1, z1);
                     }
                 }
             }
