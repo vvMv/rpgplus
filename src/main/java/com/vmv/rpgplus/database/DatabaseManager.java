@@ -13,7 +13,6 @@ import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import javax.management.Attribute;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -41,9 +40,7 @@ public class DatabaseManager {
     }
 
     public void savePlayerData(boolean aSync) {
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Saving player data... [" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + "]");
         Instant start = Instant.now();
-
         expDataToSave.forEach(data -> {
             String uuid = data.split(":")[0];
             String skill = data.split(":")[1].toUpperCase();
@@ -62,22 +59,10 @@ public class DatabaseManager {
             String attribute = data.split(":")[2].toLowerCase();
             double points = RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getPointAllocation(AbilityManager.getAbility(ability), AbilityAttribute.valueOf(attribute.toUpperCase()));
             Database.getInstance().updateData("player_allocations", "'" + ability + " " + attribute + "'", points, "uuid", "=", uuid, aSync);
-
-
-            //Database.getInstance().insertData("player_point_allocations", "uuid, ability, attribute, points", "'" + uuid + "', '" + ability + "', '" + attribute + "', '" + points + "'", aSync);
-            //Database.getInstance().executeSQL("insert into player_point_allocations(uuid, ability, attribute, points) VALUES('" + uuid + "', '" + ability + "', '" + attribute + "', '" + points + "');", aSync);
-            //Database.getInstance().executeSQL("update player_point_allocations set points='" + points + "' where uuid = '" + uuid + "' AND " + "ability = '" + ability + "' AND " + "attribute = '" + attribute + "'" +
-            //        " IF @@ROWCOUNT=0 " + "insert into player_point_allocations(uuid, ability, attribute, points) VALUES('" + uuid + "', '" + ability + "', '" + attribute + "', '" + points + "');"
-             //       , aSync);
-            //            Database.getInstance().executeSQL("IF EXISTS(select * from player_point_allocations where uuid = '" + uuid + "' AND " + "ability = '" + ability + "' AND " + "attribute = '" + attribute + "'" + ") " +
-//                    "update player_point_allocations set points = '" + points + "' where uuid = '" + uuid + "' AND " + "ability = '" + ability + "' AND " + "attribute = '" + attribute + "' " +
-//                    "ELSE " +
-//                    "insert into player_point_allocations(uuid, ability, attribute, points) VALUES('" + uuid + "', '" + ability + "', '" + attribute + "', '" + points + "');", aSync);
-            //Database.getInstance().executeSQL("INSERT OR UPDATE INTO player_point_allocations(uuid, ability, attribute, points) VALUES('" + uuid + "', '" + ability + "', '" + attribute + "', '" + points + "');", aSync);
         });
 
         Instant finish = Instant.now();
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Finished! Took " + Duration.between(start, finish).toMillis() + "ms.");
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved! [" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + "] Took " + Duration.between(start, finish).toMillis() + "ms.");
         expDataToSave.clear();
         settingDataToSave.clear();
         pointDataToSave.clear();
