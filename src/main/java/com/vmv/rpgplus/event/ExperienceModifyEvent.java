@@ -1,17 +1,15 @@
 package com.vmv.rpgplus.event;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
-
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
+import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -78,6 +76,7 @@ public class ExperienceModifyEvent extends PlayerEvent implements Cancellable {
     private void spawnExperienceAnimation(double duration) {
         if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_animation")) return;
         if (player == null || player.getGameMode() == GameMode.SPECTATOR || player.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
+        if (!RPGPlayerManager.getInstance().getPlayer(player).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) return;
         ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
         as.setVisible(false);
         as.setSmall(true);

@@ -26,11 +26,11 @@ ability:
         max_point: 5
   health:
     enabled: true
-    hearts: 14                    #How many hearts should a player have by default
+    hearts: 20                    #How many hearts should a player have by default
     attributes:
       increase_hearts:
         per_point: 2              #How much health increase per point (1 = half a heart)
-        max_point: 23             #The maximum ability points that can be assigned
+        max_point: 20             #The maximum ability points that can be assigned
   stealth:
     enabled: true
     level: 15

@@ -1,11 +1,5 @@
 package com.vmv.core.minecraft.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,6 +14,8 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.*;
 
 public class PrivateInventory {
 
@@ -54,8 +50,12 @@ public class PrivateInventory {
 		return inv.getSize();
 	}
 
-	public void setItem(ItemStack itemstack, Integer slot, ClickRunnable executeOnClick) {
-		setItem(itemstack, null, slot, executeOnClick);
+	public void setItem(ItemStack itemstack, Integer slot) {
+		inv.setItem(slot, itemstack);
+	}
+
+	public void setItem(ItemStack itemstack, String displayname, Integer slot, String... description) {
+		setItem(itemstack, displayname, slot, null, description);
 	}
 
 	public void setItem(ItemStack itemstack, String displayname, Integer slot, ClickRunnable executeOnClick,
@@ -76,15 +76,13 @@ public class PrivateInventory {
 		}
 		is.setItemMeta(im);
 		inv.setItem(slot, is);
-		runnables.put(slot, executeOnClick);
+		if (executeOnClick != null) {
+			runnables.put(slot, executeOnClick);
+		}
 	}
 
 	public void removeItem(int slot) {
 		inv.setItem(slot, new ItemStack(Material.AIR));
-	}
-
-	public void setItem(ItemStack itemstack, Integer slot) {
-		inv.setItem(slot, itemstack);
 	}
 
 	public static Listener getListener() {

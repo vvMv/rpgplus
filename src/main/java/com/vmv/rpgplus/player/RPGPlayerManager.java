@@ -20,7 +20,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
@@ -97,11 +96,6 @@ public class RPGPlayerManager implements Listener {
     }
 
     @EventHandler
-    public void onitempickup(EntityPickupItemEvent e) {
-        e.setCancelled(true);
-    }
-
-    @EventHandler
     public void onExperienceGain(ExperienceModifyEvent e) {
         if (e.getPlayer() == null) return;
         int progress = Integer.parseInt(String.valueOf(MathUtils.round(e.getRPGPlayer().getLevel(e.getSkill()), 2)).split("\\.")[1]);
@@ -124,16 +118,18 @@ public class RPGPlayerManager implements Listener {
     public void onLevelUp(LevelModifyEvent e) {
 
         if (e.getPlayer() == null) return;
-        List<String> msg = FileManager.getLang().getStringList("level_up");
         Player p = e.getPlayer();
+        if (RPGPlayerManager.getInstance().getPlayer(p).getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES)) {
+            List<String> msg = FileManager.getLang().getStringList("level_up");
 
-        for (String s : msg) {
-            ChatUtil.sendCenteredChatMessage(p, s
-                    .replaceAll("%s", StringUtils.capitalize(e.getSkill().toString().toLowerCase()))
-                    .replaceAll("%f", String.valueOf(e.getFromLevel()))
-                    .replaceAll("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
-                    .replaceAll("%n", String.valueOf(e.getLevel() + 1))
-                    .replaceAll("%t", String.valueOf(e.getLevel())));
+            for (String s : msg) {
+                ChatUtil.sendCenteredChatMessage(p, s
+                        .replace("%s", StringUtils.capitalize(e.getSkill().toString().toLowerCase()))
+                        .replace("%f", String.valueOf(e.getFromLevel()))
+                        .replace("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
+                        .replace("%n", String.valueOf(e.getLevel() + 1))
+                        .replace("%t", String.valueOf(e.getLevel())));
+            }
         }
 
         try {

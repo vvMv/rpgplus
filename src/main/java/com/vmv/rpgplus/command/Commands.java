@@ -10,6 +10,7 @@ import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
 import com.vmv.rpgplus.skill.*;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -19,13 +20,12 @@ import org.bukkit.entity.Player;
 public class Commands extends BaseCommand {
 
     @Default
-    @CommandPermission("rpgplus.player")
     public void onDefault(Player p) {
         RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
     }
 
     @Subcommand("menu|settings")
-    @CommandPermission("rpgplus.player|rpgplus.menu")
+    @CommandPermission("rpgplus.menu")
     @CommandCompletion("@players")
     public void displayMenu(Player p, @Optional OnlinePlayer target) {
         if (p.hasPermission("rpgplus.admin") && target != null) {
@@ -36,12 +36,20 @@ public class Commands extends BaseCommand {
     }
 
     @Subcommand("stats|stat|level|levels")
-    @CommandPermission("rpgplus.player|rpgplus.stats")
-    public void displayStats(Player p) {
-        for (Skill skill : SkillManager.getInstance().getSkills()) {
-            ChatUtil.sendChatMessage(p, skill.getSkillType().toString().toLowerCase() + ": " + RPGPlayerManager.getInstance().getPlayer(p).getLevel(skill.getSkillType()));
+    @CommandPermission("rpgplus.stats")
+    @CommandCompletion("@players")
+    public void displayStats(Player p, @Optional OnlinePlayer target) {
+        RPGPlayer pl = target == null ? RPGPlayerManager.getInstance().getPlayer(p) : RPGPlayerManager.getInstance().getPlayer(target.getPlayer());
+
+        for (String stats_display : FileManager.getLang().getStringList("stats_display")) {
+            if (stats_display.contains("%s")) {
+                for (Skill skill : SkillManager.getInstance().getSkills()) {
+                    ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%l", String.valueOf(pl.getLevel(skill.getSkillType()))));
+                }
+                continue;
+            }
+            ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%p", Bukkit.getOfflinePlayer(pl.getUuid()).getName()));
         }
-        //RPGPlayerManager.getInstance().getPlayer(p).toggleScoreboard();
     }
 
     @Subcommand("debug")

@@ -1,15 +1,16 @@
 package com.vmv.rpgplus.skill.fishing;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+
+import java.util.HashMap;
 
 public class Fishing extends Skill implements Listener {
 
@@ -44,6 +45,18 @@ public class Fishing extends Skill implements Listener {
                     break;
                 }
             }
+
+
+            HashMap<Player, Integer> allCanes = new HashMap<>();
+
+            for (String configPlayer : getConfig().getConfigurationSection("Canes").getKeys(false)) {
+                Player p = Bukkit.getPlayer(configPlayer);
+                int amount = getConfig().getInt("Canes." + configPlayer);
+                allCanes.put(p, amount);
+            }
+
+
+
             RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(SkillType.FISHING, xp);
         }
     }

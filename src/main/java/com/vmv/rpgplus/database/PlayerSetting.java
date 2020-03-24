@@ -28,7 +28,9 @@ public enum PlayerSetting {
     TREE_FELLER("1"),
 
     //Misc
-    SCOREBOARD("0");
+    SCOREBOARD("0"),
+    EXPERIENCE_POPUPS("1"),
+    LEVELUP_MESSAGES("1");
 
     private String defaultValue;
 

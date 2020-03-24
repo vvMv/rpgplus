@@ -51,6 +51,14 @@ public class RPGPlayer {
 
     public void setSettingValue(PlayerSetting setting , String value) {
         settings.put(setting, value);
+
+        String s = getUuid().toString() + ":" + setting.name();
+        for(String data : DatabaseManager.getInstance().getSettingDataToSave()) {
+            if (s.equalsIgnoreCase(data)) {
+                return;
+            }
+        }
+        DatabaseManager.getInstance().getSettingDataToSave().add(s);
     }
 
     public Ability getActiveAbility(SkillType st) {
@@ -179,6 +187,10 @@ public class RPGPlayer {
 
         int value = Double.valueOf(getSettingValue(setting)).intValue();
         return value == 1 ? true : false;
+    }
+
+    public void toggleSetting(PlayerSetting setting) {
+        setSettingValue(setting, getSettingBoolean(setting) ? "0" : "1");
     }
 
     public boolean hasAbilityEnabled(Ability a) {

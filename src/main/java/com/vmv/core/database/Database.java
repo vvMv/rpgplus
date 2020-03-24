@@ -1,19 +1,10 @@
 package com.vmv.core.database;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
-import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Database {
 
@@ -97,16 +88,8 @@ public class Database {
             ResultSet rs = stmt.executeQuery(sql);
             return rs;
         } catch (Exception e) {
-            InformationHandler.printMessage(InformationType.DEBUG, "error is here");
             System.out.println(e.getMessage());
         }
-//        } finally {
-//            try {
-//                getConnection().close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
         return null;
     }
 }

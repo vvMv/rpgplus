@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill.farming;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
@@ -45,7 +43,6 @@ public class Farming extends Skill implements Listener {
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
                 if (e.getBlock().getType() == Material.valueOf(b)) {
                     if (e.getBlock().getRelative(BlockFace.UP).getType() == e.getBlock().getType()) {
-                        InformationHandler.printMessage(InformationType.DEBUG, "true");
                         checkBlockBreak(new BlockBreakEvent(e.getBlock().getRelative(BlockFace.UP), e.getPlayer()));
                     }
                     double xp = MathUtils.getRandom(getConfig().getDouble("experience." + b + ".max"), getConfig().getDouble("experience." + b + ".min"));

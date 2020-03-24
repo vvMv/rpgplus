@@ -3,12 +3,17 @@ package com.vmv.rpgplus.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BukkitCommandManager;
 import com.google.common.collect.ImmutableList;
+import com.vmv.rpgplus.player.RPGPlayer;
+import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.SkillManager;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandManager {
@@ -41,6 +46,14 @@ public class CommandManager {
         });
         manager.getCommandCompletions().registerCompletion("boolean", a -> {
             return ImmutableList.of("true", "false");
+        });
+        manager.getCommandCompletions().registerCompletion("rpgplayers", a -> {
+            List<String> playernames = new ArrayList<>();
+            for (RPGPlayer player : RPGPlayerManager.getInstance().getPlayers()) {
+                if (Bukkit.getOfflinePlayer(player.getUuid()) == null) continue;
+                playernames.add(Bukkit.getOfflinePlayer(player.getUuid()).getName());
+            }
+            return playernames;
         });
     }
 
