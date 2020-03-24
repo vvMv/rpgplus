@@ -36,7 +36,7 @@ public class RPGPlus extends JavaPlugin {
         new AbilityManager();
         new RPGPlayerManager();
         new DatabaseManager(this);
-        new PlaceholderRequestEvent().register();
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {new PlaceholderRequestEvent().register();}
         registerEvents(PrivateInventory.getListener());
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(ArmorStand.class).forEach(entity -> { if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove(); }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClasses(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
