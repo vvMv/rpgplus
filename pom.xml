@@ -95,12 +95,6 @@
             <scope>provided</scope>
             <version>LATEST</version>
         </dependency>
-        <!--Netherboard-->
-        <dependency>
-            <groupId>fr.minuskube</groupId>
-            <artifactId>netherboard-bukkit</artifactId>
-            <version>LATEST</version>
-        </dependency>
     </dependencies>
 
     <build>

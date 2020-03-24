@@ -10,14 +10,9 @@ import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
-import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
-import fr.minuskube.netherboard.Netherboard;
-import fr.minuskube.netherboard.bukkit.BPlayerBoard;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -164,23 +159,6 @@ public class RPGPlayer {
         }
         DatabaseManager.getInstance().getPointDataToSave().add(s);
 
-    }
-
-    public void toggleScoreboard() {
-        if (RPGPlus.getInstance().getConfig().getBoolean("scoreboard.enabled")) {
-            Player p = Bukkit.getPlayer(this.uuid);
-            if (Netherboard.instance().getBoard(p) == null) {
-                BPlayerBoard board = Netherboard.instance().createBoard(p, ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("scoreboard_title")));
-
-                int index = 0;
-                for (Skill s : SkillManager.getInstance().getSkills()) {
-                    int num = (int) RPGPlayerManager.getInstance().getPlayer(p).getLevel(s.getSkillType());
-                    board.set(StringUtils.rightPad(s.getSkillColor() + WordUtils.capitalizeFully(s.getSkillType().toString()), 2) + " » " + ChatColor.RESET + num, index++);
-                }
-            } else {
-                Netherboard.instance().getBoard(p).delete();
-            }
-        }
     }
 
     public boolean getSettingBoolean(PlayerSetting setting) {
