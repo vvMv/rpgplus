@@ -16,8 +16,7 @@ points_reminder:
 stats_display:
       - '&6&m&l-------------------&f&l STATS &6&m&l-------------------'
       - ' '
-      - '&7&nSkill levels for %p'
-      - ' '
+      - '&7Total level for %p = %t'
       - '&e%s &f&l: &6%l'
       - ' '
       - '&6&m&l---------------------------------------------'
