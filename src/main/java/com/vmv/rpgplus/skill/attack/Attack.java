@@ -1,13 +1,9 @@
 package com.vmv.rpgplus.skill.attack;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
-import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
-import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -29,7 +25,8 @@ public class Attack extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        registerAbilities(new Track("track", ATTACK, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION));
+        registerAbilities(new Track("track", ATTACK, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION),
+                new LifeSteal("life_steal", ATTACK, AbilityAttribute.INCREASE_LIFE_STEAL, AbilityAttribute.INCREASE_LIFE_STEAL_CHANCE));
     }
 
     @Override

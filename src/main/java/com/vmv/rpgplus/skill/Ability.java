@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
@@ -143,7 +141,7 @@ public abstract class Ability {
         return (duration + (AbilityAttribute.INCREASE_DURATION.getValuePerPoint(this) * RPGPlayerManager.getInstance().getPlayer(p).getPointAllocation(this, AbilityAttribute.INCREASE_DURATION)));
     }
 
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
