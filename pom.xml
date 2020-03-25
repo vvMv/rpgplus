@@ -158,11 +158,12 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
-<!--                        <relocation>-->
-<!--                            <pattern>co.aikar.commands</pattern>-->
-<!--                            <shadedPattern>rpgplus.acf</shadedPattern>-->
-<!--                        </relocation>-->
+                        <relocation>
+                            <pattern>co.aikar.commands</pattern>
+                            <shadedPattern>com.vmv.rpgplus.acf</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -180,7 +181,7 @@
         <profile>
             <id>v-env</id>
             <build>
-                <directory>server/plugins/update</directory>
+                <directory>server/plugins</directory>
             </build>
         </profile>
     </profiles>
