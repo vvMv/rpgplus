@@ -1,6 +1,6 @@
 enabled: true
 display: 'GOLDEN_BOOTS'
-max_level: 100
+max_level: 1000
 points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: YELLOW
 ability_cycle: DOUBLE_CROUCH      #Define the method used to cycle through abilities

@@ -10,7 +10,7 @@ materials:                        #Materials define which items are used in the 
   - 'GOLDEN_AXE'
   - 'DIAMOND_AXE'
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
-max_level: 100
+max_level: 1000
 experience:                       #Set the amount of experience chopping blocks gives, you can add new ones
   ACACIA_LOG:
     min: 20

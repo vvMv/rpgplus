@@ -1,6 +1,6 @@
 enabled: true
 display: 'DIAMOND_SWORD'
-max_level: 100
+max_level: 1000
 points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: GOLD
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
@@ -24,3 +24,15 @@ ability:
       decrease_cooldown:
         per_point: 0
         max_point: 0
+  life_steal:
+    enabled: true
+    level: 0
+    life_steal: 10                #How much of the damage will be healed as a percentage
+    life_steal_chance: 10         #The chane of life steal happening as a percentage
+    attributes:
+      increase_life_steal:
+        per_point: 2
+        max_point: 10
+      increase_life_steal_chance:
+        per_point: 2
+        max_point: 10

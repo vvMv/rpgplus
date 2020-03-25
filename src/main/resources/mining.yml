@@ -1,6 +1,6 @@
 enabled: true
 display: 'DIAMOND_PICKAXE'
-max_level: 100
+max_level: 1000
 points_per_level: 0.5             #How many ability points should the user get per level
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 skill_color: BLUE
