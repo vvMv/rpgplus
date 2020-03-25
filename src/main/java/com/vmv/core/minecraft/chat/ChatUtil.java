@@ -1,13 +1,11 @@
 package com.vmv.core.minecraft.chat;
 
+import com.google.common.base.Strings;
 import com.vmv.core.config.FileManager;
 import com.vmv.rpgplus.main.RPGPlus;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -43,6 +41,15 @@ public class ChatUtil {
         }
     }
 
+    public static void sendFloatingMessage(Player p, String message, double seconds) {
+        FloatingMessage.send(p, applyColour(message), seconds);
+    }
+
+    public static String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor, ChatColor notCompletedColor) {
+        float percent = (float) current / max;
+        int progressBars = (int) (totalBars * percent);
+        return Strings.repeat("" + completedColor + symbol, progressBars) + Strings.repeat("" + notCompletedColor + symbol, totalBars - progressBars);
+    }
 
     private static String applyColour(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
