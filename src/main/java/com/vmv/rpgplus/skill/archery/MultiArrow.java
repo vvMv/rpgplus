@@ -1,21 +1,20 @@
 package com.vmv.rpgplus.skill.archery;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
-import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -58,7 +57,7 @@ public class MultiArrow extends Ability implements Listener {
                     e.getEntity().setNoDamageTicks(0);
                     a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0F, 1.0F);
                 }
-            }, i * 2);
+            }, i * getAbilityConfigSection().getInt("delay"));
         }
 
         e.setCancelled(true);
