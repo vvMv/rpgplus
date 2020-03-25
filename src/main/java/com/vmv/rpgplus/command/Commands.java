@@ -44,11 +44,11 @@ public class Commands extends BaseCommand {
         for (String stats_display : FileManager.getLang().getStringList("stats_display")) {
             if (stats_display.contains("%s")) {
                 for (Skill skill : SkillManager.getInstance().getSkills()) {
-                    ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%l", String.valueOf(pl.getLevel(skill.getSkillType()))));
+                    ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%l", String.valueOf((int) pl.getLevel(skill.getSkillType()))));
                 }
                 continue;
             }
-            ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%p", Bukkit.getOfflinePlayer(pl.getUuid()).getName()));
+            ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%p", Bukkit.getPlayer(pl.getUuid()).getName()).replace("%t", pl.getTotalLevel() + ""));
         }
     }
 

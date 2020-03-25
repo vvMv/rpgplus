@@ -40,6 +40,7 @@ public class DatabaseManager {
     }
 
     public void savePlayerData(boolean aSync) {
+        if (expDataToSave.isEmpty() && settingDataToSave.isEmpty() && pointDataToSave.isEmpty()) return;
         Instant start = Instant.now();
         expDataToSave.forEach(data -> {
             String uuid = data.split(":")[0];
@@ -62,7 +63,7 @@ public class DatabaseManager {
         });
 
         Instant finish = Instant.now();
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved! [" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + "] Took " + Duration.between(start, finish).toMillis() + "ms.");
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved!(" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + ") Took " + Duration.between(start, finish).toMillis() + "ms.");
         expDataToSave.clear();
         settingDataToSave.clear();
         pointDataToSave.clear();
