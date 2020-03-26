@@ -1,0 +1,104 @@
+enabled: true
+max_level: 1000
+points_per_level: 0.5             #How many ability points should the user get per level
+skill_color: DARK_AQUA
+allow_distance_exp: true          #Give experience based on the distance the arrow flew
+display: 'DIAMOND_SHOVEL'         #Item used to display the skill in ui's
+ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
+materials:                        #Materials define which items are used in the skill for abilities
+  - 'WOODEN_SHOVEL'
+  - 'STONE_SHOVEL'
+  - 'IRON_SHOVEL'
+  - 'GOLDEN_SHOVEL'
+  - 'DIAMOND_SHOVEL'
+experience:                       #Set the amount of experience mining blocks gives, you can add new ones
+  CLAY:
+    min: 5
+    max: 8
+  FARMLAND:
+    min: 4
+    max: 6
+  GRASS_BLOCK:
+    min: 2
+    max: 8
+  GRASS_PATH:
+    min: 2
+    max: 8
+  GRAVEL:
+    min: 3
+    max: 6
+  MYCELIUM:
+    min: 6
+    max: 14
+  PODZOL:
+    min: 5
+    max: 10
+  COARSE_DIRT:
+    min: 2
+    max: 5
+  DIRT:
+    min: 1
+    max: 4
+  RED_SAND:
+    min: 1
+    max: 4
+  SAND:
+    min: 1
+    max: 4
+  SOUL_SAND:
+    min: 4
+    max: 6
+  SNOW:
+    min: 2
+    max: 3
+  SNOW_BLOCK:
+    min: 3
+    max: 5
+  WHITE_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  ORANGE_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  MAGENTA_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  LIGHT_BLUE_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  YELLOW_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  LIME_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  PINK_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  GRAY_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  LIGHT_GRAY_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  CYAN_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  BLUE_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  PURPLE_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  GREEN_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  BROWN_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  RED_CONCRETE_POWDER:
+    min: 2
+    max: 6
+  BLACK_CONCRETE_POWDER:
+    min: 2
+    max: 6

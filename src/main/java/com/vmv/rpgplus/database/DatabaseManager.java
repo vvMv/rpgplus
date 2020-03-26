@@ -63,7 +63,7 @@ public class DatabaseManager {
         });
 
         Instant finish = Instant.now();
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved!(" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + ") Took " + Duration.between(start, finish).toMillis() + "ms.");
+        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved![" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + "] Took " + Duration.between(start, finish).toMillis() + "ms.");
         expDataToSave.clear();
         settingDataToSave.clear();
         pointDataToSave.clear();

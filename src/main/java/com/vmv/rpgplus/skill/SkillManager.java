@@ -1,11 +1,10 @@
 package com.vmv.rpgplus.skill;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.archery.Archery;
 import com.vmv.rpgplus.skill.attack.Attack;
+import com.vmv.rpgplus.skill.excavation.Excavation;
 import com.vmv.rpgplus.skill.farming.Farming;
 import com.vmv.rpgplus.skill.fishing.Fishing;
 import com.vmv.rpgplus.skill.mining.Mining;
@@ -24,6 +23,7 @@ public class SkillManager {
         instance = this;
         skills.add(new Archery(SkillType.ARCHERY));
         skills.add(new Attack(SkillType.ATTACK));
+        skills.add(new Excavation(SkillType.EXCAVATION));
         skills.add(new Fishing(SkillType.FISHING));
         skills.add(new Farming(SkillType.FARMING));
         skills.add(new Mining(SkillType.MINING));
