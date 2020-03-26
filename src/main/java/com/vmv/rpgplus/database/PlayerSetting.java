@@ -29,7 +29,8 @@ public enum PlayerSetting {
 
     //Misc
     EXPERIENCE_POPUPS("1"),
-    LEVELUP_MESSAGES("1");
+    LEVELUP_MESSAGES("1"),
+    REMINDER_MESSAGES("1");
 
     private String defaultValue;
 

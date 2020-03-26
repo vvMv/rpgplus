@@ -73,7 +73,7 @@ public class RPGPlayerSettingsMenu {
                     public void run(InventoryClickEvent e) {
                         target.toggleSetting(PlayerSetting.EXPERIENCE_POPUPS);
                         openNotificationMenu(p, target);
-                        sendClickSound(p);
+                        sendConfirmedSound(p);
                     }
                 }, target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? "&7Value: &aTrue" : "&7Value: &cFalse", "&8Click to toggle");
 
@@ -85,10 +85,21 @@ public class RPGPlayerSettingsMenu {
                     public void run(InventoryClickEvent e) {
                         target.toggleSetting(PlayerSetting.LEVELUP_MESSAGES);
                         openNotificationMenu(p, target);
-                        sendClickSound(p);
+                        sendConfirmedSound(p);
                     }
                 }, target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? "&7Value: &aTrue" : "&7Value: &cFalse", "&8Click to toggle");
 
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 3);
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 21);
+        menu.setItem(new ItemStack(Material.CLOCK), "&e&lShow Points Reminder Messages", 12,
+                new PrivateInventory.ClickRunnable() {
+                    @Override
+                    public void run(InventoryClickEvent e) {
+                        target.toggleSetting(PlayerSetting.REMINDER_MESSAGES);
+                        openNotificationMenu(p, target);
+                        sendConfirmedSound(p);
+                    }
+                }, target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? "&7Value: &aTrue" : "&7Value: &cFalse", "&8Click to toggle");
 
         addBackButton(menu, target);
 
