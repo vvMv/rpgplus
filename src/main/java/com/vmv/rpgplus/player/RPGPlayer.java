@@ -207,9 +207,11 @@ public class RPGPlayer {
     public void setXP(SkillType skill, double xp) {
         if (xp < 0) xp = 0;
         xp = MathUtils.round(xp, 2);
-        Bukkit.getPluginManager().callEvent(new ExperienceModifyEvent(this, skill, (xp - MathUtils.round(exp.get(skill), 2))));
+        double currentxp = MathUtils.round(exp.get(skill), 2);
         if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp, skill)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp, skill)));
         exp.put(skill, xp);
+
+        Bukkit.getPluginManager().callEvent(new ExperienceModifyEvent(this, skill, (xp - currentxp)));
 
         //Checks if the exp skill type and player are already queued to save
         String s = getUuid().toString() + ":" + skill.toString();
@@ -218,7 +220,6 @@ public class RPGPlayer {
                 return;
             }
         }
-
         DatabaseManager.getInstance().getExpDataToSave().add(s);
 
 
