@@ -13,44 +13,44 @@ materials:                        #Materials define which items are used in the 
   - 'DIAMOND_SHOVEL'
 experience:                       #Set the amount of experience mining blocks gives, you can add new ones
   CLAY:
-    min: 5
-    max: 8
-  FARMLAND:
-    min: 4
-    max: 6
-  GRASS_BLOCK:
-    min: 2
-    max: 8
-  GRASS_PATH:
-    min: 2
-    max: 8
-  GRAVEL:
-    min: 3
-    max: 6
-  MYCELIUM:
     min: 6
+    max: 10
+  FARMLAND:
+    min: 6
+    max: 8
+  GRASS_BLOCK:
+    min: 4
+    max: 12
+  GRASS_PATH:
+    min: 4
+    max: 12
+  GRAVEL:
+    min: 6
+    max: 8
+  MYCELIUM:
+    min: 8
     max: 14
   PODZOL:
-    min: 5
+    min: 6
     max: 10
   COARSE_DIRT:
-    min: 2
-    max: 5
+    min: 5
+    max: 8
   DIRT:
-    min: 1
-    max: 4
+    min: 2
+    max: 6
   RED_SAND:
-    min: 1
-    max: 4
+    min: 2
+    max: 6
   SAND:
-    min: 1
-    max: 4
+    min: 2
+    max: 6
   SOUL_SAND:
     min: 4
-    max: 6
+    max: 8
   SNOW:
     min: 2
-    max: 3
+    max: 4
   SNOW_BLOCK:
     min: 3
     max: 5
