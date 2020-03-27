@@ -9,8 +9,8 @@ import java.sql.*;
 public class Database {
 
     private Plugin plugin;
-    public static Database instance;
-    public static String url;
+    private static Database instance;
+    private static String url;
     private Connection c = null;
 
     /**

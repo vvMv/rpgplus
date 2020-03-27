@@ -10,14 +10,15 @@ import org.bukkit.entity.Player;
 
 public class BarTimer {
 
-    private double duration, durationLeft;
+    private double duration;
+    private double durationRemaining;
     private BossBar bossBar;
     private String title;
     private Player player;
 
     public BarTimer(Player p, double duration, String title) {
         this.duration = duration * 20;
-        this.durationLeft = duration * 20;
+        this.durationRemaining = duration * 20;
         this.title = title;
         this.player = p;
         bossBar = Bukkit.createBossBar(ChatColor.translateAlternateColorCodes('&', WordUtils.capitalizeFully(title).replace("_", " ")), BarColor.BLUE, BarStyle.SOLID);
@@ -34,11 +35,11 @@ public class BarTimer {
     }
 
     public double getDurationLeft() {
-        return durationLeft;
+        return durationRemaining;
     }
 
     public void setDurationLeft(double durationLeft) {
-        this.durationLeft = durationLeft;
+        this.durationRemaining = durationLeft;
     }
 
     public String getTitle() {

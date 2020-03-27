@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TreeCutter extends BukkitRunnable {
-
-    private Player player;
+    
     private Block startBlock;
     private List<String> comparisonBlockArray = new ArrayList<>();
     private List<String> comparisonBlockArrayLeaves = new ArrayList<>();
@@ -27,7 +26,6 @@ public class TreeCutter extends BukkitRunnable {
 
     public TreeCutter(Player player, Block startBlock, double delay, int maxsize) {
         this.delay = delay;
-        this.player = player;
         this.startBlock = startBlock;
         this.maxsize = maxsize;
     }

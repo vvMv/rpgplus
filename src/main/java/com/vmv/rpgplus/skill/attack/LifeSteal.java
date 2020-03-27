@@ -17,17 +17,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import java.util.Random;
-
 public class LifeSteal extends Ability implements Listener {
-
-    private Random r;
 
     public LifeSteal(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);
         this.passive = true;
         this.description = "Chance to steal health when in combat";
-        this.r = new Random();
     }
 
     @EventHandler(priority = EventPriority.LOW)

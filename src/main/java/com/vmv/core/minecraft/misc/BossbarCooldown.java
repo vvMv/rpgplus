@@ -9,12 +9,13 @@ import org.bukkit.entity.Player;
 
 public class BossbarCooldown {
 
-    private double duration, durationLeft;
+    private double duration;
+    private double durationRemaining;
     private BossBar bossBar;
 
     public BossbarCooldown(Player p, double duration, String title) {
         this.duration = duration * 20;
-        this.durationLeft = duration * 20;
+        this.durationRemaining = duration * 20;
         bossBar = Bukkit.createBossBar(ChatColor.translateAlternateColorCodes('&', title), BarColor.BLUE, BarStyle.SOLID);
         bossBar.addPlayer(p);
         BossbarCooldownManager.addBarCooldown(this, p);
@@ -29,10 +30,10 @@ public class BossbarCooldown {
     }
 
     public double getDurationLeft() {
-        return durationLeft;
+        return durationRemaining;
     }
 
     public void setDurationLeft(double durationLeft) {
-        this.durationLeft = durationLeft;
+        this.durationRemaining = durationLeft;
     }
 }

@@ -40,28 +40,6 @@ public class FloatingMessage {
 
     }
 
-    private void spawnExperienceAnimation(double duration) {
-        //if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_animation")) return;
-        //if (player == null || player.getGameMode() == GameMode.SPECTATOR || player.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
-        //if (!RPGPlayerManager.getInstance().getPlayer(player).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) return;
-
-//        ArmorStand as = player.getWorld().spawn(getVariateLocation(player.getLocation()), ArmorStand.class);
-//        as.setVisible(false);
-//        as.setSmall(true);
-//        as.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, (int) (duration*20), 1));
-//        as.setCustomNameVisible(true);
-//        as.setCustomName(SkillManager.getInstance().getSkill(getSkill()).getSkillColor() + "+" + getExp() + "xp");
-
-//        animationStands.add(as);
-
-//        Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
-//            public void run() {
-//                animationStands.remove(as);
-//                as.remove();
-//            }
-//        }, (long) (duration * 20));
-    }
-
     private static Location getVariateLocation(Location l) {
         Random r = new Random();
         l.setYaw(r.nextInt() > 50 ? l.getYaw() - MathUtils.getRandom(25, 15) : l.getYaw() - -MathUtils.getRandom(25, 15));

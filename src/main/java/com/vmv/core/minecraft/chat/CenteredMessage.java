@@ -10,13 +10,13 @@ public class CenteredMessage {
     public static void send(Player player, String message) {
         if (message == null || message.equals(""))
             player.sendMessage("");
-        message = ChatColor.translateAlternateColorCodes('&', message);
+        String formattedMessage = ChatColor.translateAlternateColorCodes('&', message);
 
         int messagePxSize = 0;
         boolean previousCode = false;
         boolean isBold = false;
 
-        for (char c : message.toCharArray()) {
+        for (char c : formattedMessage.toCharArray()) {
             if (c == '§') {
                 previousCode = true;
             } else if (previousCode) {
@@ -41,7 +41,7 @@ public class CenteredMessage {
             sb.append(" ");
             compensated += spaceLength;
         }
-        player.sendMessage(sb.toString() + message);
+        player.sendMessage(sb.toString() + formattedMessage);
     }
 
     public enum DefaultFontInfo {

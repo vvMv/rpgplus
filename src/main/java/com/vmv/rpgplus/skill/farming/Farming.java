@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Farming extends Skill implements Listener {
 
-    ArrayList<String> farmed = new ArrayList<String>();
+    private ArrayList<String> farmed = new ArrayList<String>();
 
     public Farming(SkillType skillType) {
         super(skillType);

@@ -11,14 +11,14 @@ public class LevelModifyEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private final SkillType skill;
     private final int toLevel, fromLevel;
-    private final RPGPlayer rp;
+    private final RPGPlayer rpgPlayer;
 
     public LevelModifyEvent(RPGPlayer rp, SkillType skill, int fromLevel, int toLevel) {
         super(Bukkit.getPlayer(rp.getUuid()));
         this.skill = skill;
         this.toLevel = toLevel;
         this.fromLevel = fromLevel;
-        this.rp = rp;
+        this.rpgPlayer = rp;
     }
 
     public SkillType getSkill() {
@@ -31,6 +31,14 @@ public class LevelModifyEvent extends PlayerEvent {
 
     public int getFromLevel() {
         return fromLevel;
+    }
+
+    public int getToLevel() {
+        return toLevel;
+    }
+
+    public RPGPlayer getRpgPlayer() {
+        return rpgPlayer;
     }
 
     @Override

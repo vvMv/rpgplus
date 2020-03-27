@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class CommandManager {
 
     //Documentation for Aikar's command framework https://github.com/aikar/commands/wiki/Using-ACF
-    private static BukkitCommandManager manager;
+    private BukkitCommandManager manager;
 
     public CommandManager(Plugin plugin){
         manager = new BukkitCommandManager(plugin);
@@ -28,7 +28,7 @@ public class CommandManager {
         registerCommandCompletions();
     }
 
-    public static void registerCommands(BaseCommand... commands) {
+    public void registerCommands(BaseCommand... commands) {
         for (BaseCommand b : commands) {
             manager.registerCommand(b);
         }

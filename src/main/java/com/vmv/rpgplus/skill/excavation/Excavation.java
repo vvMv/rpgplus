@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Excavation extends Skill implements Listener {
 
-    ArrayList<String> blocks = new ArrayList<String>();
+    private ArrayList<String> blocks = new ArrayList<String>();
 
     public Excavation(SkillType skillType) {
         super(skillType);
@@ -23,7 +23,7 @@ public class Excavation extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-
+        return;
     }
 
     @Override
