@@ -35,14 +35,14 @@ public class ChatUtil {
         barTimestamp.putIfAbsent(p.getUniqueId(), (long) 0);
 
         if (priority >= barPriority.get(p.getUniqueId()) || System.currentTimeMillis() - barTimestamp.get(p.getUniqueId()) >= RPGPlus.getInstance().getConfig().getInt("actionbar.priority.timer")) {
-            ActionMessage.send(p, message);
+            ActionMessageUtils.send(p, message);
             barPriority.put(p.getUniqueId(), priority);
             barTimestamp.put(p.getUniqueId(), System.currentTimeMillis());
         }
     }
 
     public static void sendFloatingMessage(Player p, String message, double seconds) {
-        FloatingMessage.send(p, applyColour(message), seconds);
+        FloatingMessageUtils.send(p, applyColour(message), seconds);
     }
 
     public static String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor, ChatColor notCompletedColor) {
