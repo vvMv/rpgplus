@@ -1,0 +1,2 @@
+# rpgplus
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/56fd4e8ecb58419b805bd7fa10507c02)](https://app.codacy.com/manual/vvMv/rpgplus?utm_source=github.com&utm_medium=referral&utm_content=vvMv/rpgplus&utm_campaign=Badge_Grade_Dashboard)
