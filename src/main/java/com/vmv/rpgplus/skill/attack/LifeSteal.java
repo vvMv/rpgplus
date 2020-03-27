@@ -9,6 +9,7 @@ import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +45,7 @@ public class LifeSteal extends Ability implements Listener {
             try {
                 ((Player) e.getDamager()).setHealth(((Player) e.getDamager()).getHealth() + (int) Math.ceil((e.getDamage() / (stealAmount / 10))));
             } catch (Exception ignore) {
-                //already full health
+                ((Player) e.getDamager()).setHealth(((Player) e.getDamager()).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
             }
             Location l = e.getEntity().getLocation();
             e.getEntity().getWorld().spawnParticle(Particle.REDSTONE, l.add(0, 1.5, 0), 0, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 2));
