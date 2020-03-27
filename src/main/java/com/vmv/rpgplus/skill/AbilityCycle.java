@@ -42,7 +42,7 @@ public class AbilityCycle implements Listener {
 
     public void tryNextCycle(SkillType st, RPGPlayer rp) {
         List<Ability> a = new ArrayList<>();
-        a = AbilityManager.getAbilities().stream().filter(ability -> ability.getSkillType() == st && !ability.isPassive() && rp.hasAbilityLevelRequirement(ability) && rp.hasAbilityEnabled(ability)).collect(Collectors.toList());
+        a = AbilityManager.getInstance().getAbilities().stream().filter(ability -> ability.getSkillType() == st && !ability.isPassive() && rp.hasAbilityLevelRequirement(ability) && rp.hasAbilityEnabled(ability)).collect(Collectors.toList());
         a.add(null);
         if (a.size() == 0) return;
         if (a.indexOf(rp.getActiveAbility(st)) + 1 >= a.size()) {

@@ -32,7 +32,6 @@ public class MultiArrow extends Ability implements Listener {
         if (!checkReady(e.getEntity())) return;
 
         final Vector velocity = e.getProjectile().getVelocity();
-        double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
         Player p = ((Player) e.getEntity());
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(p);
         double firstArrowSpeed = velocity.length();

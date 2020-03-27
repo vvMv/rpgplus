@@ -18,7 +18,7 @@ import static com.vmv.rpgplus.skill.SkillType.MINING;
 
 public class Mining extends Skill implements Listener {
 
-    ArrayList<String> blocks = new ArrayList<String>();
+    private ArrayList<String> blocks = new ArrayList<String>();
 
     public Mining(SkillType skillType) {
         super(skillType);

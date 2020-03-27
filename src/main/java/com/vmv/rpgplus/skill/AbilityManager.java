@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class AbilityManager implements Listener {
 
-    public static List<Ability> abilities = new ArrayList();
+    private List<Ability> abilities = new ArrayList();
     private static AbilityManager instance;
 
     public AbilityManager() {
@@ -18,11 +18,9 @@ public class AbilityManager implements Listener {
         for (Skill skill : SkillManager.getInstance().getSkills()) {
             skill.registerAbilities();
         }
-
-        //abilities.removeIf(ability -> !ability.getSkillConfig().getBoolean("enabled"));
     }
 
-    public static void registerAbility(Listener... ab) {
+    public void registerAbility(Listener... ab) {
         for (Listener a : ab) {
             if (((Ability) a).isEnabled()) {
                 RPGPlus.getInstance().registerEvents(a);
@@ -35,15 +33,15 @@ public class AbilityManager implements Listener {
 return instance;
     }
 
-    public static List<Ability> getAbilities() {
+    public List<Ability> getAbilities() {
         return abilities;
     }
 
-    public static List<Ability> getAbilities(SkillType st) {
+    public List<Ability> getAbilities(SkillType st) {
         return abilities.stream().filter(a -> a.getSkillType() == st).collect(Collectors.toList());
     }
 
-    public static Ability getAbility(String name) {
+    public Ability getAbility(String name) {
         for (Ability ability : abilities) {
             if (ability.getName().equalsIgnoreCase(name)) {
                 return ability;

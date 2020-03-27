@@ -33,17 +33,6 @@ public class SkillManager {
         skills.removeIf(skill -> !skill.isEnabled());
         skills.forEach(skill -> skill.registerEvents());
 
-//        List<Skill> toRemove = new ArrayList();
-//
-//        for (Skill skill : skills) {
-//            if (!skill.isEnabled()) toRemove.add(skill);
-//        }
-//
-//        skills.removeAll(toRemove);
-//
-//        for (Skill skill : skills) {
-//            skill.registerEvents();
-//        }
     }
 
     public static SkillManager getInstance() {

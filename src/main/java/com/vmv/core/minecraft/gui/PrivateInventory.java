@@ -133,7 +133,7 @@ public class PrivateInventory {
 		InventoryView openInv = player.getOpenInventory();
 		if (openInv != null) {
 			Inventory openTop = player.getOpenInventory().getTopInventory();
-			if (openTop != null && openTop == inv) {
+			if (openTop != null && openTop.equals(inv)) {
 				openTop.setContents(inv.getContents());
 			} else {
 				player.openInventory(inv);

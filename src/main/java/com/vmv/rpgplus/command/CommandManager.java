@@ -39,7 +39,7 @@ public class CommandManager {
             return SkillManager.getInstance().getSkills().stream().map(skill -> skill.getSkillType().toString().toLowerCase()).collect(Collectors.toList());
         });
         manager.getCommandCompletions().registerCompletion("abilities", a -> {
-            return AbilityManager.getAbilities().stream().map(ability -> ability.getName().toLowerCase()).collect(Collectors.toList());
+            return AbilityManager.getInstance().getAbilities().stream().map(ability -> ability.getName().toLowerCase()).collect(Collectors.toList());
         });
         manager.getCommandCompletions().registerCompletion("attributes", a -> {
             return Arrays.stream(AbilityAttribute.values()).map(attribute -> attribute.toString().toLowerCase()).collect(Collectors.toList());

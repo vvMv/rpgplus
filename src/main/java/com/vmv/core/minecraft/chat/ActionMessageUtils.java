@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ActionMessage {
+public class ActionMessageUtils {
+
+    private static int time;
 
     public static void send(Player player, String message) {
 
@@ -23,9 +25,10 @@ public class ActionMessage {
 
 
     public static void send(Plugin plugin, final Player player, final String message, int duration) {
+        time = duration;
         send(player, message);
 
-        if (duration >= 0) {
+        if (time >= 0) {
             // Sends empty message at the end of the duration. Allows messages
             // shorter than 3 seconds, ensures precision.
             new BukkitRunnable() {
@@ -33,14 +36,14 @@ public class ActionMessage {
                 public void run() {
                     send(player, "");
                 }
-            }.runTaskLater(plugin, duration + 1);
+            }.runTaskLater(plugin, time + 1);
         }
 
         // Re-sends the messages every 3 seconds so it doesn't go away from the
         // player's screen.
-        while (duration > 60) {
-            duration -= 60;
-            int sched = duration % 60;
+        while (time > 60) {
+            time -= 60;
+            int sched = time % 60;
             new BukkitRunnable() {
                 @Override
                 public void run() {

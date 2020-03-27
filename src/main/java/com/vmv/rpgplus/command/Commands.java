@@ -9,7 +9,6 @@ import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
-import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -110,11 +109,9 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players @abilities @attributes @range:1-10 @boolean")
     public void setAttribute(CommandSender p, OfflinePlayer player, String ability, String attribute, int points, @Optional String forceUnsafe) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
-        Ability ab = AbilityManager.getAbility(ability);
+        Ability ab = AbilityManager.getInstance().getAbility(ability);
         AbilityAttribute at = AbilityAttribute.valueOf(attribute.toUpperCase());
-        if (forceUnsafe != null) {
-            if (!forceUnsafe.equalsIgnoreCase("true") && !forceUnsafe.equalsIgnoreCase("false")) return;
-        }
+        if (forceUnsafe != null && !forceUnsafe.equalsIgnoreCase("true") && !forceUnsafe.equalsIgnoreCase("false")) return;
         if (!ab.getAttributes().contains(at)) {
             ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_attribute_invalid").replace("%ab", ability).replace("%at", attribute));
             return;
@@ -136,7 +133,7 @@ public class Commands extends BaseCommand {
         ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_receiver").replace("%p", p.getName()));
         ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_sender").replace("%p", Bukkit.getPlayer(player.getName()).getName()));
 
-        for (Ability ability : AbilityManager.getAbilities()) {
+        for (Ability ability : AbilityManager.getInstance().getAbilities()) {
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 rp.attemptSetPointAllocation(ability, attribute, 0, true);
             }

@@ -17,7 +17,7 @@ import static com.vmv.rpgplus.skill.SkillType.WOODCUTTING;
 
 public class Woodcutting extends Skill implements Listener {
 
-    ArrayList<String> logs = new ArrayList<String>();
+    private ArrayList<String> logs = new ArrayList<String>();
 
     public Woodcutting(SkillType skillType) {
         super(skillType);

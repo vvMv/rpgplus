@@ -20,8 +20,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.HashMap;
@@ -42,13 +40,13 @@ public class RPGPlayerEvents implements Listener {
             for (PlayerSetting setting : PlayerSetting.values()) {
                 settings.put(setting, setting.getDefaultValue());
             }
-            for (Ability ability : AbilityManager.getAbilities()) {
+            for (Ability ability : AbilityManager.getInstance().getAbilities()) {
                 for (AbilityAttribute attribute : ability.getAttributes()) {
                     String loc = ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
                     pointAllocations.put(loc, 0.0);
                 }
             }
-            AbilityManager.getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> pointAllocations.put(ability.toString() + ":" + attribute.toString(), 0.0)));
+            AbilityManager.getInstance().getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> pointAllocations.put(ability.toString() + ":" + attribute.toString(), 0.0)));
             RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(e.getPlayer().getUniqueId(), xp, settings, pointAllocations));
         }
 
@@ -96,18 +94,6 @@ public class RPGPlayerEvents implements Listener {
         } catch (Exception e2) {
             InformationHandler.printMessage(InformationType.ERROR, "Config value for sounds.level_up '" + RPGPlus.getInstance().getConfig().getString("sounds.level_up") + "' is invalid");
         }
-    }
-
-    @EventHandler
-    public void onDamageEvent(EntityDamageEvent e) {
-
-    }
-
-    @EventHandler
-    public void onHealEvent(EntityRegainHealthEvent e) {
-        //if (!(e.getEntity() instanceof Player)) return;
-        //RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity());
-        //ChatUtil.sendFloatingMessage((Player) e.getEntity(), "&a&l\u2764", 2);
     }
 
 }

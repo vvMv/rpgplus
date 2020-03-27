@@ -6,7 +6,6 @@ import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -19,8 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class SplitShot extends Ability implements Listener {
-
-    private int extra;
 
     public SplitShot(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);
@@ -35,12 +32,9 @@ public class SplitShot extends Ability implements Listener {
 
         Player p = (Player) e.getEntity();
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(p);
-        double playerLevel = RPGPlayerManager.getInstance().getPlayer((Player) e.getEntity()).getLevel(SkillType.ARCHERY);
         int amount = (int) rp.getAttributeValue(this, AbilityAttribute.INCREASE_ARROWS);
         int angle = getAbilityConfigSection().getInt("angle");
         int separation = angle / amount;
-
-        Location loc = e.getEntity().getLocation();
 
         if (((Player) e.getEntity()).getGameMode() != GameMode.CREATIVE && !e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE)) {
             int am = 0;

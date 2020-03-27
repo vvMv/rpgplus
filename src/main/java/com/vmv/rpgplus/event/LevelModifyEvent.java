@@ -10,7 +10,8 @@ public class LevelModifyEvent extends PlayerEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final SkillType skill;
-    private final int toLevel, fromLevel;
+    private final int toLevel;
+    private final int fromLevel;
     private final RPGPlayer rpgPlayer;
 
     public LevelModifyEvent(RPGPlayer rp, SkillType skill, int fromLevel, int toLevel) {

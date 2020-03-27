@@ -28,7 +28,7 @@ public class Dash extends Ability implements Listener {
     }
 
     @EventHandler
-    public void CrouchToggle(PlayerToggleSneakEvent e) {
+    public void crouchToggle(PlayerToggleSneakEvent e) {
 
         Player p = e.getPlayer();
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(p);
@@ -47,15 +47,13 @@ public class Dash extends Ability implements Listener {
 
         }
 
-        if (count.containsKey(p.getUniqueId())) {
-            if (count.get(p.getUniqueId()) >= 3) {
-                count.put(p.getUniqueId(), 0);
-                if (onCooldown(p)) return;
-                double finalDuration = (20 * getDuration(p));
-                double finalSpeed = speed + (AbilityAttribute.INCREASE_SPEED.getValuePerPoint(this) * rp.getPointAllocation(this, AbilityAttribute.INCREASE_SPEED));
-                setActive(e.getPlayer(), finalDuration / 20 );
-                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) finalDuration, (int) finalSpeed));
-            }
+        if (count.containsKey(p.getUniqueId()) && count.get(p.getUniqueId()) >= 3) {
+            count.put(p.getUniqueId(), 0);
+            if (onCooldown(p)) return;
+            double finalDuration = (20 * getDuration(p));
+            double finalSpeed = speed + (AbilityAttribute.INCREASE_SPEED.getValuePerPoint(this) * rp.getPointAllocation(this, AbilityAttribute.INCREASE_SPEED));
+            setActive(e.getPlayer(), finalDuration / 20);
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) finalDuration, (int) finalSpeed));
         }
     }
 }

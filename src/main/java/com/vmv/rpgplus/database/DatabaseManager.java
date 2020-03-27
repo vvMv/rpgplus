@@ -24,9 +24,11 @@ import java.util.UUID;
 
 public class DatabaseManager {
 
-    public static DatabaseManager instance;
-    private static Database database;
-    public List<String> expDataToSave = new ArrayList<String>(), settingDataToSave = new ArrayList<String>(), pointDataToSave = new ArrayList<String>();
+    private static DatabaseManager instance;
+    private Database database;
+    private List<String> expDataToSave = new ArrayList<String>();
+    private List<String> settingDataToSave = new ArrayList<String>();
+    private List<String> pointDataToSave = new ArrayList<String>();
     private Plugin plugin;
 
     public DatabaseManager(Plugin plugin) {
@@ -58,7 +60,7 @@ public class DatabaseManager {
             String uuid = data.split(":")[0].toLowerCase();
             String ability = data.split(":")[1].toLowerCase();
             String attribute = data.split(":")[2].toLowerCase();
-            double points = RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getPointAllocation(AbilityManager.getAbility(ability), AbilityAttribute.valueOf(attribute.toUpperCase()));
+            double points = RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getPointAllocation(AbilityManager.getInstance().getAbility(ability), AbilityAttribute.valueOf(attribute.toUpperCase()));
             Database.getInstance().updateData("player_allocations", "'" + ability + " " + attribute + "'", points, "uuid", "=", uuid, aSync);
         });
 
@@ -98,7 +100,7 @@ public class DatabaseManager {
             queries.add("ALTER TABLE player_settings ADD " + setting.toString().toLowerCase() + " DOUBLE DEFAULT " + setting.getDefaultValue());
         }
 
-        for (Ability ability : AbilityManager.getAbilities()) {
+        for (Ability ability : AbilityManager.getInstance().getAbilities()) {
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 queries.add("ALTER TABLE player_allocations ADD '" + ability.getName().toLowerCase() + " " + attribute.name().toLowerCase() + "' DOUBLE DEFAULT 0");
             }
@@ -146,7 +148,7 @@ public class DatabaseManager {
 
                 ResultSet pointsData = Database.getInstance().selectData("SELECT * FROM player_allocations WHERE uuid = '" + uuid.toString() + "'");
                 while (pointsData.next()) {
-                    for (Ability ability : AbilityManager.getAbilities()) {
+                    for (Ability ability : AbilityManager.getInstance().getAbilities()) {
                         for (AbilityAttribute attribute : ability.getAttributes()) {
                             String loc = ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
                             String qName = ability.getName().toLowerCase() + " " + attribute.name().toLowerCase();
@@ -154,21 +156,6 @@ public class DatabaseManager {
                         }
                     }
                 }
-
-//                AbilityManager.getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> pointAllocations.put(ability.toString() + ":" + attribute.toString(), 0.0)));
-//                for (Ability ability : AbilityManager.getAbilities()) {
-//                    for (AbilityAttribute attribute : ability.getAttributes()) {
-//                        String select = "select * from player_point_allocations where uuid='" + uuid + "' AND ability='" + ability.getName().toLowerCase() + "' AND attribute='" + attribute.name().toLowerCase() + "' order by points desc limit 1";
-//                        ResultSet pointsData = Database.getInstance().selectData(select);
-//                        while (pointsData.next()) {
-//                            String at = pointsData.getString("attribute");
-//                            String ab = pointsData.getString("ability");
-//                            Double points = pointsData.getDouble("points");
-//                            pointAllocations.put(ab + ":" + at, points);
-//                            InformationHandler.printMessage(InformationType.DEBUG, "put " + ab + " " + at + " " + points);
-//                        }
-//                    }
-//                }
 
                 RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp, settings, pointAllocations));
                 c++;

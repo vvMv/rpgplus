@@ -19,12 +19,10 @@ public abstract class Skill implements Listener {
 
     private boolean enabled;
     private SkillType skillType;
-    private ChatColor skillColor;
     private int maxLevel = 100;
     private double pointsPerLevel = 0.5;
     private List<Material> materials = new ArrayList<>();
     private Material display = Material.BARRIER;
-    private AbilityCycleType cycleType;
 
     public Skill(SkillType skillType) {
         this.skillType = skillType;
@@ -33,8 +31,6 @@ public abstract class Skill implements Listener {
 
     public void reload() {
         FileManager.getSkillFile(getSkillType()).reload();
-        this.skillColor = getSkillColor();
-        this.cycleType = getCycleType();
         this.maxLevel = getConfig().getInt("max_level");
         this.pointsPerLevel = getConfig().getDouble("points_per_level");
         this.enabled = getConfig().getBoolean("enabled");
@@ -101,7 +97,7 @@ public abstract class Skill implements Listener {
     }
 
     public void registerAbilities(Listener... listeners) {
-        AbilityManager.registerAbility(listeners);
+        AbilityManager.getInstance().registerAbility(listeners);
     }
 
     public boolean hasBuildPermission(Location blockLocation, Player player) {

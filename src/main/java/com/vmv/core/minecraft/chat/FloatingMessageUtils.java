@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FloatingMessage {
+public class FloatingMessageUtils {
 
     private static ArrayList<ArmorStand> floatingMessage = new ArrayList<>();
 

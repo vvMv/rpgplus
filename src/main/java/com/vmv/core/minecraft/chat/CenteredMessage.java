@@ -3,7 +3,7 @@ package com.vmv.core.minecraft.chat;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class CenteredMessage {
+class CenteredMessageUtils {
 
     private final static int CENTER_PX = 154;
 

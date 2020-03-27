@@ -26,7 +26,7 @@ public class Farming extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-
+        //intentionally empty
     }
 
     @Override

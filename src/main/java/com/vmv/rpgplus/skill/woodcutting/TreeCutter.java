@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TreeCutter extends BukkitRunnable {
-    
+
     private Block startBlock;
     private List<String> comparisonBlockArray = new ArrayList<>();
     private List<String> comparisonBlockArrayLeaves = new ArrayList<>();
@@ -24,7 +23,7 @@ public class TreeCutter extends BukkitRunnable {
     private int maxsize;
     private double delay;
 
-    public TreeCutter(Player player, Block startBlock, double delay, int maxsize) {
+    public TreeCutter(Block startBlock, double delay, int maxsize) {
         this.delay = delay;
         this.startBlock = startBlock;
         this.maxsize = maxsize;

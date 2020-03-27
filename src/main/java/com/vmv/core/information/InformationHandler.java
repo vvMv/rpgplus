@@ -6,8 +6,6 @@ import org.bukkit.plugin.Plugin;
 
 public class InformationHandler {
 
-    private InformationType type;
-    private String info;
     private static Plugin plugin;
 
     public InformationHandler(Plugin plugin) {

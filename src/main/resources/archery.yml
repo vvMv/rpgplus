@@ -19,7 +19,7 @@ ability:
     enabled: true
     level: 0
     cooldown: 15
-    delay: 4                      #The delay, in ticks, that arrows will be shot
+    delay: 3                      #The delay, in ticks, that arrows will be shot
     arrows: 3                     #The amount of base arrows the multiarrow fires
     attributes:
       decrease_cooldown:

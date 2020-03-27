@@ -20,9 +20,11 @@ import java.util.List;
 
 public abstract class Ability {
 
-    protected boolean enabled, passive = false;
+    protected boolean enabled;
+    protected boolean passive = false;
     protected String description = "default description";
-    protected double cooldown, duration;
+    protected double cooldown;
+    protected double duration;
     protected int requiredLevel;
     protected List<AbilityAttribute> attributes = new ArrayList<>();
 

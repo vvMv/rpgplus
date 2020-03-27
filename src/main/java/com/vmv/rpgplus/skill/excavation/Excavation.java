@@ -23,7 +23,7 @@ public class Excavation extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        return;
+        //intentionally empty
     }
 
     @Override

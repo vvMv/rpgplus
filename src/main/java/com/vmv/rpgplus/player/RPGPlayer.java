@@ -13,7 +13,6 @@ import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +30,6 @@ public class RPGPlayer {
         this.exp = exp;
         this.settings = settings;
         this.pointAllocations = pointAllocations;
-        //AbilityManager.getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> setPointAllocation(ability, attribute, 0, false))); //set all ability and attribute values
-
         this.activeAbility = new HashMap<SkillType, Ability>();
     }
 
@@ -104,7 +101,7 @@ public class RPGPlayer {
     public double getAbilityPoints(Skill skill) {
         double truePoints = skill.getPointsPerLevel() * getLevel(skill.getSkillType());
         double spentPoints = 0;
-        for (Ability ability : AbilityManager.getAbilities(skill.getSkillType()) ) {
+        for (Ability ability : AbilityManager.getInstance().getAbilities(skill.getSkillType()) ) {
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 spentPoints += getPointAllocation(ability, attribute);
             }
@@ -133,7 +130,6 @@ public class RPGPlayer {
     }
 
     public boolean attemptSetPointAllocation(Ability ability, AbilityAttribute attribute, int points,  boolean forceUnsafe) {
-        Player p = Bukkit.getPlayer(getUuid());
         if (!forceUnsafe) {
             if (points > attribute.getValueMaxPoint(ability) || points < 0) { //check when setting with command
                 return false;
@@ -204,7 +200,8 @@ public class RPGPlayer {
         return getLevel(a.getSkillType()) >= a.getRequiredLevel() ? true : false;
     }
 
-    public void setXP(SkillType skill, double xp) {
+    public void setXP(SkillType skill, double amount) {
+        double xp = amount;
         if (xp < 0) xp = 0;
         xp = MathUtils.round(xp, 2);
         double currentxp = MathUtils.round(exp.get(skill), 2);

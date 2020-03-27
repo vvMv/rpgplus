@@ -10,7 +10,7 @@ public class Database {
 
     private Plugin plugin;
     private static Database instance;
-    private static String url;
+    private String url;
     private Connection c = null;
 
     /**
@@ -21,7 +21,7 @@ public class Database {
      */
     public Database(Plugin plugin, String fileName, File location) {
         this.plugin = plugin;
-        url = "jdbc:sqlite:" + location + "/" + fileName;
+        this.url = "jdbc:sqlite:" + location + "/" + fileName;
         instance = this;
     }
 

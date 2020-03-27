@@ -23,7 +23,8 @@ public class VeinMiner extends Ability implements Listener {
 
     public List<Material> blocks = new ArrayList<>();
     public static List<Block> checkedBlocks;
-    public int maxSize, delay;
+    public int maxSize;
+    public int delay;
 
     public VeinMiner(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);

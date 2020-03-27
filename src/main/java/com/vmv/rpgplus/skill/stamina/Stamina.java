@@ -17,13 +17,13 @@ import java.util.UUID;
 
 public class Stamina extends Skill implements Listener {
 
-    private double expDistance, time;
+    private double expDistance;
     public static HashMap<UUID, Double> distance = new HashMap<UUID, Double>();
 
     public Stamina(SkillType skillType) {
         super(skillType);
         this.expDistance = getConfig().getDouble("experience.distance");
-        this.time = getConfig().getDouble("experience.time");
+        double time = getConfig().getDouble("experience.time");
         Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGPlus.getInstance(), () -> grantExperience(), (long) (time) * 20, (long) (time) * 20);
     }
 

@@ -22,7 +22,7 @@ public class ChatUtil {
     }
 
     public static void sendCenteredChatMessage(Player p, String message) {
-        CenteredMessage.send(p, applyColour(message));
+        CenteredMessageUtils.send(p, applyColour(message));
     }
 
     public static void sendActionMessage(Player p, String message) {

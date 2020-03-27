@@ -42,7 +42,7 @@ public class TreeFeller extends Ability implements Listener {
         }
 
         if (isActive(e.getPlayer())) {
-            new TreeCutter(e.getPlayer(), e.getBlock(), delay, maxsize).runTaskAsynchronously(RPGPlus.getInstance());
+            new TreeCutter(e.getBlock(), delay, maxsize).runTaskAsynchronously(RPGPlus.getInstance());
             e.setCancelled(true);
         }
 
