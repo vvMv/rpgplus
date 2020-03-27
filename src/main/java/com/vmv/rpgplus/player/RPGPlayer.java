@@ -135,10 +135,10 @@ public class RPGPlayer {
     public boolean attemptSetPointAllocation(Ability ability, AbilityAttribute attribute, int points,  boolean forceUnsafe) {
         Player p = Bukkit.getPlayer(getUuid());
         if (!forceUnsafe) {
-            if (points > attribute.getValueMaxPoint(ability) || points < 0) {
+            if (points > attribute.getValueMaxPoint(ability) || points < 0) { //check when setting with command
                 return false;
             }
-            if (!(getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) > points - getPointAllocation(ability, attribute))) {
+            if (getAbilityPoints(SkillManager.getInstance().getSkill(ability.getSkillType())) < points - getPointAllocation(ability, attribute)) {
                 return false;
             }
         }
