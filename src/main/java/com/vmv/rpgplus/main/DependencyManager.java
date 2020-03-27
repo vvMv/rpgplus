@@ -18,10 +18,8 @@ public class DependencyManager {
 
     private WorldGuardPlugin worldGuard;
     private GriefPrevention griefPrevention;
-    private Plugin plugin;
 
-    public DependencyManager(Plugin plugin) {
-        this.plugin = plugin;
+    public DependencyManager() {
         instance = this;
         worldGuard = setupWorldGuard();
     }
