@@ -32,7 +32,7 @@ ability:
     enabled: true
     level: 10
     arrows: 3
-    cooldown: 0
+    cooldown: 5
     angle: 45                     #The total angle in front of the player the arrow will split
     extra: 10                     #This number defines how many levels until another arrow is fired
     attributes:
