@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill.stamina;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;

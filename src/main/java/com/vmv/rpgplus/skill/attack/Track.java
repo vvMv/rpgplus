@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill.attack;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;

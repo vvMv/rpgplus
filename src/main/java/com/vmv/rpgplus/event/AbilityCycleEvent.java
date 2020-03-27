@@ -1,7 +1,7 @@
 package com.vmv.rpgplus.event;
 
-import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.player.RPGPlayer;
+import com.vmv.rpgplus.skill.Ability;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;

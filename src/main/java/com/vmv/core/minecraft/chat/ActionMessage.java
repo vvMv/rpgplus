@@ -1,6 +1,5 @@
 package com.vmv.core.minecraft.chat;
 
-import com.vmv.rpgplus.main.RPGPlus;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -9,9 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class ActionMessage {
 

@@ -1,19 +1,15 @@
 package com.vmv.rpgplus.skill;
 
-import com.sk89q.worldguard.protection.flags.Flags;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
-import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.main.RPGPlus;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,15 +1,9 @@
 package com.vmv.rpgplus.skill.woodcutting;
 
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
-import com.vmv.rpgplus.main.DependencyManager;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
-import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -18,7 +12,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.vmv.rpgplus.skill.SkillType.WOODCUTTING;
 
