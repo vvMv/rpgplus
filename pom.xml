@@ -47,13 +47,6 @@
     </repositories>
 
     <dependencies>
-        <!--PaperSpigot API -->
-<!--        <dependency>-->
-<!--            <groupId>com.destroystokyo.paper</groupId>-->
-<!--            <artifactId>paper-api</artifactId>-->
-<!--            <version>${bukkit.version}</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -94,6 +87,18 @@
             <artifactId>GriefPrevention</artifactId>
             <scope>provided</scope>
             <version>16.13.0</version>
+        </dependency>
+        <!--XMaterial-->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+        <!--SmartInvs-->
+        <dependency>
+            <groupId>fr.minuskube.inv</groupId>
+            <artifactId>smart-invs</artifactId>
+            <version>1.2.7</version>
         </dependency>
     </dependencies>
 
