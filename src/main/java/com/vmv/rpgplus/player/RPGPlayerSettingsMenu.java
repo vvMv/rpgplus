@@ -1,5 +1,7 @@
 package com.vmv.rpgplus.player;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.gui.ItemUtils;
@@ -9,8 +11,6 @@ import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,9 +34,9 @@ public class RPGPlayerSettingsMenu {
     public void openMenu(Player p, RPGPlayer target) {
 
         Player p2 = Bukkit.getPlayer(target.getUuid());
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_menu_title").replaceAll("%p", p2.getName())), 27, p.getUniqueId(), ItemUtils.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_menu_title").replaceAll("%p", p2.getName())), 27, p.getUniqueId(), ItemUtils.createItem(" ", XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), "", 1));
 
-        menu.setItem(new ItemStack(Material.PAPER), "&e&lNotifications", 12,
+        menu.setItem(new ItemStack(XMaterial.PAPER.parseItem()), "&e&lNotifications", 12,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -46,7 +46,7 @@ public class RPGPlayerSettingsMenu {
                     }
                 }, "&7Edit your notification settings");
 
-        menu.setItem(new ItemStack(Material.BLAZE_POWDER), "&e&lAbilities", 10,
+        menu.setItem(new ItemStack(XMaterial.BLAZE_POWDER.parseItem()), "&e&lAbilities", 10,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -63,11 +63,11 @@ public class RPGPlayerSettingsMenu {
     public void openNotificationMenu(Player p, RPGPlayer target) {
 
         Player p2 = Bukkit.getPlayer(target.getUuid());
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_notification_title").replaceAll("%p", p2.getName())), 27, p.getUniqueId(), ItemUtils.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_notification_title").replaceAll("%p", p2.getName())), 27, p.getUniqueId(), ItemUtils.createItem(" ", XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), "", 1));
 
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 1);
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 19);
-        menu.setItem(new ItemStack(Material.EXPERIENCE_BOTTLE), "&e&lShow Experience Popups", 10,
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 1);
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 19);
+        menu.setItem(new ItemStack(XMaterial.EXPERIENCE_BOTTLE.parseItem()), "&e&lShow Experience Popups", 10,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -77,9 +77,9 @@ public class RPGPlayerSettingsMenu {
                     }
                 }, target.getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS) ? "&7Value: &aTrue" : "&7Value: &cFalse", "&8Click to toggle");
 
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 2);
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 20);
-        menu.setItem(new ItemStack(Material.BOOK), "&e&lShow Level Up Messages", 11,
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 2);
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 20);
+        menu.setItem(new ItemStack(XMaterial.BOOK.parseItem()), "&e&lShow Level Up Messages", 11,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -89,9 +89,9 @@ public class RPGPlayerSettingsMenu {
                     }
                 }, target.getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES) ? "&7Value: &aTrue" : "&7Value: &cFalse", "&8Click to toggle");
 
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 3);
-        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE), " ", 21);
-        menu.setItem(new ItemStack(Material.CLOCK), "&e&lShow Points Reminder Messages", 12,
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 3);
+        menu.setItem(new ItemStack(target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? XMaterial.GREEN_STAINED_GLASS_PANE.parseItem() : XMaterial.RED_STAINED_GLASS_PANE.parseItem()), " ", 21);
+        menu.setItem(new ItemStack(XMaterial.CLOCK.parseItem()), "&e&lShow Points Reminder Messages", 12,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -109,11 +109,11 @@ public class RPGPlayerSettingsMenu {
     public void openSkillsMenu(Player p, RPGPlayer target) {
 
         Player p2 = Bukkit.getPlayer(target.getUuid());
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_ability_title").replaceAll("%p", p2.getName())), 54, p.getUniqueId(), ItemUtils.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_ability_title").replaceAll("%p", p2.getName())), 54, p.getUniqueId(), ItemUtils.createItem(" ", XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), "", 1));
         int count = 0;
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
-            menu.setItem(new ItemStack(skill.getDisplay()), skill.getSkillColor() + WordUtils.capitalizeFully(skill.getSkillType().name()), count,
+            menu.setItem(new ItemStack(skill.getDisplay().parseItem()), skill.getSkillColor() + WordUtils.capitalizeFully(skill.getSkillType().name()), count,
                     new PrivateInventory.ClickRunnable() {
                         @Override
                         public void run(InventoryClickEvent e) {
@@ -127,7 +127,7 @@ public class RPGPlayerSettingsMenu {
             int acount = 0;
             for (Ability ability : abilities) {
                 if (ability.isPassive()) continue;
-                menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? Material.GREEN_WOOL : Material.ORANGE_WOOL) : Material.RED_WOOL), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), ((acount + 1) * 9) + count,
+                menu.setItem(new ItemStack(target.hasAbilityLevelRequirement(ability) ? (target.hasAbilityEnabled(ability) ? XMaterial.GREEN_WOOL.parseItem() : XMaterial.ORANGE_WOOL.parseItem()) : XMaterial.RED_WOOL.parseItem()), ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), ((acount + 1) * 9) + count,
                         new PrivateInventory.ClickRunnable() {
                             @Override
                             public void run(InventoryClickEvent e) {
@@ -155,17 +155,17 @@ public class RPGPlayerSettingsMenu {
 
     public void openAbilityPointsMenu(Player p, RPGPlayer target, Skill skill) {
         int points = (int) target.getAbilityPoints(skill);
-        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_points_title").replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%n", points + "").replace("%t", (int)target.getOverallPoints(skill) + "")), 54, p.getUniqueId(), ItemUtils.createItem(" ", Material.GRAY_STAINED_GLASS_PANE, "", 1));
+        PrivateInventory menu = new PrivateInventory(ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("settings_points_title").replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%n", points + "").replace("%t", (int)target.getOverallPoints(skill) + "")), 54, p.getUniqueId(), ItemUtils.createItem(" ", XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), "", 1));
 
         int count = 0;
         for (Ability ability : AbilityManager.getInstance().getAbilities(skill.getSkillType())) {
-            menu.setItem(ItemUtils.createItem(ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), Material.ENCHANTED_BOOK, "", 1), count);
+            menu.setItem(ItemUtils.createItem(ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), XMaterial.ENCHANTED_BOOK.parseMaterial(), "", 1), count);
 
             int count2 = 1;
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 boolean max = target.getPointAllocation(ability, attribute) >= attribute.getValueMaxPoint(ability) ? true : false;
                 boolean noPoints = points <= 0 ? true : false;
-                menu.setItem(new ItemStack(max ? Material.PURPLE_STAINED_GLASS_PANE : noPoints ? Material.YELLOW_STAINED_GLASS_PANE : Material.GREEN_STAINED_GLASS_PANE), "&2&l" + WordUtils.capitalizeFully(attribute.name().replace("_", " ")), count + (9 * count2),
+                menu.setItem(new ItemStack(max ? XMaterial.PURPLE_STAINED_GLASS_PANE.parseItem() : noPoints ? XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem() : XMaterial.GREEN_STAINED_GLASS_PANE.parseItem()), "&2&l" + WordUtils.capitalizeFully(attribute.name().replace("_", " ")), count + (9 * count2),
                         new PrivateInventory.ClickRunnable() {
                             @Override
                             public void run(InventoryClickEvent e) {
@@ -182,14 +182,14 @@ public class RPGPlayerSettingsMenu {
             count++;
         }
 
-        menu.setItem(new ItemStack(Material.ENDER_EYE, points < 1 ? 1 : (int) points), ChatColor.YELLOW + "Points: " + points, 49, "&7Click on the green tiles", "&7to upgrade your abilities");
+        menu.setItem(new ItemStack(XMaterial.ENDER_EYE.parseMaterial(), points < 1 ? 1 : (int) points), ChatColor.YELLOW + "Points: " + points, 49, "&7Click on the green tiles", "&7to upgrade your abilities");
         addBackButton(menu, target);
 
         menu.openInventory(p);
     }
 
     private void addBackButton(PrivateInventory invFrom, RPGPlayer target) {
-        invFrom.setItem(new ItemStack(Material.BARRIER), "&c&lBack", invFrom.getSize() - 1,
+        invFrom.setItem(new ItemStack(XMaterial.BARRIER.parseItem()), "&c&lBack", invFrom.getSize() - 1,
                 new PrivateInventory.ClickRunnable() {
                     @Override
                     public void run(InventoryClickEvent e) {
@@ -202,15 +202,15 @@ public class RPGPlayerSettingsMenu {
     }
 
     private void sendDeniedSound(Player p) {
-        p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+        p.getLocation().getWorld().playSound(p.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1f, 1f);
     }
 
     private void sendConfirmedSound(Player p) {
-        p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1f, 1f);
+        p.getLocation().getWorld().playSound(p.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
     }
 
     private void sendClickSound(Player p) {
-        p.getLocation().getWorld().playSound(p.getLocation(), Sound.BLOCK_COMPARATOR_CLICK, 1f, 1f);
+        p.getLocation().getWorld().playSound(p.getLocation(), XSound.BLOCK_COMPARATOR_CLICK.parseSound(), 1f, 1f);
     }
 
 

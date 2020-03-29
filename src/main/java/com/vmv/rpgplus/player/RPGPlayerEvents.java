@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.player;
 
+import com.cryptomorin.xseries.XSound;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.database.Database;
 import com.vmv.core.information.InformationHandler;
@@ -90,7 +91,7 @@ public class RPGPlayerEvents implements Listener {
         }
 
         try {
-            p.playSound(p.getLocation(), Sound.valueOf(RPGPlus.getInstance().getConfig().getString("sounds.level_up")), 1f, 1f);
+            p.playSound(p.getLocation(), XSound.matchXSound(Sound.valueOf(RPGPlus.getInstance().getConfig().getString("sounds.level_up"))).parseSound(), 1f, 1f);
         } catch (Exception e2) {
             InformationHandler.printMessage(InformationType.ERROR, "Config value for sounds.level_up '" + RPGPlus.getInstance().getConfig().getString("sounds.level_up") + "' is invalid");
         }

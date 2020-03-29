@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill.woodcutting;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
@@ -26,8 +27,8 @@ public class TreeFeller extends Ability implements Listener {
         super(name, st, attributes);
         delay = getAbilityConfigSection().getDouble("delay");
         maxsize = getAbilityConfigSection().getInt("maxsize");
-        try { getAbilityConfigSection().getStringList("logs").forEach(b -> logs.add(Material.valueOf(b))); } catch (IllegalArgumentException e) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.tree_feller.logs", e.getMessage(), "This error is coming from woodcutting.yml" ); }
-        try { getAbilityConfigSection().getStringList("leaves").forEach(b -> leaves.add(Material.valueOf(b))); } catch (IllegalArgumentException e) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.tree_feller.leaves", e.getMessage(), "This error is coming from woodcutting.yml" ); }
+        try { getAbilityConfigSection().getStringList("logs").forEach(b -> logs.add(XMaterial.valueOf(b).parseMaterial())); } catch (IllegalArgumentException e) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.tree_feller.logs", e.getMessage(), "This error is coming from woodcutting.yml" ); }
+        try { getAbilityConfigSection().getStringList("leaves").forEach(b -> leaves.add(XMaterial.valueOf(b).parseMaterial())); } catch (IllegalArgumentException e) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.tree_feller.leaves", e.getMessage(), "This error is coming from woodcutting.yml" ); }
     }
 
     @EventHandler

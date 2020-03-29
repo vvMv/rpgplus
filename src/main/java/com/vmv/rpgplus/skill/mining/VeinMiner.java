@@ -1,5 +1,7 @@
 package com.vmv.rpgplus.skill.mining;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
@@ -8,7 +10,6 @@ import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class VeinMiner extends Ability implements Listener {
         maxSize = getAbilityConfigSection().getInt("maxsize");
         delay = getAbilityConfigSection().getInt("delay");
         try {
-            getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(Material.valueOf(b)));
+            getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(XMaterial.valueOf(b).parseMaterial()));
         } catch (IllegalArgumentException e) {
             InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.vein_miner.blocks", e.getMessage(), "This error is coming from mining.yml" );
         }
@@ -53,7 +54,7 @@ public class VeinMiner extends Ability implements Listener {
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_STONE_BREAK, 1.0F, 1.0F);
+                    block.getLocation().getWorld().playSound(block.getLocation(), XSound.BLOCK_STONE_BREAK.parseSound(), 1.0F, 1.0F);
                     block.breakNaturally();
                 }
             }, (long) delay);

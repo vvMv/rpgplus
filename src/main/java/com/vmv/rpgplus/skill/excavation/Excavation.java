@@ -1,10 +1,10 @@
 package com.vmv.rpgplus.skill.excavation;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,7 +39,7 @@ public class Excavation extends Skill implements Listener {
 
         if (!blocks.contains(e.getBlock().toString())) {
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
-                if (e.getBlock().getType() == Material.valueOf(b)) {
+                if (e.getBlock().getType() == XMaterial.valueOf(b).parseMaterial()) {
                     double xp = MathUtils.getRandom(getConfig().getDouble("experience." + b + ".max"), getConfig().getDouble("experience." + b + ".min"));
                     RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).addXP(SkillType.EXCAVATION, xp);
                 }

@@ -224,7 +224,7 @@ public class RPGPlayer {
 
     public void sendAbilityPointReminder() {
         try {
-            if (getAbilityPoints() > 0) {
+            if (getAbilityPoints() > 0 && getSettingBoolean(PlayerSetting.REMINDER_MESSAGES)) {
 
                 List<String> reminder = FileManager.getLang().getStringList("points_reminder");
                 StringBuilder sb = new StringBuilder();

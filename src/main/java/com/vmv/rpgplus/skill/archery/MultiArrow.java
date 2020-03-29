@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill.archery;
 
+import com.cryptomorin.xseries.XSound;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -9,7 +10,6 @@ import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -51,10 +51,10 @@ public class MultiArrow extends Ability implements Listener {
                     a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
                     a.setCustomName("multishot_arrow");
                     a.setBounce(false);
-                    a.setDamage(((Arrow) e.getProjectile()).getDamage());
+                    //a.setDamage(((Arrow) e.getProjectile()).getDamage());
                     a.setFireTicks(e.getProjectile().getFireTicks());
                     e.getEntity().setNoDamageTicks(0);
-                    a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0F, 1.0F);
+                    a.getWorld().playSound(a.getLocation(), XSound.ENTITY_ARROW_SHOOT.parseSound(), 1.0F, 1.0F);
                 }
             }, i * getAbilityConfigSection().getInt("delay"));
         }

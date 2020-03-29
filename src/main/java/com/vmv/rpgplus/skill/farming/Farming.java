@@ -1,10 +1,11 @@
 package com.vmv.rpgplus.skill.farming;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -41,7 +42,7 @@ public class Farming extends Skill implements Listener {
         if (!farmed.contains(e.getBlock().toString())) {
             if (!isFullyGrown(e.getBlock())) return;
             for (String b : getConfig().getConfigurationSection("experience").getKeys(false)) {
-                if (e.getBlock().getType() == Material.valueOf(b)) {
+                if (e.getBlock().getType() == XMaterial.valueOf(b).parseMaterial()) {
                     if (e.getBlock().getRelative(BlockFace.UP).getType() == e.getBlock().getType()) {
                         checkBlockBreak(new BlockBreakEvent(e.getBlock().getRelative(BlockFace.UP), e.getPlayer()));
                     }
@@ -59,10 +60,12 @@ public class Farming extends Skill implements Listener {
     }
 
     public boolean isFullyGrown(Block block) {
+        if (Bukkit.getVersion().contains("1.12")) return true;
         if(block.getBlockData() instanceof Ageable) {
             Ageable crop = (Ageable) block.getBlockData();
             return (crop.getMaximumAge() == crop.getAge());
         }
+
         return true;
     }
 

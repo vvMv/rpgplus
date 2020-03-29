@@ -6,9 +6,7 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -43,7 +41,7 @@ public class LifeSteal extends Ability implements Listener {
                 ((Player) e.getDamager()).setHealth(((Player) e.getDamager()).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
             }
             Location l = e.getEntity().getLocation();
-            e.getEntity().getWorld().spawnParticle(Particle.REDSTONE, l.add(0, 1.5, 0), 0, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 2));
+            //e.getEntity().getWorld().spawnParticle(Particle.REDSTONE, l.add(0, 1.5, 0), 0, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 2));
         }
 
     }

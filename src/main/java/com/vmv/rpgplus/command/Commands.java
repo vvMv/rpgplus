@@ -5,6 +5,8 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.inventory.InventoryUtils;
+import com.vmv.rpgplus.inventory.RPGMenu;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -21,7 +23,11 @@ public class Commands extends BaseCommand {
 
     @Default
     public void onDefault(Player p) {
-        RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+
+        String settingsTitle = FileManager.getLang().getString("settings_menu_title").replaceAll("%p", p.getName());
+        InventoryUtils.getInventory(settingsTitle, 3, new RPGMenu(), "").open(p);
+
+
     }
 
     @Subcommand("menu|settings")

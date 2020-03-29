@@ -1,10 +1,10 @@
 package com.vmv.rpgplus.skill.woodcutting;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import com.vmv.rpgplus.main.RPGPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,9 +41,8 @@ public class TreeCutter extends BukkitRunnable {
                 Location center = b.getLocation().add(0.5, 0.5, 0.5);
                 for (ItemStack stack : b.getDrops()) {
                     b.getWorld().dropItem(center, stack);
-                    b.getWorld().playSound(center, Sound.BLOCK_WOOD_STEP, 1.0f, 1.0f);
-                    //b.getWorld().playEffect(center, Effect.STEP_SOUND, startBlock.getType());
-                    b.setType(Material.AIR);
+                    b.getWorld().playSound(center, XSound.BLOCK_WOOD_STEP.parseSound(), 1.0f, 1.0f);
+                    b.setType(XMaterial.AIR.parseMaterial());
                 }
             }, (long) (20 * c * delay));
 

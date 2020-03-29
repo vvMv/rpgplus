@@ -1,13 +1,13 @@
 package com.vmv.rpgplus.skill.archery;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -40,10 +40,10 @@ public class SplitShot extends Ability implements Listener {
             int am = 0;
             for (ItemStack item : p.getInventory().getContents()) {
                 if (item == null) continue;
-                if (item.getType() == Material.ARROW) am += item.getAmount();
+                if (item.getType() == XMaterial.ARROW.parseMaterial()) am += item.getAmount();
             }
             if (amount > am) amount = am;
-            p.getInventory().removeItem(new ItemStack(Material.ARROW, amount));
+            p.getInventory().removeItem(new ItemStack(XMaterial.ARROW.parseMaterial(), amount));
         }
 
         for (int i = 0; i < amount; i++) {
@@ -66,10 +66,10 @@ public class SplitShot extends Ability implements Listener {
             a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
             a.setCustomName("splitshot_arrow");
             a.setBounce(false);
-            a.setDamage(((Arrow) e.getProjectile()).getDamage());
+            //a.setDamage(((Arrow) e.getProjectile()).getDamage());
             a.setFireTicks(e.getProjectile().getFireTicks());
         }
-        e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ARROW_SHOOT, 1F, 1F);
+        e.getEntity().getWorld().playSound(e.getEntity().getLocation(), XSound.ENTITY_ARROW_SHOOT.parseSound(), 1F, 1F);
         e.setCancelled(true);
     }
 

@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill.mining;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
@@ -37,8 +38,10 @@ public class OreLocator extends Ability implements Listener {
 
     public OreLocator(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);
-        try { getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(Material.valueOf(b))); } catch (IllegalArgumentException ex) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.ore_locator.blocks", ex.getMessage(), "This error is coming from mining.yml" ); }
-        registerColorTeams();
+        try { getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(XMaterial.valueOf(b).parseMaterial())); } catch (IllegalArgumentException ex) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.ore_locator.blocks", ex.getMessage(), "This error is coming from mining.yml" ); }
+        if (!(Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11"))) {
+            registerColorTeams();
+        }
     }
 
     private void registerColorTeams() {
@@ -48,8 +51,8 @@ public class OreLocator extends Ability implements Listener {
             try {
                 scoreboard.registerNewTeam("rpg_" + ore.toString().toLowerCase());
                 scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).setColor(ore.getColor());
-            } catch(Exception e) {
-                InformationHandler.printMessage(InformationType.ERROR, "OreLocator tried to register existing team");
+            } catch(Exception ignore) {
+                //Out of date
             }
         }
     }
@@ -115,7 +118,6 @@ public class OreLocator extends Ability implements Listener {
             sh.setGravity(false);
             sh.setInvulnerable(true);
             sh.setHealth(1);
-            sh.setLootTable(null);
             sh.setSilent(true);
             magmas.add(sh);
             highlighted.add(l);

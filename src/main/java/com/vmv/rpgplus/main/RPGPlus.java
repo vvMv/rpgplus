@@ -9,6 +9,7 @@ import com.vmv.rpgplus.command.CommandManager;
 import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.PlaceholderRequestEvent;
+import com.vmv.rpgplus.inventory.InventoryUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.SkillManager;
@@ -28,13 +29,14 @@ public class RPGPlus extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
         new InformationHandler(this);
-        new DependencyManager(this);
+        new DependencyManager();
         new CommandManager(this);
         new FileManager(this);
         new BarTimerManager(this);
         new SkillManager();
         new AbilityManager();
         new RPGPlayerManager();
+        new InventoryUtils(this);
         new DatabaseManager(this);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {new PlaceholderRequestEvent().register();}
         registerEvents(PrivateInventory.getListener());
@@ -48,7 +50,8 @@ public class RPGPlus extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        try { OreLocator.unregisterColorTeams(); } catch (Exception e) { InformationHandler.printMessage(InformationType.INFO, "Not unregistering color teams - OreLocator is disabled"); }
+        try { OreLocator.unregisterColorTeams(); } catch (Exception ignore) {}
+
         DatabaseManager.getInstance().savePlayerData(false);
         InformationHandler.printMessage(InformationType.INFO, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());

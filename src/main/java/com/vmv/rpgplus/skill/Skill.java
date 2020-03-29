@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
@@ -22,7 +23,7 @@ public abstract class Skill implements Listener {
     private int maxLevel = 100;
     private double pointsPerLevel = 0.5;
     private List<Material> materials = new ArrayList<>();
-    private Material display = Material.BARRIER;
+    private XMaterial display = XMaterial.BARRIER;
 
     public Skill(SkillType skillType) {
         this.skillType = skillType;
@@ -35,12 +36,12 @@ public abstract class Skill implements Listener {
         this.pointsPerLevel = getConfig().getDouble("points_per_level");
         this.enabled = getConfig().getBoolean("enabled");
         try {
-            getConfig().getStringList("materials").forEach(m -> materials.add(Material.valueOf(m)));
+            getConfig().getStringList("materials").forEach(m -> materials.add(XMaterial.valueOf(m).parseMaterial()));
         } catch (Exception e) {
             InformationHandler.printMessage(InformationType.ERROR, "Invalid materials in " + skillType.toString().toLowerCase() + ".yml");
         }
         try {
-            display = Material.valueOf(getConfig().getString("display"));
+            display = XMaterial.valueOf(getConfig().getString("display"));
         } catch (Exception e) {
             InformationHandler.printMessage(InformationType.ERROR, "Invalid display material in " + skillType.toString().toLowerCase() + ".yml");
         }
@@ -66,7 +67,7 @@ public abstract class Skill implements Listener {
         return materials;
     }
 
-    public Material getDisplay() {
+    public XMaterial getDisplay() {
         return display;
     }
 
