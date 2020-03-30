@@ -44,9 +44,9 @@ public class InventoryUtils {
     }
 
     public static void addBackItem(Player player, InventoryContents contents) {
-        contents.set(contents.inventory().getRows()-1, contents.inventory().getColumns()-1, ClickableItem.of(getItem(XMaterial.BARRIER, "&c&lMenu"), e -> {
+        contents.set(contents.inventory().getRows()-1, contents.inventory().getColumns()-1, ClickableItem.of(getItem(XMaterial.BARRIER, FileManager.getLang().getString("inventory.item_back")), e -> {
             sendClickSound(player);
-            getInventory(getTitle("settings_menu_title", player), 3, new RPGMenu(), "").open(player);
+            getInventory(getTitle("inventory.title_menu", player), 3, new RPGMenu(), "").open(player);
         }));
     }
 

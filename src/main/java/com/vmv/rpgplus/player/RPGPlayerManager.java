@@ -15,7 +15,6 @@ public class RPGPlayerManager implements Listener {
     public RPGPlayerManager() {
         instance = this;
         players = new ArrayList<RPGPlayer>();
-        new RPGPlayerSettingsMenu();
         RPGPlus.getInstance().registerEvents(this, new RPGPlayerEvents());
     }
 

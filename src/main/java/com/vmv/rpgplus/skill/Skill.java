@@ -59,6 +59,10 @@ public abstract class Skill implements Listener {
         return skillType;
     }
 
+    public String getFormattedName() {
+        return ChatColor.translateAlternateColorCodes('&', FileManager.getLang().getString("skill." + this.getSkillType().toString().toLowerCase()));
+    }
+
     public int getMaxLevel() {
         return maxLevel;
     }

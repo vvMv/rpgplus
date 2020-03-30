@@ -33,7 +33,7 @@ public class RPGPointsMenu implements InventoryProvider {
                     } else {
                         InventoryUtils.sendDeniedSound(player);
                     }
-                    InventoryUtils.getInventory(InventoryUtils.getTitle("settings_points_title", player).replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%n", (int) rp.getAbilityPoints(skill) + "").replace("%t", (int)rp.getOverallPoints(skill) + ""), 6, new RPGPointsMenu(), skill.getSkillType().toString()).open(player);
+                    InventoryUtils.getInventory(InventoryUtils.getTitle("inventory.title_points", player).replace("%s", WordUtils.capitalizeFully(skill.getSkillType().toString())).replace("%n", (int) rp.getAbilityPoints(skill) + "").replace("%t", (int)rp.getOverallPoints(skill) + ""), 6, new RPGPointsMenu(), skill.getSkillType().toString()).open(player);
                     //init(player, inventoryContents);
                 }));
                 ycount++;

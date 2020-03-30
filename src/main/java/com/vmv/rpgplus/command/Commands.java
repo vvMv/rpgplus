@@ -10,7 +10,6 @@ import com.vmv.rpgplus.inventory.RPGMenu;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
-import com.vmv.rpgplus.player.RPGPlayerSettingsMenu;
 import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -24,8 +23,7 @@ public class Commands extends BaseCommand {
     @Default
     public void onDefault(Player p) {
 
-        String settingsTitle = FileManager.getLang().getString("settings_menu_title").replaceAll("%p", p.getName());
-        InventoryUtils.getInventory(settingsTitle, 3, new RPGMenu(), "").open(p);
+        displayMenu(p);
 
 
     }
@@ -33,12 +31,14 @@ public class Commands extends BaseCommand {
     @Subcommand("menu|settings")
     @CommandPermission("rpgplus.menu")
     @CommandCompletion("@players")
-    public void displayMenu(Player p, @Optional OnlinePlayer target) {
-        if (p.hasPermission("rpgplus.admin") && target != null) {
-            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
-        } else {
-            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
-        }
+    public void displayMenu(Player p /*@Optional OnlinePlayer target*/) {
+        String settingsTitle = FileManager.getLang().getString("inventory.title_menu").replaceAll("%p", p.getName());
+        InventoryUtils.getInventory(settingsTitle, 3, new RPGMenu(), "").open(p);
+//        if (p.hasPermission("rpgplus.admin") && target != null) {
+//            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(target.player));
+//        } else {
+//            RPGPlayerSettingsMenu.getInstance().openMenu(p, RPGPlayerManager.getInstance().getPlayer(p));
+//        }
     }
 
     @Subcommand("stats|stat|level|levels")
