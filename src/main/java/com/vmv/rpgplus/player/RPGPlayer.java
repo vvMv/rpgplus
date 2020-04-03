@@ -231,7 +231,7 @@ public class RPGPlayer {
 
                 for (Skill skill : SkillManager.getInstance().getSkills()) {
                     if (getAbilityPoints(skill) < 1) continue;
-                    sb.append(WordUtils.capitalizeFully(skill.getSkillType().name()) + " " + (int) getAbilityPoints(skill) + ", ");
+                    sb.append(WordUtils.capitalizeFully(skill.getFormattedName()) + " " + (int) getAbilityPoints(skill) + ", ");
                 }
 
                 sb.deleteCharAt(sb.length() - 2);

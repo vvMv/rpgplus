@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill;
 
+import com.vmv.core.config.FileManager;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
@@ -70,7 +71,11 @@ public abstract class Ability {
     }
 
     public String getFormattedName() {
-        return WordUtils.capitalizeFully(getName().replaceAll("_", " "));
+        try {
+            return FileManager.getLang().getString("ability." + getName().toLowerCase());
+        } catch (Exception ignore) {
+            return WordUtils.capitalizeFully(getName().replaceAll("_", " "));
+        }
     }
 
     public double getCooldown() {

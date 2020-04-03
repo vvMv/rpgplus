@@ -1,31 +1,35 @@
 package com.vmv.rpgplus.skill;
 
+import com.vmv.core.config.FileManager;
+
 public enum AbilityAttribute {
 
     /**
      * @identifier Must be the value of a config value within the ability
      */
-    DECREASE_COOLDOWN("cooldown", "Decrease the ability cooldown"),
-    INCREASE_DURATION("duration", "Increase the ability duration"),
-    INCREASE_SPEED("speed", "Upgrade the speed value"),
-    INCREASE_HEARTS("hearts", "Increase your number of hearts"),
-    INCREASE_RANGE("range", "Increase the ability range"),
-    INCREASE_ARROWS("arrows", "Increase the amount of arrows"),
-    INCREASE_EXPLOSION("explosion", "Increase the explosion size"),
-    DECREASE_SELFDAMAGE("selfdamage", "Decrease the damage taken"),
-    INCREASE_LIFE_STEAL("life_steal", "Increase the percentage of damage healed"),
-    INCREASE_LIFE_STEAL_CHANCE("life_steal_chance", "Increase the chance of life steal happening");
+    DECREASE_COOLDOWN("cooldown"),
+    INCREASE_DURATION("duration"),
+    INCREASE_SPEED("speed"),
+    INCREASE_HEARTS("hearts"),
+    INCREASE_RANGE("range"),
+    INCREASE_ARROWS("arrows"),
+    INCREASE_EXPLOSION("explosion"),
+    DECREASE_SELFDAMAGE("selfdamage"),
+    INCREASE_LIFE_STEAL("life_steal"),
+    INCREASE_LIFE_STEAL_CHANCE("life_steal_chance");
 
-    String description;
     String identifier;
 
-    AbilityAttribute(String identifier, String description) {
-        this.description = description;
+    AbilityAttribute(String identifier) {
         this.identifier = identifier;
     }
 
     public String getDescription() {
-        return description;
+        try {
+            return FileManager.getLang().getString("attribute." + this.name().toLowerCase() + "_description");
+        } catch (Exception ignore) {
+            return "invalid description";
+        }
     }
 
     public String getIdentifier() {
@@ -42,6 +46,14 @@ public enum AbilityAttribute {
 
     public double getValueMaxPoint(Ability ability) {
         return ability.getAbilityConfigSection().getDouble("attributes." + this.toString().toLowerCase() + ".max_point");
+    }
+
+    public String getFormattedName() {
+        try {
+            return FileManager.getLang().getString("attribute." + this.name().toLowerCase());
+        } catch (Exception ignore) {
+            return this.name().toLowerCase().replace("_", " ");
+        }
     }
 
 }

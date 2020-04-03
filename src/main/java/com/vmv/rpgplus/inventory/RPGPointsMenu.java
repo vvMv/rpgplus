@@ -1,6 +1,7 @@
 package com.vmv.rpgplus.inventory;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.vmv.core.config.FileManager;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.*;
@@ -21,13 +22,13 @@ public class RPGPointsMenu implements InventoryProvider {
         inventoryContents.fill(ClickableItem.empty(InventoryUtils.getItem(XMaterial.GRAY_STAINED_GLASS_PANE)));
 
         for (Ability ability : AbilityManager.getInstance().getAbilities(skill.getSkillType())) {
-            inventoryContents.set(0, xcount, ClickableItem.empty(InventoryUtils.getItem(XMaterial.BOOK, "&e" + ability.getFormattedName(), 1, "&7Click below to upgrade")));
+            inventoryContents.set(0, xcount, ClickableItem.empty(InventoryUtils.getItem(XMaterial.BOOK, "&e" + ability.getFormattedName(), 1, FileManager.getLang().getString("inventory.item_points_upgrade_lore"))));
 
             int ycount = 1;
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 boolean max = rp.getPointAllocation(ability, attribute) >= attribute.getValueMaxPoint(ability) ? true : false;
                 boolean noPoints = rp.getAbilityPoints(skill) < 1 ? true : false;
-                inventoryContents.set(ycount, xcount, ClickableItem.of(InventoryUtils.getItem(max ? XMaterial.BLUE_STAINED_GLASS_PANE : noPoints ? XMaterial.YELLOW_STAINED_GLASS_PANE : XMaterial.GREEN_STAINED_GLASS_PANE, "&2&l" + WordUtils.capitalizeFully(attribute.name().replace("_", " ")), 1, "&7" + attribute.getDescription() + " for " + ability.getName().toLowerCase().replace("_", " "), " ", max ? "&e" + WordUtils.capitalizeFully(attribute.getIdentifier().replace("_", " ")) + " &7" + (attribute.getBaseValue (ability) + (attribute.getValuePerPoint(ability) * rp.getPointAllocation(ability, attribute))) : "&e" + WordUtils.capitalizeFully(attribute.getIdentifier().replace("_", " ")) + " &7" + (attribute.getBaseValue (ability) + (attribute.getValuePerPoint(ability) * rp.getPointAllocation(ability, attribute)) + "&e -> &7" + (attribute.getBaseValue (ability) + (rp.getPointAllocation(ability, attribute) * attribute.getValuePerPoint(ability)) + attribute.getValuePerPoint(ability))), "&ePoints &7" + (int) rp.getPointAllocation(ability, attribute) + "&e / &7" + (int) attribute.getValueMaxPoint(ability), " ", max ? "&cAttribute is at max level!" : noPoints ? "&cYou have no points!" : "&aClick to spend 1 point!"), e -> {
+                inventoryContents.set(ycount, xcount, ClickableItem.of(InventoryUtils.getItem(max ? XMaterial.BLUE_STAINED_GLASS_PANE : noPoints ? XMaterial.YELLOW_STAINED_GLASS_PANE : XMaterial.GREEN_STAINED_GLASS_PANE, "&2&l" + attribute.getFormattedName(), 1, "&7" + ability.getFormattedName() + " " + attribute.getDescription(), " ", max ? "&e" + attribute.getFormattedName().substring(attribute.getFormattedName().lastIndexOf(" ")+1) + " &7" + (attribute.getBaseValue (ability) + (attribute.getValuePerPoint(ability) * rp.getPointAllocation(ability, attribute))) : "&e" + attribute.getFormattedName().substring(attribute.getFormattedName().lastIndexOf(" ")+1) + " &7" + (attribute.getBaseValue (ability) + (attribute.getValuePerPoint(ability) * rp.getPointAllocation(ability, attribute)) + "&e -> &7" + (attribute.getBaseValue (ability) + (rp.getPointAllocation(ability, attribute) * attribute.getValuePerPoint(ability)) + attribute.getValuePerPoint(ability))), "&e" + FileManager.getLang().getString("inventory.item_points_tile_points") + " &7" + (int) rp.getPointAllocation(ability, attribute) + "&e / &7" + (int) attribute.getValueMaxPoint(ability), " ", max ? FileManager.getLang().getString("inventory.item_points_tile_max") : noPoints ? FileManager.getLang().getString("inventory.item_points_tile_none") : FileManager.getLang().getString("inventory.item_points_tile_spend")), e -> {
                     if (rp.attemptSetPointAllocation(ability, attribute, (int) rp.getPointAllocation(ability, attribute) + 1, false)) {
                         InventoryUtils.sendConfirmedSound(player);
                     } else {

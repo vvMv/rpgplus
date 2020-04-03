@@ -3,7 +3,6 @@ package com.vmv.rpgplus.main;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
-import com.vmv.core.minecraft.gui.PrivateInventory;
 import com.vmv.core.minecraft.misc.BarTimerManager;
 import com.vmv.rpgplus.command.CommandManager;
 import com.vmv.rpgplus.database.DatabaseManager;
@@ -39,7 +38,6 @@ public class RPGPlus extends JavaPlugin {
         new InventoryUtils(this);
         new DatabaseManager(this);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {new PlaceholderRequestEvent().register();}
-        registerEvents(PrivateInventory.getListener());
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(ArmorStand.class).forEach(entity -> {
             if (entity.getName().length() <= 2) return;
             if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove();
