@@ -6,6 +6,8 @@ import com.vmv.rpgplus.main.RPGPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,11 +24,13 @@ public class TreeCutter extends BukkitRunnable {
     private List<Block> leaves = new ArrayList<>();
     private int maxsize;
     private double delay;
+    private Player player;
 
-    public TreeCutter(Block startBlock, double delay, int maxsize) {
+    public TreeCutter(Block startBlock, double delay, int maxsize, Player p) {
         this.delay = delay;
         this.startBlock = startBlock;
         this.maxsize = maxsize;
+        this.player = p;
     }
 
     @Override
@@ -39,10 +43,11 @@ public class TreeCutter extends BukkitRunnable {
             if (c >= maxsize) break;
             Bukkit.getServer().getScheduler().runTaskLater(RPGPlus.getInstance(), () -> {
                 Location center = b.getLocation().add(0.5, 0.5, 0.5);
-                for (ItemStack stack : b.getDrops()) {
+                b.getWorld().playSound(center, XSound.BLOCK_WOOD_STEP.parseSound(), 1.0f, 1.0f);
+                Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(b, player));
+                b.setType(XMaterial.AIR.parseMaterial());
+                for (ItemStack stack : b.getDrops(player.getInventory().getItemInMainHand())) {
                     b.getWorld().dropItem(center, stack);
-                    b.getWorld().playSound(center, XSound.BLOCK_WOOD_STEP.parseSound(), 1.0f, 1.0f);
-                    b.setType(XMaterial.AIR.parseMaterial());
                 }
             }, (long) (20 * c * delay));
 

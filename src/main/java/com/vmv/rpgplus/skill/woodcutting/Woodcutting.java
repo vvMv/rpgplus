@@ -36,6 +36,7 @@ public class Woodcutting extends Skill implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
 
+        if (e.isCancelled()) return;
         if (!super.hasBuildPermission(e.getBlock().getLocation(), e.getPlayer()) || !super.hasMaterial(e.getPlayer())) return;
 
         if (!logs.contains(e.getBlock().toString())) {

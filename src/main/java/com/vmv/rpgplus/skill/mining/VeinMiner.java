@@ -7,14 +7,17 @@ import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
+import com.vmv.rpgplus.skill.AbilityUtils;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +26,7 @@ import java.util.List;
 public class VeinMiner extends Ability implements Listener {
 
     public List<Material> blocks = new ArrayList<>();
-    public static List<Block> checkedBlocks;
+    public List<Block> checkedBlocks = new ArrayList<Block>();
     public int maxSize;
     public int delay;
 
@@ -38,44 +41,41 @@ public class VeinMiner extends Ability implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void blockBreakEvent(BlockBreakEvent e) {
 
+        if (e.isCancelled()) return;
         if (!isHoldingAbilityItem(e.getPlayer())) return;
         if (checkReady(e.getPlayer())) setActive(e.getPlayer(), getDuration(e.getPlayer()));
         if (!isActive(e.getPlayer())) return;
-
         if (!blocks.contains(e.getBlock().getType())) return;
+        if (checkedBlocks.contains(e.getBlock())) return;
 
-        checkedBlocks = new ArrayList<Block>();
-        HashSet<Block> vein = findBlocks(e.getBlock(), new HashSet<Block>());
-        int delay = 5;
+        HashSet<Block> vein = AbilityUtils.collectBlocks(e.getBlock(), new HashSet<Block>(), maxSize);
+        checkedBlocks.addAll(vein);
+
+        int time = delay;
+
         for (Block block : vein) {
-            Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
-                @Override
-                public void run() {
-                    block.getLocation().getWorld().playSound(block.getLocation(), XSound.BLOCK_STONE_BREAK.parseSound(), 1.0F, 1.0F);
-                    block.breakNaturally();
-                }
-            }, (long) delay);
-            delay+= this.delay;
+            Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), () -> {
+                Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(block, e.getPlayer()));
+            }, time += this.delay);
         }
-
     }
 
-    public HashSet<Block> findBlocks(Block anchor, HashSet<Block> collected) { //Recursively find ores in vein
-        if (collected.contains(anchor)) return collected;
-        if (collected.size() > maxSize) return collected;
-        collected.add(anchor);
+    @EventHandler
+    public void veinBreakEvent(BlockBreakEvent e) {
+        Block block = e.getBlock();
+        if (!checkedBlocks.contains(e.getBlock())) return;
+        if (e.isCancelled()) return;
+        checkedBlocks.remove(e.getBlock());
 
-        for (BlockFace face : BlockFace.values()) {
-            if (anchor.getRelative(face).getType().equals(anchor.getType())) {
-                findBlocks(anchor.getRelative(face), collected);
-            }
+        block.getLocation().getWorld().playSound(block.getLocation(), XSound.BLOCK_STONE_BREAK.parseSound(), 1.0F, 1.0F);
+        Location center = block.getLocation().add(0.5, 0.5, 0.5);
+        for (ItemStack stack : block.getDrops(e.getPlayer().getInventory().getItemInMainHand())) {
+            block.getWorld().dropItem(center, stack);
         }
-
-        checkedBlocks.addAll(collected);
-        return collected;
+        block.setType(XMaterial.AIR.parseMaterial());
     }
 
 }

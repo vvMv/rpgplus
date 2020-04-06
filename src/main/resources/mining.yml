@@ -84,7 +84,7 @@ ability:
     cooldown: 40
     duration: 1
     maxsize: 27                   #The maximum vein size to mine
-    delay: 3                      #Delay in ticks for effect of each block to mine
+    delay: 1                      #Delay in ticks for effect of each block to mine
     attributes:
       increase_duration:
         per_point: 2
