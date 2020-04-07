@@ -31,7 +31,7 @@ public class LifeSteal extends Ability implements Listener {
 
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer((Player) e.getDamager());
 
-        double stealChance = rp.getAttributeValue(this, AbilityAttribute.INCREASE_LIFE_STEAL_CHANCE);
+        double stealChance = rp.getAttributeValue(this, AbilityAttribute.INCREASE_CHANCE);
         double stealAmount = rp.getAttributeValue(this, AbilityAttribute.INCREASE_LIFE_STEAL);
 
         if (MathUtils.getRandom(100, 1) <= stealChance) {

@@ -43,7 +43,7 @@ ability:
   tree_feller:                    #Chops down the whole tree
     enabled: true
     duration: 5
-    delay: 3                      #Delay between blocks falling
+    delay: 0                      #Delay between blocks falling
     maxsize: 27
     level: 40
     cooldown: 60
