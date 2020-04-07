@@ -18,4 +18,8 @@ public class MathUtils {
         return min + (max - min) * r.nextDouble();
     }
 
+    public static double getRandomPercentage() {
+        return getRandom(100, 0);
+    }
+
 }

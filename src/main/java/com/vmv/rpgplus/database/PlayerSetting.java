@@ -23,6 +23,7 @@ public enum PlayerSetting {
     //Stamina
     DASH("1"),
     HEALTH("1"),
+    FEATHER_FALLING("1"),
 
     //Woodcutting
     TREE_FELLER("1"),

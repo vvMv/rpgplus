@@ -30,7 +30,8 @@ public class Stamina extends Skill implements Listener {
     @Override
     protected void registerAbilities() {
         registerAbilities(new Dash("dash", getSkillType(), AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION, AbilityAttribute.INCREASE_SPEED),
-                new Health("health", getSkillType(), AbilityAttribute.INCREASE_HEARTS));
+                new Health("health", getSkillType(), AbilityAttribute.INCREASE_HEARTS),
+                new FeatherFalling("feather_falling", getSkillType(), AbilityAttribute.INCREASE_CHANCE, AbilityAttribute.INCREASE_REDUCTION));
     }
 
     @Override

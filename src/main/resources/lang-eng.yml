@@ -60,6 +60,7 @@ ability:
   dash: "Dash"
   health: "Health"
   tree_feller: "Tree Feller"
+  feather_falling: "Feather Falling"
 attribute:
   decrease_cooldown: "Decrease Cooldown"
   decrease_cooldown_description: "decrease the ability cooldown"
@@ -79,8 +80,10 @@ attribute:
   decrease_selfdamage_description: "decrease the damage taken"
   increase_life_steal: "Increase Life Steal"
   increase_life_steal_description: "increase the percentage of damage healed"
-  increase_life_steal_chance: "Increase Life Steal Chance"
-  increase_life_steal_chance_description: "increase the chance of life steal happening"
+  increase_chance: "Increase Chance"
+  increase_chance_description: "increase the chance of ability triggering"
+  increase_reduction: "Increase Reduction"
+  increase_reduction_description: "increase the reduction amount"
 inventory:
   bool_true: "&aTrue"
   bool_false: "&cFalse"

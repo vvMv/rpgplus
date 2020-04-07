@@ -31,6 +31,17 @@ ability:
       increase_hearts:
         per_point: 2              #How much health increase per point (1 = half a heart)
         max_point: 20             #The maximum ability points that can be assigned
+  feather_falling:                #Reduce damage taken by falling
+    enabled: true
+    chance: 20                    #The chance in % to trigger
+    reduction: 40                 #the amount in % to reduce damage by
+    attributes:
+      increase_chance:
+        per_point: 5
+        max_point: 10
+      increase_reduction:
+        per_point: 4
+        max_point: 15
   stealth:
     enabled: true
     level: 15
