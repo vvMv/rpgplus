@@ -5,6 +5,7 @@ import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +24,7 @@ public class Track extends Ability implements Listener {
     public void onTrackHit(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof LivingEntity)) return;
         if (!checkReady((LivingEntity) e.getDamager())) return;
-
+        if (e.getEntity() instanceof ArmorStand) return;
         if (e.getEntity().isGlowing()) return;
         if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) return;
         if (!isHoldingAbilityItem((Player) e.getDamager())) return;
