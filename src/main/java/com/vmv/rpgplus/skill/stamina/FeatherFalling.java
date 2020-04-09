@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class FeatherFalling extends Ability implements Listener {
     public FeatherFalling(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);
+        this.passive = true;
         this.description = "Chance to take reduced fall damage";
     }
 

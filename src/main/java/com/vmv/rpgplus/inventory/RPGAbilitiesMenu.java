@@ -32,7 +32,6 @@ public class RPGAbilitiesMenu implements InventoryProvider {
             List<Ability> abilities = AbilityManager.getInstance().getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList()); //sorts ability by level
             int ycount = 1;
             for (Ability ability : abilities) {
-                if (ability.isPassive()) continue;
                 inventoryContents.set(ycount, xcount, ClickableItem.of(InventoryUtils.getItem(rp.hasAbilityLevelRequirement(ability) ? (rp.hasAbilityEnabled(ability) ? XMaterial.GREEN_WOOL : XMaterial.ORANGE_WOOL) : XMaterial.RED_WOOL, ChatColor.translateAlternateColorCodes('&', "&e" + ability.getFormattedName()), 1, FileManager.getLang().getString("inventory.item_abilities_toggle_active").replace("%b", (rp.hasAbilityEnabled(ability) && rp.hasAbilityLevelRequirement(ability) ? FileManager.getLang().getString("inventory.bool_true") : FileManager.getLang().getString("inventory.bool_false"))), FileManager.getLang().getString("inventory.item_abilities_toggle_required").replace("%c", (rp.hasAbilityLevelRequirement(ability) ? "&a" : "&c")).replace("%l", ability.getRequiredLevel() + "")), e -> {
                     if (rp.hasAbilityLevelRequirement(ability)) {
                         rp.toggleAbilityEnabled(ability);

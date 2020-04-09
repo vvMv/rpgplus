@@ -19,6 +19,7 @@ public class LifeSteal extends Ability implements Listener {
 
     public LifeSteal(String name, SkillType st, AbilityAttribute... attributes) {
         super(name, st, attributes);
+        this.passive = true;
         this.description = "Chance to steal health when in combat";
     }
 

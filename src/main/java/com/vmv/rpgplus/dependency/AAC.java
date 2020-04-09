@@ -13,7 +13,7 @@ public class AAC implements Listener {
     public void preventMiningViolation(PlayerViolationEvent e) {
         Ability a = AbilityManager.getInstance().getAbility("vein_miner");
         if (a == null) return;
-        if (e.getHackType() != HackType.FASTBREAK) return;
+        if (e.getHackType() != HackType.FASTBREAK && e.getHackType() != HackType.INTERACT) return;
         if (a.getActive().containsKey(e.getPlayer())) e.setCancelled(true);
     }
 
@@ -21,7 +21,7 @@ public class AAC implements Listener {
     public void preventWoodcuttingViolation(PlayerViolationEvent e) {
         Ability a = AbilityManager.getInstance().getAbility("tree_feller");
         if (a == null) return;
-        if (e.getHackType() != HackType.FASTBREAK) return;
+        if (e.getHackType() != HackType.FASTBREAK && e.getHackType() != HackType.INTERACT) return;
         if (a.getActive().containsKey(e.getPlayer())) e.setCancelled(true);
     }
 

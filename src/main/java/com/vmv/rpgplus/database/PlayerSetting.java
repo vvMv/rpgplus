@@ -11,6 +11,7 @@ public enum PlayerSetting {
 
     //Attack
     TRACK("1"),
+    LIFE_STEAL("1"),
 
     //Farming
 
