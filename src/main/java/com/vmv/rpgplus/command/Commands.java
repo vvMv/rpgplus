@@ -22,10 +22,7 @@ public class Commands extends BaseCommand {
 
     @Default
     public void onDefault(Player p) {
-
         displayMenu(p);
-
-
     }
 
     @Subcommand("menu|settings")
@@ -73,6 +70,15 @@ public class Commands extends BaseCommand {
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_level_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
         if (Bukkit.getPlayer(player.getName()) != null) {
             ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
+        }
+    }
+
+    @Subcommand("setlevels")
+    @CommandPermission("rpgplus.setlevels")
+    @CommandCompletion("@players @range:1-100")
+    public void setLevels(CommandSender p, OfflinePlayer player, int level) {
+        for (Skill skill : SkillManager.getInstance().getSkills()) {
+            setLevel(p, player, skill.getSkillType().toString().toLowerCase(), level);
         }
     }
 
@@ -145,6 +151,27 @@ public class Commands extends BaseCommand {
                 rp.attemptSetPointAllocation(ability, attribute, 0, true);
             }
         }
+    }
+
+    @Subcommand("resetexperience|resetexp|resetlevels|resetlev")
+    @CommandPermission("rpgplus.resetexperience")
+    @CommandCompletion("@players")
+    public void resetExperience(CommandSender p, OfflinePlayer player) {
+        RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
+        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_receiver").replace("%p", p.getName()));
+        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_sender").replace("%p", Bukkit.getPlayer(player.getName()).getName()));
+
+        for (Skill skill : SkillManager.getInstance().getSkills()) {
+            rp.resetXP(skill.getSkillType());
+        }
+    }
+
+    @Subcommand("reset")
+    @CommandPermission("rpgplus.reset")
+    @CommandCompletion("@players")
+    public void reset(CommandSender p, OfflinePlayer player) {
+        resetAttribute(p, player);
+        resetExperience(p, player);
     }
 
     @Subcommand("reload|r|rl")
