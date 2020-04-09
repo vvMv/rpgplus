@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,6 +28,7 @@ public class VeinMiner extends Ability implements Listener {
 
     public List<Material> blocks = new ArrayList<>();
     public List<Block> checkedBlocks = new ArrayList<Block>();
+    public List<Player> exemptPlayers = new ArrayList<>();
     public int maxSize;
     public int delay;
 
@@ -57,6 +59,7 @@ public class VeinMiner extends Ability implements Listener {
         int time = delay;
 
         for (Block block : vein) {
+            if (time + delay > getActive().get(e.getPlayer()) * 20) return;
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), () -> {
                 Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(block, e.getPlayer()));
             }, time += this.delay);

@@ -6,6 +6,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.misc.BarTimerManager;
 import com.vmv.rpgplus.command.CommandManager;
 import com.vmv.rpgplus.database.DatabaseManager;
+import com.vmv.rpgplus.dependency.DependencyManager;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.PlaceholderRequestEvent;
 import com.vmv.rpgplus.inventory.InventoryUtils;

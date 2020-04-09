@@ -56,6 +56,7 @@ public class TreeFeller extends Ability implements Listener {
 
         checkedBlocks.addAll(logVein);
         for (Block block : logVein) {
+            if (time + delay > getActive().get(e.getPlayer()) * 20) return;
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), () -> {
                 Bukkit.getServer().getPluginManager().callEvent(new BlockBreakEvent(block, e.getPlayer()));
             }, time += this.delay);
