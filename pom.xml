@@ -37,10 +37,6 @@
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>sk89q-repo</id>
-            <url>https://maven.sk89q.com/repo/</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -77,20 +73,6 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.4</version>
             <scope>provided</scope>
-        </dependency>
-        <!--WorldGuard-->
-        <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--GriefPrevention-->
-        <dependency>
-            <groupId>com.github.TechFortress</groupId>
-            <artifactId>GriefPrevention</artifactId>
-            <scope>provided</scope>
-            <version>16.13.0</version>
         </dependency>
         <!--XMaterial-->
         <dependency>
