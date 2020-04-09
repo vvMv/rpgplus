@@ -144,7 +144,7 @@ public class Commands extends BaseCommand {
     public void resetAttribute(CommandSender p, OfflinePlayer player) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_receiver").replace("%p", p.getName()));
-        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_sender").replace("%p", Bukkit.getPlayer(player.getName()).getName()));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("reset_attribute_sender").replace("%p", player.getName()));
 
         for (Ability ability : AbilityManager.getInstance().getAbilities()) {
             for (AbilityAttribute attribute : ability.getAttributes()) {
@@ -159,7 +159,7 @@ public class Commands extends BaseCommand {
     public void resetExperience(CommandSender p, OfflinePlayer player) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_receiver").replace("%p", p.getName()));
-        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_sender").replace("%p", Bukkit.getPlayer(player.getName()).getName()));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("reset_experience_sender").replace("%p", player.getName()));
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
             rp.resetXP(skill.getSkillType());

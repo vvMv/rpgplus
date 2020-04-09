@@ -30,6 +30,7 @@ public class Health extends Ability implements Listener {
 
     @EventHandler
     public void healthAbilityEvent(PointModifyEvent e) {
+        if (e.getPlayer() == null) return;
         if (e.getAbility() == AbilityManager.getInstance().getAbility("health")) updateHearts(e.getPlayer());
     }
 
