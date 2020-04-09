@@ -25,6 +25,7 @@ public class DependencyManager {
     public DependencyManager() {
         instance = this;
         worldGuard = setupWorldGuard();
+        if (!getRequired()) RPGPlus.getInstance().getServer().getPluginManager().disablePlugin(RPGPlus.getInstance());
         if (Bukkit.getPluginManager().getPlugin("AAC") != null) {
             RPGPlus.getInstance().registerEvents(new AAC());
             InformationHandler.printMessage(InformationType.INFO, "AAC found and initialized compatibility");
@@ -58,6 +59,10 @@ public class DependencyManager {
 
         }
         return true;
+    }
+
+    private boolean getRequired() {
+        return new Required().valid();
     }
 
     public static DependencyManager getInstance() {
