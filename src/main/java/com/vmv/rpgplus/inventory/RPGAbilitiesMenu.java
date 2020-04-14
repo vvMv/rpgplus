@@ -28,7 +28,16 @@ public class RPGAbilitiesMenu implements InventoryProvider {
         inventoryContents.fill(ClickableItem.empty(InventoryUtils.getItem(XMaterial.GRAY_STAINED_GLASS_PANE)));
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
-            inventoryContents.set(0, xcount, ClickableItem.empty(InventoryUtils.getItem(skill.getDisplay(), skill.getFormattedName(), 1, FileManager.getLang().getString("inventory.item_abilities_toggle_icon"))));
+            inventoryContents.set(0, xcount, ClickableItem.of(InventoryUtils.getItem(skill.getDisplay(), skill.getFormattedName(), 1, FileManager.getLang().getString("inventory.item_abilities_toggle_icon")), e -> {
+                List<Ability> abs = AbilityManager.getInstance().getAbilities(skill.getSkillType());
+                if (abs.size() > 0) {
+                    if (!rp.hasAbilityLevelRequirement(abs.get(0))) return;
+                    if (rp.hasAbilityEnabled(abs.get(0))) abs.forEach(ability -> rp.toggleAbilityEnabled(ability, false));
+                    else abs.forEach(ability -> rp.toggleAbilityEnabled(ability, true));
+                    InventoryUtils.sendConfirmedSound(player);
+                    init(player, inventoryContents);
+                }
+            }));
             List<Ability> abilities = AbilityManager.getInstance().getAbilities(skill.getSkillType()).stream().sorted(Comparator.comparingDouble(Ability::getRequiredLevel)).collect(Collectors.toList()); //sorts ability by level
             int ycount = 1;
             for (Ability ability : abilities) {

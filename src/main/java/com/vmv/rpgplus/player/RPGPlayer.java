@@ -176,8 +176,17 @@ public class RPGPlayer {
     }
 
     public void toggleAbilityEnabled(Ability a) {
+        toggleAbilityEnabled(a, null);
+    }
+
+    public void toggleAbilityEnabled(Ability a, Boolean setTo) {
         if (!hasAbilityLevelRequirement(a)) return;
         setActiveAbility(a.getSkillType(), null);
+        if (setTo != null) {
+            InformationHandler.printMessage(InformationType.DEBUG, "reached with setto being " + setTo.booleanValue());
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), setTo.booleanValue() ? "1" : "0");
+            return;
+        }
         if (hasAbilityEnabled(a)) {
             setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "0");
         } else {
