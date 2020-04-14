@@ -15,6 +15,7 @@ import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.mining.OreLocator;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.Listener;
@@ -66,5 +67,10 @@ public class RPGPlus extends JavaPlugin {
         for (Listener listener : listeners) {
             Bukkit.getServer().getPluginManager().registerEvents(listener, getInstance());
         }
+    }
+
+    @Override
+    public FileConfiguration getConfig() {
+        return FileManager.getConfig();
     }
 }
