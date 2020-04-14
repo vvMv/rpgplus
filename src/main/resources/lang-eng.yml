@@ -9,17 +9,17 @@ level_up:
 points_reminder:
   - '&6&m&l------------------&f&l REMINDER &6&m&l------------------'
   - ' '
-  - '&eYou have the following ability points to spend using /rpg'
+  - '&eYou have ability points to spend using /rpg'
   - '&a%a'
   - ' '
   - '&6&m&l---------------------------------------------'
 stats_display:
-      - '&6&m&l-------------------&f&l STATS &6&m&l-------------------'
-      - ' '
-      - '&7Total level for %p = %t'
-      - '&e%s &f&l: &6%l'
-      - ' '
-      - '&6&m&l---------------------------------------------'
+  - '&6&m&l-------------------&f&l STATS &6&m&l-------------------'
+  - ' '
+  - '&7Total level for %p = %t'
+  - '&e%s &f&l: &6%l'
+  - ' '
+  - '&6&m&l---------------------------------------------'
 stats_player_invalid: "&cUnable to find player &b%p"
 set_level_sender: "&b%p &7now has level &b%l &7%s"
 set_level_receiver: "&b%p &7set your &b%s &7level to &b%l"

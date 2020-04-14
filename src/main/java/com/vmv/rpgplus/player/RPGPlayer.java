@@ -223,24 +223,34 @@ public class RPGPlayer {
     }
 
     public void sendAbilityPointReminder() {
-        try {
-            if (getAbilityPoints() > 0 && getSettingBoolean(PlayerSetting.REMINDER_MESSAGES)) {
+        if (getAbilityPoints() > 0 && getSettingBoolean(PlayerSetting.REMINDER_MESSAGES)) {
 
-                List<String> reminder = FileManager.getLang().getStringList("points_reminder");
-                StringBuilder sb = new StringBuilder();
+            List<String> reminder = FileManager.getLang().getStringList("points_reminder");
+            StringBuilder sb = new StringBuilder();
 
-                for (Skill skill : SkillManager.getInstance().getSkills()) {
-                    if (getAbilityPoints(skill) < 1) continue;
-                    sb.append(WordUtils.capitalizeFully(skill.getFormattedName()) + " " + (int) getAbilityPoints(skill) + ", ");
+            for (Skill skill : SkillManager.getInstance().getSkills()) {
+
+                int spent = 0; //counting how many spent on skill to prevent reminder being sent if no points can be spent
+                int max = 0;
+
+                for (Ability ab : AbilityManager.getInstance().getAbilities(skill.getSkillType())) {
+                    for (AbilityAttribute at : ab.getAttributes()) {
+                        spent += getPointAllocation(ab, at);
+                        max += at.getValueMaxPoint(ab);
+                    }
                 }
 
-                sb.deleteCharAt(sb.length() - 2);
-
-                for (String s : reminder) {
-                    ChatUtil.sendCenteredChatMessage(Bukkit.getPlayer(getUuid()), s.replaceAll("%a", sb.toString()));
-                }
+                if (spent == max) continue;
+                if (getAbilityPoints(skill) < 1) continue;
+                sb.append(WordUtils.capitalizeFully(skill.getFormattedName()) + " " + (int) getAbilityPoints(skill) + ", ");
             }
-        } catch (Exception e) {}
+
+            sb.deleteCharAt(sb.length() - 2);
+
+            for (String s : reminder) {
+                ChatUtil.sendCenteredChatMessage(Bukkit.getPlayer(getUuid()), s.replaceAll("%a", sb.toString()));
+            }
+        }
     }
 
 }

@@ -8,6 +8,7 @@ class CenteredMessageUtils {
     private final static int CENTER_PX = 154;
 
     public static void send(Player player, String message) {
+        if (player == null) return;
         if (message == null || message.equals(""))
             player.sendMessage("");
         String formattedMessage = ChatColor.translateAlternateColorCodes('&', message);
