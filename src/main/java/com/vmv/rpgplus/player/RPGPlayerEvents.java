@@ -68,7 +68,7 @@ public class RPGPlayerEvents implements Listener {
         int percent = Integer.parseInt(decimal);
 
         ChatUtil.sendActionMessage(e.getPlayer(), "&f" + WordUtils.capitalizeFully(e.getSkill().toString()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
-        if (!RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) return;
+        if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") || !RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) return;
         ChatUtil.sendFloatingMessage(e.getPlayer(), SkillManager.getInstance().getSkill(e.getSkill()).getSkillColor() + "+" + e.getExp() + "xp", 1);
     }
 
