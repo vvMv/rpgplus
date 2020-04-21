@@ -10,9 +10,11 @@ import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -210,6 +212,12 @@ public class RPGPlayer {
     }
 
     public void setXP(SkillType skill, double amount) {
+
+        if (Bukkit.getPlayer(getUuid()) != null) {
+            Player p = Bukkit.getPlayer(getUuid());
+            if (RPGPlus.getInstance().getConfig().getStringList("general.experience_blacklist").contains(p.getWorld().getName())) return;
+        }
+
         double xp = amount;
         if (xp < 0) xp = 0;
         xp = MathUtils.round(xp, 2);

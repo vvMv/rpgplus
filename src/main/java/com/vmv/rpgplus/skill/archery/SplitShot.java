@@ -7,6 +7,7 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -63,7 +64,7 @@ public class SplitShot extends Ability implements Listener {
             a.setVelocity(velocity);
 
             a.setShooter(e.getEntity());
-            a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
+            if (!Bukkit.getVersion().contains("1.12")) a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
             a.setCustomName("splitshot_arrow");
             a.setBounce(false);
             //a.setDamage(((Arrow) e.getProjectile()).getDamage());

@@ -48,7 +48,7 @@ public class MultiArrow extends Ability implements Listener {
                     Vector playerCameraVector = p.getPlayer().getEyeLocation().getDirection().normalize();
                     a.setVelocity(playerCameraVector.multiply(firstArrowSpeed));
                     a.setShooter(e.getEntity());
-                    a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
+                    if (!Bukkit.getVersion().contains("1.12")) a.setPickupStatus(((Player) e.getEntity()).getGameMode() == GameMode.CREATIVE || e.getBow().containsEnchantment(Enchantment.ARROW_INFINITE) ? Arrow.PickupStatus.CREATIVE_ONLY : Arrow.PickupStatus.ALLOWED);
                     a.setCustomName("multishot_arrow");
                     a.setBounce(false);
                     //a.setDamage(((Arrow) e.getProjectile()).getDamage());

@@ -4,6 +4,9 @@ general:
   save_data: 6000                   #How often data should save in ticks 20 ticks is 1 second
   experience_growth: 1.618          #The rate of experience growth per level
   experience_animation: true        #Should the experience popups appear
+  experience_blacklist:
+    - "blockedworld"
+    - "anotherblocked"
 sounds:
   level_up: 'ENTITY_PLAYER_LEVELUP' #Sound played when a player levels up in a skill
 actionbar:
