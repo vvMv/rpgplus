@@ -215,7 +215,8 @@ public class RPGPlayer {
 
         if (Bukkit.getPlayer(getUuid()) != null) {
             Player p = Bukkit.getPlayer(getUuid());
-            if (RPGPlus.getInstance().getConfig().getStringList("general.experience_blacklist").contains(p.getWorld().getName())) return;
+            if (RPGPlus.getInstance().getConfig().getStringList("general.experience_blacklist_world").contains(p.getWorld().getName())) return;
+            if (RPGPlus.getInstance().getConfig().getStringList("general.experience_blacklist_gamemode").stream().anyMatch(p.getGameMode().toString()::equalsIgnoreCase)) return;
         }
 
         double xp = amount;
