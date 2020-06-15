@@ -5,12 +5,14 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.inventory.InventoryUtils;
 import com.vmv.rpgplus.inventory.RPGMenu;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.*;
+import com.vmv.rpgplus.skill.mining.OreLocator;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -53,6 +55,15 @@ public class Commands extends BaseCommand {
             }
             ChatUtil.sendCenteredChatMessage(p, stats_display.replace("%p", Bukkit.getPlayer(pl.getUuid()).getName()).replace("%t", pl.getTotalLevel() + ""));
         }
+    }
+
+    @Subcommand("fixexp")
+    @CommandPermission("rpgplus.fixexp")
+    public void fixExp(Player player) {
+        ChatUtil.sendChatMessage(player, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
+        ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
+        ChatUtil.sendChatMessage(player, "Removing locator entities [" + OreLocator.magmas.size() + "]");
+        OreLocator.killAllSlimes();
     }
 
     @Subcommand("debug")
