@@ -14,7 +14,6 @@
     <properties>
         <bukkit.version>1.16.1-R0.1-SNAPSHOT</bukkit.version>
     </properties>
-
     <repositories>
 <!--        <repository>-->
 <!--            <id>papermc</id>-->
