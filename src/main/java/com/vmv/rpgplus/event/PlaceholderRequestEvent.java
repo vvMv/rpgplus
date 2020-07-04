@@ -78,6 +78,15 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
             return String.valueOf(rp.getOverallPoints());
         }
 
+        //returns the value of an attribute format %rpgplus_attribute_value_{ability}_{attribute}%
+        for (Ability ability : AbilityManager.getInstance().getAbilities()) {
+            for (AbilityAttribute attribute : ability.getAttributes()) {
+                if (id.equalsIgnoreCase("attribute_value_" + ability.getName() + "_" + attribute.name())) {
+                    return String.valueOf(rp.getAttributeValue(ability, attribute));
+                }
+            }
+        }
+
         return id;
     }
 
