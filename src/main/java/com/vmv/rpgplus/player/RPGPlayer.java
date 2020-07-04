@@ -69,6 +69,12 @@ public class RPGPlayer {
         return c;
     }
 
+    public int getTotalExperience() {
+        int c = 0;
+        for (Skill skill : SkillManager.getInstance().getSkills()) c += (int) getExperience(skill.getSkillType());
+        return c;
+    }
+
     public double getExperience(SkillType skill) {
         return exp.get(skill);
     }
@@ -93,6 +99,11 @@ public class RPGPlayer {
         setXP(skill, 0);
     }
 
+    /**
+     * @param ability test
+     * @param attribute from enum list
+     * @return May be null if the ability doesn't have specified attribute
+     */
     public double getAttributeValue(Ability ability, AbilityAttribute attribute) {
         double base = attribute.getBaseValue(ability);
         double playersAllocation = getPointAllocation(ability, attribute);
@@ -125,6 +136,12 @@ public class RPGPlayer {
             return pointAllocations.get(key);
         }
         return 0;
+    }
+
+    public double getOverallPoints() {
+        int c = 0;
+        for (Skill skill : SkillManager.getInstance().getSkills()) c += (int) getOverallPoints(skill);
+        return c;
     }
 
     public double getOverallPoints(Skill skill) {
