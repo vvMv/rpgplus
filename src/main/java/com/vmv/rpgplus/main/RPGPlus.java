@@ -27,6 +27,7 @@ public class RPGPlus extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         instance = this;
         saveDefaultConfig();
         new InformationHandler(this);
@@ -45,6 +46,13 @@ public class RPGPlus extends JavaPlugin {
             if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove();
         }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
+
+//        if (System.currentTimeMillis() > Long.valueOf("1593899909011")) {
+//            InformationHandler.printMessage(InformationType.INFO, "Trial has finished, disabling the plugin");
+//            getServer().getPluginManager().disablePlugin(this);
+//        } else {
+//            InformationHandler.printMessage(InformationType.INFO, "You are running a trial version of RPGPlus, this will last until 04/07/2020");
+//        }
 
     }
 
