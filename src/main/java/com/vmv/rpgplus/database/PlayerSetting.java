@@ -1,46 +1,48 @@
 package com.vmv.rpgplus.database;
 
+import com.vmv.core.config.FileManager;
+
 public enum PlayerSetting {
 
     //As SQLLite doesn't have a bool datatype 0/1 is used instead
     //Archery
-    MULTI_ARROW("1"),
-    EXPLOSIVE_ARROW("1"),
-    TELEPORT_ARROW("1"),
-    SPLIT_SHOT("1"),
+    MULTI_ARROW,
+    EXPLOSIVE_ARROW,
+    TELEPORT_ARROW,
+    SPLIT_SHOT,
 
     //Attack
-    TRACK("1"),
-    LIFE_STEAL("1"),
+    TRACK,
+    LIFE_STEAL,
 
     //Farming
 
     //Fishing
 
     //Mining
-    ORE_LOCATOR("1"),
-    VEIN_MINER("1"),
+    ORE_LOCATOR,
+    VEIN_MINER,
 
     //Stamina
-    DASH("1"),
-    HEALTH("1"),
-    FEATHER_FALLING("1"),
+    DASH,
+    HEALTH,
+    FEATHER_FALLING,
 
     //Woodcutting
-    TREE_FELLER("1"),
+    TREE_FELLER,
 
     //Misc
-    EXPERIENCE_POPUPS("1"),
-    LEVELUP_MESSAGES("1"),
-    REMINDER_MESSAGES("1");
+    EXPERIENCE_POPUPS,
+    LEVELUP_MESSAGES,
+    REMINDER_MESSAGES;
 
-    private String defaultValue;
+    private Boolean defaultValue;
 
-    PlayerSetting(String defaultValue) {
-        this.defaultValue = defaultValue;
+    PlayerSetting() {
+        this.defaultValue = FileManager.getSettings().getBoolean(this.name());
     }
 
-    public String getDefaultValue() {
+    public Boolean getDefaultValue() {
         return defaultValue;
     }
 }

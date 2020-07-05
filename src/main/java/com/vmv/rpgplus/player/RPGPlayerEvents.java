@@ -38,7 +38,7 @@ public class RPGPlayerEvents implements Listener {
                 xp.put(s, 0.0);
             }
             for (PlayerSetting setting : PlayerSetting.values()) {
-                settings.put(setting, setting.getDefaultValue());
+                settings.put(setting, setting.getDefaultValue() ? "1" : "0");
             }
             for (Ability ability : AbilityManager.getInstance().getAbilities()) {
                 for (AbilityAttribute attribute : ability.getAttributes()) {
