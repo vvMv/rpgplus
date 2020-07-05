@@ -81,7 +81,7 @@ public class RPGPlayerEvents implements Listener {
 
             for (String s : msg) {
                 ChatUtil.sendCenteredChatMessage(p, s
-                        .replace("%s", StringUtils.capitalize(e.getSkill().toString().toLowerCase()))
+                        .replace("%s", StringUtils.capitalize(SkillManager.getInstance().getSkill(e.getSkill()).getFormattedName()))
                         .replace("%f", String.valueOf(e.getFromLevel()))
                         .replace("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
                         .replace("%n", String.valueOf(e.getLevel() + 1))

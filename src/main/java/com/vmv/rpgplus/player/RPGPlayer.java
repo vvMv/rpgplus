@@ -12,7 +12,6 @@ import com.vmv.rpgplus.event.LevelModifyEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.skill.*;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -280,7 +279,7 @@ public class RPGPlayer {
 
                 if (spent == max) continue;
                 if (getAbilityPoints(skill) < 1) continue;
-                sb.append(WordUtils.capitalizeFully(skill.getFormattedName()) + " " + (int) getAbilityPoints(skill) + ", ");
+                sb.append(skill.getFormattedName() + " " + (int) getAbilityPoints(skill) + ", ");
             }
 
             if (sb.length() >= 2) sb.deleteCharAt(sb.length() - 2);
