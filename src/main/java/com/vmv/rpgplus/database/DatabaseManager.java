@@ -53,7 +53,7 @@ public class DatabaseManager {
         settingDataToSave.forEach(data -> {
             String uuid = data.split(":")[0];
             String setting = data.split(":")[1].toUpperCase();
-            Database.getInstance().updateData("player_settings", setting, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getSettingValue(PlayerSetting.valueOf(setting)), "uuid", "=", uuid, aSync);
+            Database.getInstance().updateData("player_settings", setting, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getSettingValue(PlayerSetting.valueOf(setting)) ? "1.0" : "0.0", "uuid", "=", uuid, aSync);
         });
 
         pointDataToSave.forEach(data -> {
@@ -97,7 +97,7 @@ public class DatabaseManager {
 
         //create database entry based of player settings enum and set its default value
         for (PlayerSetting setting : PlayerSetting.values()) {
-            queries.add("ALTER TABLE player_settings ADD " + setting.toString().toLowerCase() + " DOUBLE DEFAULT " + setting.getDefaultValue());
+            queries.add("ALTER TABLE player_settings ADD " + setting.toString().toLowerCase() + " DOUBLE DEFAULT " + (setting.getDefaultValue() ? "1.0" : "0.0"));
         }
 
         for (Ability ability : AbilityManager.getInstance().getAbilities()) {
@@ -127,7 +127,7 @@ public class DatabaseManager {
         try {
             while (data.next()) {
                 HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
-                HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
+                HashMap<PlayerSetting, Boolean> settings = new HashMap<PlayerSetting, Boolean>();
                 HashMap<String, Double> pointAllocations = new HashMap<String, Double>();
 
                 UUID uuid = UUID.fromString(data.getString("uuid"));
@@ -142,7 +142,7 @@ public class DatabaseManager {
                 ResultSet settingsData = Database.getInstance().selectData("SELECT * FROM player_settings WHERE uuid = '" + uuid.toString() + "'");
                 while (settingsData.next()) {
                     for (PlayerSetting setting : PlayerSetting.values()) {
-                        settings.put(setting, settingsData.getString(setting.toString().toLowerCase()));
+                        settings.put(setting, settingsData.getString(setting.toString().toLowerCase()).equals("1.0") ? true : false);
                     }
                 }
 

@@ -23,11 +23,11 @@ import java.util.UUID;
 public class RPGPlayer {
     private HashMap<SkillType, Double> exp = new HashMap<SkillType, Double>();
     private HashMap<SkillType, Ability> activeAbility;
-    private HashMap<PlayerSetting, String> settings;
+    private HashMap<PlayerSetting, Boolean> settings;
     private HashMap<String, Double> pointAllocations;
     private UUID uuid;
 
-    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp, HashMap<PlayerSetting, String> settings, HashMap<String, Double> pointAllocations) {
+    public RPGPlayer(UUID uuid, HashMap<SkillType, Double> exp, HashMap<PlayerSetting, Boolean> settings, HashMap<String, Double> pointAllocations) {
         this.uuid = uuid;
         this.exp = exp;
         this.settings = settings;
@@ -35,15 +35,18 @@ public class RPGPlayer {
         this.activeAbility = new HashMap<SkillType, Ability>();
     }
 
-    public HashMap<PlayerSetting, String> getSettings() {
+    public HashMap<PlayerSetting, Boolean> getSettings() {
         return settings;
     }
 
-    public String getSettingValue(PlayerSetting setting) {
+    public Boolean getSettingValue(PlayerSetting setting) {
+        for (Boolean value : settings.values()) {
+            InformationHandler.printMessage(InformationType.DEBUG, setting.name() + " is " + settings.get(setting));
+        }
         return settings.get(setting);
     }
 
-    public void setSettingValue(PlayerSetting setting , String value) {
+    public void setSettingValue(PlayerSetting setting , Boolean value) {
         settings.put(setting, value);
 
         String s = getUuid().toString() + ":" + setting.name();
@@ -53,6 +56,17 @@ public class RPGPlayer {
             }
         }
         DatabaseManager.getInstance().getSettingDataToSave().add(s);
+    }
+
+    public boolean getSettingBoolean(PlayerSetting setting) {
+
+        return Boolean.valueOf(getSettingValue(setting));
+//        int value = Double.valueOf(getSettingValue(setting)).intValue();
+//        return value == 1 ? true : false;
+    }
+
+    public void toggleSetting(PlayerSetting setting) {
+        setSettingValue(setting, getSettingBoolean(setting) ? false : true);
     }
 
     public Ability getActiveAbility(SkillType st) {
@@ -176,16 +190,6 @@ public class RPGPlayer {
 
     }
 
-    public boolean getSettingBoolean(PlayerSetting setting) {
-
-        int value = Double.valueOf(getSettingValue(setting)).intValue();
-        return value == 1 ? true : false;
-    }
-
-    public void toggleSetting(PlayerSetting setting) {
-        setSettingValue(setting, getSettingBoolean(setting) ? "0" : "1");
-    }
-
     public boolean hasAbilityEnabled(Ability a) {
         if (a == null) return false;
         if (PlayerSetting.valueOf(a.getName().toUpperCase()) == null) {
@@ -202,13 +206,13 @@ public class RPGPlayer {
         if (!hasAbilityLevelRequirement(a)) return;
         setActiveAbility(a.getSkillType(), null);
         if (setTo != null) {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), setTo.booleanValue() ? "1" : "0");
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), setTo.booleanValue() ? true : false);
             return;
         }
         if (hasAbilityEnabled(a)) {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "0");
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), false);
         } else {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), "1");
+            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), true);
         }
 
         //Checks if the setting and player are already queued to save

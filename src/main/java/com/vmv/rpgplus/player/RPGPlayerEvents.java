@@ -32,13 +32,13 @@ public class RPGPlayerEvents implements Listener {
         if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer().getUniqueId()) == null) {
             InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
             HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
-            HashMap<PlayerSetting, String> settings = new HashMap<PlayerSetting, String>();
+            HashMap<PlayerSetting, Boolean> settings = new HashMap<PlayerSetting, Boolean>();
             HashMap<String, Double> pointAllocations = new HashMap<String, Double>();
             for (SkillType s : SkillType.values()) {
                 xp.put(s, 0.0);
             }
             for (PlayerSetting setting : PlayerSetting.values()) {
-                settings.put(setting, setting.getDefaultValue() ? "1" : "0");
+                settings.put(setting, setting.getDefaultValue());
             }
             for (Ability ability : AbilityManager.getInstance().getAbilities()) {
                 for (AbilityAttribute attribute : ability.getAttributes()) {
