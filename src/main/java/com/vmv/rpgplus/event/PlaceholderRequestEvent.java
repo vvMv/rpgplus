@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.event;
 
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -84,6 +85,13 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
                 if (id.equalsIgnoreCase("attribute_value_" + ability.getName() + "_" + attribute.name())) {
                     return String.valueOf(rp.getAttributeValue(ability, attribute));
                 }
+            }
+        }
+
+        //returns a players setting value
+        for (PlayerSetting value : PlayerSetting.values()) {
+            if (id.equalsIgnoreCase("setting_value_" + value.name())) {
+                return String.valueOf(rp.getSettingBoolean(value));
             }
         }
 
