@@ -1,0 +1,29 @@
+MULTI_ARROW: true
+EXPLOSIVE_ARROW: true
+TELEPORT_ARROW: true
+SPLIT_SHOT: true
+
+//Attack
+TRACK: true
+LIFE_STEAL: true
+
+//Farming
+
+//Fishing
+
+//Mining
+ORE_LOCATOR: true
+VEIN_MINER: true
+
+//Stamina
+DASH: true
+HEALTH: true
+FEATHER_FALLING: true
+
+//Woodcutting
+TREE_FELLER: true
+
+//Misc
+EXPERIENCE_POPUPS: true
+LEVELUP_MESSAGES: true
+REMINDER_MESSAGES: true
