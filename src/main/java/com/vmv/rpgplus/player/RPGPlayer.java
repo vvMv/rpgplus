@@ -202,7 +202,6 @@ public class RPGPlayer {
         if (!hasAbilityLevelRequirement(a)) return;
         setActiveAbility(a.getSkillType(), null);
         if (setTo != null) {
-            InformationHandler.printMessage(InformationType.DEBUG, "reached with setto being " + setTo.booleanValue());
             setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), setTo.booleanValue() ? "1" : "0");
             return;
         }
