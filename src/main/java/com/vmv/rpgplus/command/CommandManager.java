@@ -3,6 +3,7 @@ package com.vmv.rpgplus.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BukkitCommandManager;
 import com.google.common.collect.ImmutableList;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityAttribute;
@@ -46,6 +47,9 @@ public class CommandManager {
         });
         manager.getCommandCompletions().registerCompletion("boolean", a -> {
             return ImmutableList.of("true", "false");
+        });
+        manager.getCommandCompletions().registerCompletion("settings", a -> {
+            return Arrays.stream(PlayerSetting.values()).map(setting -> setting.toString()).collect(Collectors.toList());
         });
         manager.getCommandCompletions().registerCompletion("rpgplayers", a -> {
             List<String> playernames = new ArrayList<>();

@@ -5,10 +5,10 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.minecraft.chat.ChatUtil;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.inventory.InventoryUtils;
 import com.vmv.rpgplus.inventory.RPGMenu;
-import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.*;
@@ -73,15 +73,22 @@ public class Commands extends BaseCommand {
         //InformationHandler.printMessage(InformationType.DEBUG, "dash speed points: " + RPGPlayerManager.getInstance().getPlayer(player).getPointAllocation(AbilityManager.getAbility("dash"), AbilityAttribute.INCREASE_SPEED));
     }
 
+    @Subcommand("setsetting")
+    @CommandPermission("rpgplus.setsetting")
+    @CommandCompletion("@players @settings @boolean")
+    public void setSetting(CommandSender p, OfflinePlayer player, String setting, String value) {
+        RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setSettingValue(PlayerSetting.valueOf(setting), Boolean.valueOf(value));
+        ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_setting_sender").replace("%s", setting).replace("%v", value).replace("%p", player.getName()));
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_setting_receiver").replace("%s", setting).replace("%v", value));
+    }
+
     @Subcommand("setlevel|setlev|setlvl")
     @CommandPermission("rpgplus.setlevel")
     @CommandCompletion("@players @skills @range:1-100")
     public void setLevel(CommandSender p, OfflinePlayer player, String skill, int level) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), SkillManager.getInstance().getExperience(level));
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_level_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
-        if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
-        }
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
     }
 
     @Subcommand("setlevels")
@@ -100,9 +107,7 @@ public class Commands extends BaseCommand {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         rp.setXP(SkillType.valueOf(skill.toUpperCase()), SkillManager.getInstance().getExperience(rp.getLevel(SkillType.valueOf(skill.toUpperCase())) + level));
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("add_level_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
-        if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
-        }
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_level_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%l", String.valueOf(level)));
     }
 
     @Subcommand("setexp|setexperience|setxp")
@@ -111,9 +116,7 @@ public class Commands extends BaseCommand {
     public void setExperience(CommandSender p, OfflinePlayer player, String skill, int experience) {
         RPGPlayerManager.getInstance().getPlayer(player.getUniqueId()).setXP(SkillType.valueOf(skill.toUpperCase()), experience);
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("set_experience_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
-        if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
-        }
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("set_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
     }
 
     @Subcommand("addexp|addexperience|addxp")
@@ -123,9 +126,7 @@ public class Commands extends BaseCommand {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
         rp.setXP(SkillType.valueOf(skill.toUpperCase()), rp.getExperience(SkillType.valueOf(skill.toUpperCase())) + experience);
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("add_experience_sender").replaceAll("%p", player.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
-        if (Bukkit.getPlayer(player.getName()) != null) {
-            ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
-        }
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("add_experience_receiver").replaceAll("%p", p.getName()).replaceAll("%s", skill).replaceAll("%e", String.valueOf(experience)));
     }
 
     @Subcommand("setattribute|setatt")
@@ -154,7 +155,7 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players")
     public void resetAttribute(CommandSender p, OfflinePlayer player) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
-        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_receiver").replace("%p", p.getName()));
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_attribute_receiver").replace("%p", p.getName()));
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("reset_attribute_sender").replace("%p", player.getName()));
 
         for (Ability ability : AbilityManager.getInstance().getAbilities()) {
@@ -169,7 +170,7 @@ public class Commands extends BaseCommand {
     @CommandCompletion("@players")
     public void resetExperience(CommandSender p, OfflinePlayer player) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player.getUniqueId());
-        ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_receiver").replace("%p", p.getName()));
+        if(Bukkit.getPlayer(player.getName()) != null) ChatUtil.sendChatMessage(Bukkit.getPlayer(player.getName()), FileManager.getLang().getString("reset_experience_receiver").replace("%p", p.getName()));
         ChatUtil.sendChatMessage(p, FileManager.getLang().getString("reset_experience_sender").replace("%p", player.getName()));
 
         for (Skill skill : SkillManager.getInstance().getSkills()) {
@@ -188,11 +189,13 @@ public class Commands extends BaseCommand {
     @Subcommand("reload|r|rl")
     @CommandPermission("rpgplus.reload")
     public void reloadConfigurations(CommandSender p) {
-        ChatUtil.sendChatMessage(p, "&aReloading config...");
-        ChatUtil.sendChatMessage(p, "&aReloading skills...");
-        ChatUtil.sendChatMessage(p, "&aReloading lang...");
+        ChatUtil.sendChatMessage(p, "&aReloading config.yml...");
+        ChatUtil.sendChatMessage(p, "&aReloading skills.yml...");
+        ChatUtil.sendChatMessage(p, "&aReloading lang.yml...");
+        ChatUtil.sendChatMessage(p, "&aReloading default.yml...");
         FileManager.getLang().reload();
-        RPGPlus.getInstance().reloadConfig();
+        FileManager.getConfig().reload();
+        FileManager.getSettings().reload();
         for (Skill skill : SkillManager.getInstance().getSkills()) {
             skill.reload();
         }
