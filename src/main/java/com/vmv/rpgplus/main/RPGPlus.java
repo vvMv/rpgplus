@@ -14,6 +14,7 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.mining.OreLocator;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
@@ -40,12 +41,15 @@ public class RPGPlus extends JavaPlugin {
         new RPGPlayerManager();
         new InventoryUtils(this);
         new DatabaseManager(this);
+
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {new PlaceholderRequestEvent().register();}
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(ArmorStand.class).forEach(entity -> {
             if (entity.getName().length() <= 2) return;
             if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove();
         }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
+
+        Metrics metrics = new Metrics(this, 8091);
 
 //        if (System.currentTimeMillis() > Long.valueOf("1593899909011")) {
 //            InformationHandler.printMessage(InformationType.INFO, "Trial has finished, disabling the plugin");

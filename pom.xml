@@ -43,6 +43,10 @@
             <id>janmm14-public</id>
             <url>https://repo.janmm14.de/repository/public/</url>
         </repository>
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -58,6 +62,13 @@
 <!--            <version>1.15.2-R0.1-SNAPSHOT</version>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
+        <!--BStats-->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
         <!--Aikar Command Framework-->
         <dependency>
             <groupId>co.aikar</groupId>
@@ -165,6 +176,10 @@
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
                             <shadedPattern>com.vmv.rpgplus.acf</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>com.vmv.rpgplus</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
