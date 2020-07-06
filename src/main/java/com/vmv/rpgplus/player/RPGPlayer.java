@@ -39,9 +39,6 @@ public class RPGPlayer {
     }
 
     public Boolean getSettingValue(PlayerSetting setting) {
-        for (Boolean value : settings.values()) {
-            InformationHandler.printMessage(InformationType.DEBUG, setting.name() + " is " + settings.get(setting));
-        }
         return settings.get(setting);
     }
 
