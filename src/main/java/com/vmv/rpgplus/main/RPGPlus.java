@@ -12,6 +12,7 @@ import com.vmv.rpgplus.event.PlaceholderRequestEvent;
 import com.vmv.rpgplus.inventory.InventoryUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityManager;
+import com.vmv.rpgplus.skill.RewardManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.mining.OreLocator;
 import org.bstats.bukkit.Metrics;
@@ -39,6 +40,7 @@ public class RPGPlus extends JavaPlugin {
         new SkillManager();
         new AbilityManager();
         new RPGPlayerManager();
+        new RewardManager();
         new InventoryUtils(this);
         new DatabaseManager(this);
 

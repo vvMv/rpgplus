@@ -1,0 +1,5 @@
+levelsound:
+  all_skills: true
+  level: 1-10000
+  rewards:
+    - "sound:ENTITY_PLAYER_LEVELUP"
