@@ -193,9 +193,12 @@ public class Commands extends BaseCommand {
         ChatUtil.sendChatMessage(p, "&aReloading skills.yml...");
         ChatUtil.sendChatMessage(p, "&aReloading lang.yml...");
         ChatUtil.sendChatMessage(p, "&aReloading default.yml...");
+        ChatUtil.sendChatMessage(p, "&aReloading rewards.yml...");
         FileManager.getLang().reload();
         FileManager.getConfig().reload();
         FileManager.getSettings().reload();
+        FileManager.getRewards().reload();
+        RewardManager.getInstance().reload();
         for (Skill skill : SkillManager.getInstance().getSkills()) {
             skill.reload();
         }
