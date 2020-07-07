@@ -33,7 +33,6 @@ public class RewardManager implements Listener {
                 if (!reward.isAllskills()) {
                     if (!reward.getSkillTypes().contains(e.getSkill())) continue;
                 }
-                InformationHandler.printMessage(InformationType.DEBUG, reward.getLevels().size() + " " + e.getToLevel());
                 if (!reward.getLevels().contains(e.getToLevel())) continue;
                 Player p = e.getPlayer();
                 int finalI = i;
