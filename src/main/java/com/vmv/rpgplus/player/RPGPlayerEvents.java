@@ -1,6 +1,5 @@
 package com.vmv.rpgplus.player;
 
-import com.cryptomorin.xseries.XSound;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.database.Database;
 import com.vmv.core.information.InformationHandler;
@@ -15,7 +14,6 @@ import com.vmv.rpgplus.skill.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -88,12 +86,5 @@ public class RPGPlayerEvents implements Listener {
                         .replace("%t", String.valueOf(e.getLevel())));
             }
         }
-
-        try {
-            p.playSound(p.getLocation(), XSound.matchXSound(Sound.valueOf(RPGPlus.getInstance().getConfig().getString("sounds.level_up"))).parseSound(), 1f, 1f);
-        } catch (Exception e2) {
-            InformationHandler.printMessage(InformationType.ERROR, "Config value for sounds.level_up '" + RPGPlus.getInstance().getConfig().getString("sounds.level_up") + "' is invalid");
-        }
     }
-
 }
