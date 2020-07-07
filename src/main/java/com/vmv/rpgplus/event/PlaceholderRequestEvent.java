@@ -26,6 +26,10 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
             if (id.equalsIgnoreCase(s.toString()) || id.equalsIgnoreCase("level_" + s.toString())) {
                 return String.valueOf(rp.getLevel(s));
             }
+
+            if (id.equalsIgnoreCase(s.toString() + "_floored") || id.equalsIgnoreCase("level_" + s.toString()+"_floored")) {
+                return String.valueOf((int) Math.floor(rp.getLevel(s)));
+            }
         }
 
         //returns the total experience in specified skill format %rpgplus_experience_{skill}%
@@ -60,12 +64,20 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
             if (id.equalsIgnoreCase("points_available_" + s)) {
                 return String.valueOf(rp.getAbilityPoints(SkillManager.getInstance().getSkill(s)));
             }
+
+            if (id.equalsIgnoreCase("points_available_" + s + "_floored")) {
+                return String.valueOf((int) Math.floor(rp.getAbilityPoints(SkillManager.getInstance().getSkill(s))));
+            }
         }
 
         //returns the amount of total points in specified skill format %rpgplus_points_total_{skill}%
         for (SkillType s : SkillType.values()) {
             if (id.equalsIgnoreCase("points_total_" + s)) {
                 return String.valueOf(rp.getOverallPoints(SkillManager.getInstance().getSkill(s)));
+            }
+
+            if (id.equalsIgnoreCase("points_total_" + s + "_floored")) {
+                return String.valueOf((int) Math.floor(rp.getOverallPoints(SkillManager.getInstance().getSkill(s))));
             }
         }
 
@@ -74,9 +86,17 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
             return String.valueOf(rp.getAbilityPoints());
         }
 
+        if (id.equalsIgnoreCase("points_available_floored")) {
+            return String.valueOf((int) Math.floor(rp.getAbilityPoints()));
+        }
+
         //returns a players overall points including points spent format %rpgplus_points_total%
         if (id.equalsIgnoreCase("points_total")) {
             return String.valueOf(rp.getOverallPoints());
+        }
+
+        if (id.equalsIgnoreCase("points_total_floored")) {
+            return String.valueOf((int) Math.floor(rp.getOverallPoints()));
         }
 
         //returns the value of an attribute format %rpgplus_attribute_value_{ability}_{attribute}%
@@ -84,6 +104,10 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
             for (AbilityAttribute attribute : ability.getAttributes()) {
                 if (id.equalsIgnoreCase("attribute_value_" + ability.getName() + "_" + attribute.name())) {
                     return String.valueOf(rp.getAttributeValue(ability, attribute));
+                }
+
+                if (id.equalsIgnoreCase("attribute_value_" + ability.getName() + "_" + attribute.name() + "_floored")) {
+                    return String.valueOf((int) Math.floor(rp.getAttributeValue(ability, attribute)));
                 }
             }
         }
