@@ -53,7 +53,7 @@ public class Attack extends Skill implements Listener {
 
         if (!super.hasMaterial((Player) e.getDamager()) || !super.hasDamagePermission((Player) e.getDamager())) return;
 
-        double xp = MathUtils.round(e.getDamage(), 2);
+        double xp = MathUtils.round(e.getDamage() * getConfig().getDouble("damage_multiply_exp"), 2);
         RPGPlayerManager.getInstance().getPlayer((Player) e.getDamager()).addXP(ATTACK, xp);
     }
 

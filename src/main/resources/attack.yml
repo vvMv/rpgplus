@@ -3,6 +3,7 @@ display: 'DIAMOND_SWORD'
 max_level: 1000
 points_per_level: 0.5             #How many ability points should the user get per level
 skill_color: GOLD
+damage_multiply_exp: 1.1          #Experience is equal to damage dealt times this number
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 exp_requires_material: true       #If an entity is hit without a specified material will xp be given
 materials:                        #Materials define which items are used in the skill for abilities
