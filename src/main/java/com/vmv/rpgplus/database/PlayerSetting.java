@@ -4,7 +4,6 @@ import com.vmv.core.config.FileManager;
 
 public enum PlayerSetting {
 
-    //As SQLLite doesn't have a bool datatype 0/1 is used instead
     //Archery
     MULTI_ARROW,
     EXPLOSIVE_ARROW,
@@ -18,6 +17,7 @@ public enum PlayerSetting {
     //Farming
 
     //Fishing
+    REPLENISH_HUNGER,
 
     //Mining
     ORE_LOCATOR,

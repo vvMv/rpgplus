@@ -5,6 +5,7 @@ import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
 import com.vmv.core.minecraft.misc.Cooldowns;
+import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import org.apache.commons.lang.WordUtils;
@@ -150,5 +151,9 @@ public abstract class Ability {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isEnabled(Player p) {
+        return RPGPlayerManager.getInstance().getPlayer(p).getSettingBoolean(PlayerSetting.valueOf(this.getName().toUpperCase()));
     }
 }

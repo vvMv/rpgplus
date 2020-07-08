@@ -25,3 +25,8 @@ experience:                       #Set the amount of experience fishing specific
   OTHER:
     min: 10
     max: 50
+ability:
+  replenish_hunger:               #Replenish hunger when catching a fish
+    enabled: true
+    level: 5
+    amount: 1

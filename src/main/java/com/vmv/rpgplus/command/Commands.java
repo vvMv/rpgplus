@@ -69,8 +69,7 @@ public class Commands extends BaseCommand {
     @Subcommand("debug")
     @CommandPermission("rpgplus.debug")
     public void debug(Player player) {
-        //RPGPlayerManager.getInstance().getPlayer(player).addPointAllocation(AbilityManager.getAbility("dash"), AbilityAttribute.INCREASE_SPEED);
-        //InformationHandler.printMessage(InformationType.DEBUG, "dash speed points: " + RPGPlayerManager.getInstance().getPlayer(player).getPointAllocation(AbilityManager.getAbility("dash"), AbilityAttribute.INCREASE_SPEED));
+        player.setFoodLevel(4);
     }
 
     @Subcommand("setsetting")

@@ -65,6 +65,7 @@ ability:
   health: "Health"
   tree_feller: "Tree Feller"
   feather_falling: "Feather Falling"
+  replenish_hunger: "Replenish Hunger"
 attribute:
   decrease_cooldown: "Decrease Cooldown"
   decrease_cooldown_description: "decrease the ability cooldown"

@@ -17,6 +17,7 @@ public class Fishing extends Skill implements Listener {
     @Override
     protected void registerAbilities() {
         //intentionally empty
+        registerAbilities(new ReplenishHunger("replenish_hunger", SkillType.FISHING));
     }
 
     @Override
