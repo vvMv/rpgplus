@@ -78,7 +78,7 @@ public class RPGPlayerEvents implements Listener {
             List<String> msg = FileManager.getLang().getStringList("level_up");
 
             for (String s : msg) {
-                ChatUtil.sendCenteredChatMessage(p, s
+                ChatUtil.sendChatMessage(p, s
                         .replace("%s", StringUtils.capitalize(SkillManager.getInstance().getSkill(e.getSkill()).getFormattedName()))
                         .replace("%f", String.valueOf(e.getFromLevel()))
                         .replace("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))

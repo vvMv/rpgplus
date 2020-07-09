@@ -1,25 +1,25 @@
 prefix: "&e&lRPGPlus: &7"
 level_up:
-  - '&6&m&l------------------&f&l LEVEL UP &6&m&l------------------'
-  - ' '
-  - '&7%s &e%f &7-> &e%t'
-  - '&7You need &e%axp &7for level &e%n'
-  - ' '
-  - '&6&m&l---------------------------------------------'
+  - '<center>&6&m&l------------------&f&l LEVEL UP &6&m&l------------------'
+  - '<center> '
+  - '<center>&7%s &e%f &7-> &e%t'
+  - '<center>&7You need &e%axp &7for level &e%n'
+  - '<center> '
+  - '<center>&6&m&l---------------------------------------------'
 points_reminder:
-  - '&6&m&l------------------&f&l REMINDER &6&m&l------------------'
-  - ' '
-  - '&eYou have ability points to spend using /rpg'
-  - '&a%a'
-  - ' '
-  - '&6&m&l---------------------------------------------'
+  - '<center>&6&m&l------------------&f&l REMINDER &6&m&l------------------'
+  - '<center> '
+  - '<center>&eYou have ability points to spend using /rpg'
+  - '<center>&a%a'
+  - '<center> '
+  - '<center>&6&m&l---------------------------------------------'
 stats_display:
-  - '&6&m&l-------------------&f&l STATS &6&m&l-------------------'
-  - ' '
-  - '&7Total level for %p = %t'
-  - '&e%s &f&l: &6%l'
-  - ' '
-  - '&6&m&l---------------------------------------------'
+  - '<center>&6&m&l-------------------&f&l STATS &6&m&l-------------------'
+  - '<center> '
+  - '<center>&7Total level for %p = %t'
+  - '<center>&e%s &f&l: &6%l'
+  - '<center> '
+  - '<center>&6&m&l---------------------------------------------'
 stats_player_invalid: "&cUnable to find player &b%p"
 set_level_sender: "&b%p &7now has level &b%l &7%s"
 set_level_receiver: "&b%p &7set your &b%s &7level to &b%l"

@@ -282,7 +282,7 @@ public class RPGPlayer {
             if (sb.length() >= 2) sb.deleteCharAt(sb.length() - 2);
 
             for (String s : reminder) {
-                ChatUtil.sendCenteredChatMessage(Bukkit.getPlayer(getUuid()), s.replaceAll("%a", sb.toString()));
+                ChatUtil.sendChatMessage(Bukkit.getPlayer(getUuid()), s.replaceAll("%a", sb.toString()));
             }
         }
     }
