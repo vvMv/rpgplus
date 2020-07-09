@@ -36,8 +36,8 @@ public class RewardManager implements Listener {
                 if (!reward.getLevels().contains(e.getToLevel())) continue;
                 Player p = e.getPlayer();
                 int finalI = i;
-                reward.getMessages().forEach(s -> ChatUtil.sendChatMessage(p, s.replace("%p", p.getName()).replace("%l", String.valueOf(finalI))));
-                reward.getCommands().forEach(s -> RPGPlus.getInstance().getServer().dispatchCommand(RPGPlus.getInstance().getServer().getConsoleSender(), s.replace("%p", p.getName()).replace("%l", String.valueOf(finalI))));
+                reward.getMessages().forEach(s -> ChatUtil.sendChatMessage(p, s.replace("%p", p.getName()).replace("%l", String.valueOf(finalI)).replace("%o", String.valueOf(finalI-1)).replace("%s", SkillManager.getInstance().getSkill(e.getSkill()).getFormattedName())));
+                reward.getCommands().forEach(s -> RPGPlus.getInstance().getServer().dispatchCommand(RPGPlus.getInstance().getServer().getConsoleSender(), s.replace("%p", p.getName()).replace("%l", String.valueOf(finalI)).replace("%o", String.valueOf(finalI-1)).replace("%s", SkillManager.getInstance().getSkill(e.getSkill()).getFormattedName())));
                 reward.getSounds().forEach(xSound -> p.getWorld().playSound(p.getLocation(), xSound.parseSound(), 1.0f, 1.0f));
             }
         }
