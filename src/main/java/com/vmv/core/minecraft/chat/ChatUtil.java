@@ -18,7 +18,12 @@ public class ChatUtil {
     public static void sendChatMessage(CommandSender s, String message) {
         if (s == null) return;
         if (message.length() == 0) return;
-        s.sendMessage(applyColour(FileManager.getLang().getString("prefix") + message));
+        if (message.startsWith("<center>") || message.startsWith("<centre>") && s instanceof Player) {
+            String m = message.replace("<center>", "").replace("<centre>", "");
+            sendCenteredChatMessage((Player) s, m);
+        } else {
+            s.sendMessage(applyColour(FileManager.getLang().getString("prefix") + message));
+        }
     }
 
     public static void sendCenteredChatMessage(Player p, String message) {
