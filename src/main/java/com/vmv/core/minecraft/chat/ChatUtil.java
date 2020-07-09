@@ -19,8 +19,11 @@ public class ChatUtil {
         if (s == null) return;
         if (message.length() == 0) return;
         if (message.startsWith("<center>") || message.startsWith("<centre>") && s instanceof Player) {
-            String m = message.replace("<center>", "").replace("<centre>", "");
-            sendCenteredChatMessage((Player) s, m);
+            sendCenteredChatMessage((Player) s, message.replace("<center>", "").replace("<centre>", ""));
+        } else if (message.startsWith("<actionbar>") && s instanceof Player) {
+            sendActionMessage((Player) s, message.replace("<actionbar>", ""));
+        } else if (message.startsWith("<floating>") && s instanceof Player) {
+            sendFloatingMessage((Player) s, message.replace("<floating>", ""), 2.5);
         } else {
             s.sendMessage(applyColour(FileManager.getLang().getString("prefix") + message));
         }
