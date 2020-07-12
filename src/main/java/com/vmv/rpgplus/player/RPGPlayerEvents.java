@@ -64,9 +64,14 @@ public class RPGPlayerEvents implements Listener {
         if (decimal.length() == 1) decimal += "0";
         int percent = Integer.parseInt(decimal);
 
-        ChatUtil.sendActionMessage(e.getPlayer(), FileManager.getLang().getString("skill." + e.getSkill().toString().toLowerCase()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
-        if (!RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") || !RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) return;
-        ChatUtil.sendFloatingMessage(e.getPlayer(), SkillManager.getInstance().getSkill(e.getSkill()).getSkillColor() + "+" + e.getExp() + "xp", 1);
+        if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR)) {
+            ChatUtil.sendActionMessage(e.getPlayer(), FileManager.getLang().getString("skill." + e.getSkill().toString().toLowerCase()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
+        }
+
+        if (RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") && RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) {
+            ChatUtil.sendFloatingMessage(e.getPlayer(), SkillManager.getInstance().getSkill(e.getSkill()).getSkillColor() + "+" + e.getExp() + "xp", 1);
+        }
+
     }
 
     @EventHandler

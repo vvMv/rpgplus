@@ -33,6 +33,7 @@ public enum PlayerSetting {
 
     //Misc
     EXPERIENCE_POPUPS,
+    EXPERIENCE_ACTIONBAR,
     LEVELUP_MESSAGES,
     REMINDER_MESSAGES;
 
