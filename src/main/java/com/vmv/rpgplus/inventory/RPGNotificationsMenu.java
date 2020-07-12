@@ -44,7 +44,7 @@ public class RPGNotificationsMenu implements InventoryProvider {
 
         inventoryContents.set(0, 3, ClickableItem.empty(InventoryUtils.getItem(target.getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR) ? XMaterial.GREEN_STAINED_GLASS_PANE : XMaterial.RED_STAINED_GLASS_PANE)));
         inventoryContents.set(2, 3, ClickableItem.empty(InventoryUtils.getItem(target.getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR) ? XMaterial.GREEN_STAINED_GLASS_PANE : XMaterial.RED_STAINED_GLASS_PANE)));
-        inventoryContents.set(1, 3, ClickableItem.of(InventoryUtils.getItem(XMaterial.CLOCK, FileManager.getLang().getString("inventory.item_notifications_experience_actionbar"), 1, FileManager.getLang().getString("inventory.item_notifications_experience_actionbar_value").replace("%b", target.getSettingBoolean(PlayerSetting.REMINDER_MESSAGES) ? FileManager.getLang().getString("inventory.bool_true") : FileManager.getLang().getString("inventory.bool_false"))), e -> {
+        inventoryContents.set(1, 3, ClickableItem.of(InventoryUtils.getItem(XMaterial.OAK_SIGN, FileManager.getLang().getString("inventory.item_notifications_experience_actionbar"), 1, FileManager.getLang().getString("inventory.item_notifications_experience_actionbar_value").replace("%b", target.getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR) ? FileManager.getLang().getString("inventory.bool_true") : FileManager.getLang().getString("inventory.bool_false"))), e -> {
             target.toggleSetting(PlayerSetting.EXPERIENCE_ACTIONBAR);
             InventoryUtils.sendConfirmedSound(player);
             init(player, inventoryContents);
