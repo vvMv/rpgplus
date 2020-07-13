@@ -28,6 +28,7 @@ public class RewardManager implements Listener {
 
     @EventHandler
     public void onLevelUp(LevelModifyEvent e) {
+        if (!e.getPlayer().isOnline()) return;
         for (int i = e.getFromLevel() + 1; i < e.getToLevel() + 1; i++) {
             for (Reward reward : rewards) {
                 if (!reward.isAllskills()) {
