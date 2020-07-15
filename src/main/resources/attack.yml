@@ -12,6 +12,7 @@ materials:                        #Materials define which items are used in the 
   - 'IRON_SWORD'
   - 'GOLDEN_SWORD'
   - 'DIAMOND_SWORD'
+  - 'NETHERITE_SWORD'
 ability:
   track:                          #Track will highlight the target for a specified amount of time
     enabled: true

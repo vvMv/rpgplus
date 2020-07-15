@@ -9,6 +9,7 @@ materials:                        #Materials define which items are used in the 
   - 'IRON_AXE'
   - 'GOLDEN_AXE'
   - 'DIAMOND_AXE'
+  - 'NETHERITE_AXE'
 ability_cycle: RIGHT_CLICK        #Define the method used to cycle through abilities
 max_level: 1000
 experience:                       #Set the amount of experience chopping blocks gives, you can add new ones

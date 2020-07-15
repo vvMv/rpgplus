@@ -11,6 +11,7 @@ materials:                        #Materials define which items are used in the 
   - 'IRON_HOE'
   - 'GOLDEN_HOE'
   - 'DIAMOND_HOE'
+  - 'NETHERITE_HOE'
 experience:                       #Set the amount of experience mining specific crops gives, you can add new ones
   WHEAT:
     min: 15

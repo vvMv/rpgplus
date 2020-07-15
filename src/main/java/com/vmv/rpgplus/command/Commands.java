@@ -68,8 +68,8 @@ public class Commands extends BaseCommand {
 
     @Subcommand("debug")
     @CommandPermission("rpgplus.debug")
-    public void debug(Player player) {
-        player.setFoodLevel(4);
+    public void debug(Player player) throws ReflectiveOperationException {
+
     }
 
     @Subcommand("setsetting")
