@@ -20,6 +20,9 @@ stats_display:
   - '<center>&e%s &f&l: &6%l'
   - '<center> '
   - '<center>&6&m&l---------------------------------------------'
+ability_on_cooldown: "<actionbar>&3%a &7on cooldown &6%ts"
+ability_rotation_default: "<actionbar>&eDefault"
+ability_rotation: "<actionbar>&e%a"
 stats_player_invalid: "&cUnable to find player &b%p"
 set_level_sender: "&b%p &7now has level &b%l &7%s"
 set_level_receiver: "&b%p &7set your &b%s &7level to &b%l"
@@ -43,6 +46,14 @@ settings_ability_toggle_activated: "&aactivated"
 settings_ability_toggle_deactivated: "&cdeactivated"
 settings_ability_toggle: "Ability %a %s"
 settings_ability_toggle_denied: "&c%a requires level (%r)"
+progress_bar:
+  symbol: "|"
+  total_bars: 40
+  progress_color: "GREEN"
+  remaining_color: "GRAY"
+  style: "<actionbar>%s +%e &2[%b&2]"
+hologram:
+  experience: "<floating>%c+%exp"
 skill:
   archery: "Archery"
   attack: "Attack"
