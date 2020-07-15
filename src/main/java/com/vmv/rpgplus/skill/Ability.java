@@ -118,7 +118,7 @@ public abstract class Ability {
     public void setActive(Player p, double duration) {
         active.put(p, duration);
         //if bar timer enabled
-        ChatUtil.sendActionMessage(p, "&f" + WordUtils.capitalizeFully(this.name).replace("_", " ") + " &aactivated!", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_active"));
+        //ChatUtil.sendActionMessage(p, "&f" + WordUtils.capitalizeFully(this.name).replace("_", " ") + " &aactivated!", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_active"));
         new BarTimer(p, duration, this.name);
     }
 
@@ -130,7 +130,8 @@ public abstract class Ability {
     public boolean onCooldown(Player p) {
         double pointReduction = RPGPlayerManager.getInstance().getPlayer(p).getPointAllocation(this, AbilityAttribute.DECREASE_COOLDOWN) * AbilityAttribute.DECREASE_COOLDOWN.getValuePerPoint(this);
         if (!Cooldowns.tryCooldown(p, this.name, (getAbilityConfigSection().getLong("cooldown") + (long) pointReduction) * 1000)) {
-            ChatUtil.sendActionMessage(p, "&3" + WordUtils.capitalizeFully(this.name).replace("_", " ") + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1) + "s", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cooldown"));
+            ChatUtil.sendChatMessage(p, FileManager.getLang().getString("ability_on_cooldown").replace("%a", this.getFormattedName()).replace("%t", String.valueOf(MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1))), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cooldown"));
+            //ChatUtil.sendActionMessage(p, "&3" + WordUtils.capitalizeFully(this.name).replace("_", " ") + "&7 on cooldown &6" + MathUtils.round((Double.valueOf(Cooldowns.getCooldown(p, this.name))/1000), 1) + "s", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cooldown"));
             return true;
         }
         return false;

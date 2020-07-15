@@ -1,5 +1,6 @@
 package com.vmv.rpgplus.skill;
 
+import com.vmv.core.config.FileManager;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.event.AbilityCycleEvent;
 import com.vmv.rpgplus.main.RPGPlus;
@@ -62,9 +63,9 @@ public class AbilityCycle implements Listener {
 //        }//TODO work on this to find away around the null entry in abilities
 
         if (e.getAbility() == null) { //For when a user has >=1 ability enabled but on null rotation
-            ChatUtil.sendActionMessage(e.getPlayer(), "&eDefault", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
+            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("ability_rotation_default"), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
         } else {
-            ChatUtil.sendActionMessage(e.getPlayer(), "&e" + e.getAbility().getFormattedName(), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
+            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("ability_rotation").replace("%a", e.getAbility().getFormattedName()), RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_cycle"));
 
         }
     }
