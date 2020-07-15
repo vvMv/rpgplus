@@ -59,17 +59,21 @@ public class RPGPlayerEvents implements Listener {
     @EventHandler
     public void onExperienceGain(ExperienceModifyEvent e) {
         if (e.getPlayer() == null) return;
+        Skill s = SkillManager.getInstance().getSkill(e.getSkill());
 
         String decimal = String.valueOf(MathUtils.round(e.getRPGPlayer().getLevel(e.getSkill()), 2)).split("\\.")[1];
         if (decimal.length() == 1) decimal += "0";
         int percent = Integer.parseInt(decimal);
 
         if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR)) {
-            ChatUtil.sendActionMessage(e.getPlayer(), FileManager.getLang().getString("skill." + e.getSkill().toString().toLowerCase()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
+            String barString = ChatUtil.getProgressBar(percent, 100, FileManager.getLang().getInt("progress_bar.total_bars"), FileManager.getLang().getString("progress_bar.symbol").charAt(0), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.progress_color").toUpperCase()), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.remaining_color").toUpperCase()));
+            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("progress_bar.style").replace("%s", s.getFormattedName()).replace("%e", (int) e.getExp() + "." + decimal).replace("%b", barString));
+            //ChatUtil.sendActionMessage(e.getPlayer(), FileManager.getLang().getString("skill." + e.getSkill().toString().toLowerCase()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
         }
 
         if (RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") && RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) {
-            ChatUtil.sendFloatingMessage(e.getPlayer(), SkillManager.getInstance().getSkill(e.getSkill()).getSkillColor() + "+" + e.getExp() + "xp", 1);
+            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("hologram.experience").replace("%s", s.getFormattedName()).replace("%c", s.getSkillColor().toString()).replace("%e", String.valueOf(e.getExp())));
+            //ChatUtil.sendFloatingMessage(e.getPlayer(), SkillManager.getInstance().getSkill(e.getSkill()).getSkillColor() + "+" + e.getExp() + "xp", 1);
         }
 
     }

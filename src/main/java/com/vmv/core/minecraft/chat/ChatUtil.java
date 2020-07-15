@@ -16,12 +16,16 @@ public class ChatUtil {
     private static HashMap<UUID, Long> barTimestamp = new HashMap<UUID, Long>();
 
     public static void sendChatMessage(CommandSender s, String message) {
+        sendChatMessage(s, message, RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.other"));
+    }
+
+    public static void sendChatMessage(CommandSender s, String message, int priority) {
         if (s == null) return;
         if (message.length() == 0) return;
         if (message.startsWith("<center>") || message.startsWith("<centre>") && s instanceof Player) {
             sendCenteredChatMessage((Player) s, message.replace("<center>", "").replace("<centre>", ""));
         } else if (message.startsWith("<actionbar>") && s instanceof Player) {
-            sendActionMessage((Player) s, message.replace("<actionbar>", ""));
+            sendActionMessage((Player) s, message.replace("<actionbar>", ""), priority);
         } else if (message.startsWith("<floating>") && s instanceof Player) {
             sendFloatingMessage((Player) s, message.replace("<floating>", ""), 2.5);
         } else {
@@ -29,15 +33,15 @@ public class ChatUtil {
         }
     }
 
-    public static void sendCenteredChatMessage(Player p, String message) {
+    private static void sendCenteredChatMessage(Player p, String message) {
         CenteredMessageUtils.send(p, applyColour(message));
     }
 
-    public static void sendActionMessage(Player p, String message) {
-        sendActionMessage(p, message, RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.other"));
-    }
+//    private static void sendActionMessage(Player p, String message) {
+//        sendActionMessage(p, message, RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.other"));
+//    }
 
-    public static void sendActionMessage(Player p, String message, int priority) {
+    private static void sendActionMessage(Player p, String message, int priority) {
 
         barPriority.putIfAbsent(p.getUniqueId(), 0);
         barTimestamp.putIfAbsent(p.getUniqueId(), (long) 0);
@@ -49,7 +53,7 @@ public class ChatUtil {
         }
     }
 
-    public static void sendFloatingMessage(Player p, String message, double seconds) {
+    private static void sendFloatingMessage(Player p, String message, double seconds) {
         FloatingMessageUtils.send(p, applyColour(message), seconds);
     }
 
