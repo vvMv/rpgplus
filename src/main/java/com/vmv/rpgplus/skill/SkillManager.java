@@ -56,6 +56,7 @@ public class SkillManager {
     }
 
     public double getLevel(double exp, SkillType skillType) {
+        if (!getSkill(skillType).isEnabled()) return 0;
         int maxLevel = SkillManager.getInstance().getSkill(skillType).getConfig().getInt("max_level");
         for (int level = 0; level <= maxLevel; level++) {
             if (getExperience(level) > exp) {
