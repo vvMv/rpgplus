@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill.stamina;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.player.RPGPlayer;
@@ -39,12 +37,7 @@ public class Health extends Ability implements Listener {
 
     @EventHandler
     public void healthToggled(AbilityToggleEvent e) {
-        updateHearts(e.getPlayer());
-        if (e.getToggleTo()) {
-            InformationHandler.printMessage(InformationType.DEBUG, "toggled true");
-        } else {
-            InformationHandler.printMessage(InformationType.DEBUG, "to false");
-        }
+        if (e.getAbility() == this) updateHearts(e.getPlayer());
     }
 
     private void updateHearts(Player player) {
