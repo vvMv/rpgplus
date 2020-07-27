@@ -28,6 +28,8 @@ public class ChatUtil {
             sendActionMessage((Player) s, message.replace("<actionbar>", ""), priority);
         } else if (message.startsWith("<floating>") && s instanceof Player) {
             sendFloatingMessage((Player) s, message.replace("<floating>", ""), 2.5);
+        } else if ((message.startsWith("<title>") || message.contains("<subtitle>")) && s instanceof Player) {
+            sendTitleMessage((Player) s, message.replace("<title>", ""));
         } else {
             s.sendMessage(applyColour(FileManager.getLang().getString("prefix") + message));
         }
@@ -40,6 +42,10 @@ public class ChatUtil {
 //    private static void sendActionMessage(Player p, String message) {
 //        sendActionMessage(p, message, RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.other"));
 //    }
+
+    private static void sendTitleMessage(Player p, String message) {
+        TitleMessageUtils.send(p, message);
+    }
 
     private static void sendActionMessage(Player p, String message, int priority) {
 
@@ -63,7 +69,7 @@ public class ChatUtil {
         return Strings.repeat("" + completedColor + symbol, progressBars) + Strings.repeat("" + notCompletedColor + symbol, totalBars - progressBars);
     }
 
-    private static String applyColour(String message) {
+    public static String applyColour(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 }
