@@ -1,5 +1,8 @@
 package com.vmv.rpgplus.skill.stamina;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
+import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
@@ -34,9 +37,19 @@ public class Health extends Ability implements Listener {
         if (e.getAbility() == AbilityManager.getInstance().getAbility("health")) updateHearts(e.getPlayer());
     }
 
+    @EventHandler
+    public void healthToggled(AbilityToggleEvent e) {
+        updateHearts(e.getPlayer());
+        if (e.getToggleTo()) {
+            InformationHandler.printMessage(InformationType.DEBUG, "toggled true");
+        } else {
+            InformationHandler.printMessage(InformationType.DEBUG, "to false");
+        }
+    }
+
     private void updateHearts(Player player) {
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player);
-        double amount = defaultHearts + (rp.getPointAllocation(this, AbilityAttribute.INCREASE_HEARTS) * AbilityAttribute.INCREASE_HEARTS.getValuePerPoint(this));
+        double amount = RPGPlayerManager.getInstance().getPlayer(player).hasAbilityEnabled(this) ? defaultHearts + (rp.getPointAllocation(this, AbilityAttribute.INCREASE_HEARTS) * AbilityAttribute.INCREASE_HEARTS.getValuePerPoint(this)) : defaultHearts;
         player.setHealthScale(amount);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(amount);
     }

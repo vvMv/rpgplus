@@ -7,6 +7,7 @@ import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.rpgplus.database.DatabaseManager;
 import com.vmv.rpgplus.database.PlayerSetting;
+import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.LevelModifyEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
@@ -52,6 +53,7 @@ public class RPGPlayer {
             }
         }
         DatabaseManager.getInstance().getSettingDataToSave().add(s);
+
     }
 
     public boolean getSettingBoolean(PlayerSetting setting) {
@@ -203,23 +205,25 @@ public class RPGPlayer {
         setActiveAbility(a.getSkillType(), null);
         if (setTo != null) {
             setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), setTo.booleanValue() ? true : false);
-            return;
-        }
-        if (hasAbilityEnabled(a)) {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), false);
         } else {
-            setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), true);
-        }
-
-        //Checks if the setting and player are already queued to save
-        String s = getUuid().toString() + ":" + a.getName();
-        for(String data : DatabaseManager.getInstance().getSettingDataToSave()) {
-            if (s.equalsIgnoreCase(data)) {
-                return;
+            if (hasAbilityEnabled(a)) {
+                setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), false);
+            } else {
+                setSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()), true);
             }
         }
 
-        DatabaseManager.getInstance().getSettingDataToSave().add(s);
+        Bukkit.getPluginManager().callEvent(new AbilityToggleEvent(this, a));
+
+//        //Checks if the setting and player are already queued to save
+//        String s = getUuid().toString() + ":" + a.getName();
+//        for(String data : DatabaseManager.getInstance().getSettingDataToSave()) {
+//            if (s.equalsIgnoreCase(data)) {
+//                return;
+//            }
+//        }
+//
+//        DatabaseManager.getInstance().getSettingDataToSave().add(s);
     }
 
     public boolean hasAbilityLevelRequirement(Ability a) {
