@@ -67,7 +67,7 @@ public class RPGPlayerEvents implements Listener {
 
         if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR)) {
             String barString = ChatUtil.getProgressBar(percent, 100, FileManager.getLang().getInt("progress_bar.total_bars"), FileManager.getLang().getString("progress_bar.symbol").charAt(0), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.progress_color").toUpperCase()), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.remaining_color").toUpperCase()));
-            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("progress_bar.style").replace("%s", s.getFormattedName()).replace("%e", (int) e.getExp() + "." + decimal).replace("%b", barString));
+            ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("progress_bar.style").replace("%s", s.getFormattedName()).replace("%e", String.valueOf(e.getExp())).replace("%b", barString));
             //ChatUtil.sendActionMessage(e.getPlayer(), FileManager.getLang().getString("skill." + e.getSkill().toString().toLowerCase()) + " +" + (int) e.getExp() + "." + decimal + " &2[" + ChatUtil.getProgressBar(percent, 100, 40, '|', ChatColor.GREEN, ChatColor.GRAY) + "&2]");
         }
 
@@ -90,7 +90,7 @@ public class RPGPlayerEvents implements Listener {
                 ChatUtil.sendChatMessage(p, s
                         .replace("%s", StringUtils.capitalize(SkillManager.getInstance().getSkill(e.getSkill()).getFormattedName()))
                         .replace("%f", String.valueOf(e.getFromLevel()))
-                        .replace("%a", String.valueOf(MathUtils.round((SkillManager.getInstance().getExperience(e.getLevel() + 1) - RPGPlayerManager.getInstance().getPlayer(p).getExperience(e.getSkill())), 1)))
+                        .replace("%a", String.valueOf(MathUtils.round(SkillManager.getInstance().getExperience(e.getToLevel() + 1) - e.getToExperience(), 1)))
                         .replace("%n", String.valueOf(e.getLevel() + 1))
                         .replace("%t", String.valueOf(e.getLevel())));
             }
