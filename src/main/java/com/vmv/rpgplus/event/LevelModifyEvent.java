@@ -12,13 +12,17 @@ public class LevelModifyEvent extends PlayerEvent {
     private final SkillType skill;
     private final int toLevel;
     private final int fromLevel;
+    private final double fromExperience;
+    private final double toExperience;
     private final RPGPlayer rpgPlayer;
 
-    public LevelModifyEvent(RPGPlayer rp, SkillType skill, int fromLevel, int toLevel) {
+    public LevelModifyEvent(RPGPlayer rp, SkillType skill, int fromLevel, int toLevel, double fromExperience, double toExperience) {
         super(Bukkit.getPlayer(rp.getUuid()));
         this.skill = skill;
         this.toLevel = toLevel;
         this.fromLevel = fromLevel;
+        this.fromExperience = fromExperience;
+        this.toExperience = toExperience;
         this.rpgPlayer = rp;
     }
 
@@ -36,6 +40,14 @@ public class LevelModifyEvent extends PlayerEvent {
 
     public int getToLevel() {
         return toLevel;
+    }
+
+    public double getFromExperience() {
+        return fromExperience;
+    }
+
+    public double getToExperience() {
+        return toExperience;
     }
 
     public RPGPlayer getRpgPlayer() {

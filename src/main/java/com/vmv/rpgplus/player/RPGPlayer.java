@@ -243,7 +243,7 @@ public class RPGPlayer {
         if (xp < 0) xp = 0;
         xp = MathUtils.round(xp, 2);
         double currentxp = MathUtils.round(exp.get(skill), 2);
-        if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp, skill)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp, skill)));
+        if ((int) getLevel(skill) < (int) SkillManager.getInstance().getLevel(xp, skill)) Bukkit.getPluginManager().callEvent(new LevelModifyEvent(this, skill, (int) getLevel(skill), (int) SkillManager.getInstance().getLevel(xp, skill), currentxp, amount));
         exp.put(skill, xp);
 
         Bukkit.getPluginManager().callEvent(new ExperienceModifyEvent(this, skill, (xp - currentxp)));
