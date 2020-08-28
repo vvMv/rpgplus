@@ -53,13 +53,6 @@ public class RPGPlus extends JavaPlugin {
 
         Metrics metrics = new Metrics(this, 8091);
 
-//        if (System.currentTimeMillis() > Long.valueOf("1593899909011")) {
-//            InformationHandler.printMessage(InformationType.INFO, "Trial has finished, disabling the plugin");
-//            getServer().getPluginManager().disablePlugin(this);
-//        } else {
-//            InformationHandler.printMessage(InformationType.INFO, "You are running a trial version of RPGPlus, this will last until 04/07/2020");
-//        }
-
     }
 
     @Override
