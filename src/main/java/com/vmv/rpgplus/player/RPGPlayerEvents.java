@@ -28,7 +28,7 @@ public class RPGPlayerEvents implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void checkJoin(PlayerJoinEvent e) {
         if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer().getUniqueId()) == null) {
-            InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
+            if (FileManager.getConfig().getBoolean("database_messages")) InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + e.getPlayer().getName());
             HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
             HashMap<PlayerSetting, Boolean> settings = new HashMap<PlayerSetting, Boolean>();
             HashMap<String, Double> pointAllocations = new HashMap<String, Double>();

@@ -1,5 +1,6 @@
 general:
   experience_holograms: true
+  database_messages: true
   save_messages: true               #Should data saving messages be displayed in console
   save_data: 6000                   #How often data should save in ticks 20 ticks is 1 second
   experience_growth: 1.618          #The rate of experience growth per level

@@ -23,11 +23,12 @@ public class RPGVersion {
 
     public RPGVersion(RPGPlus plugin) {
         instance = this;
+        checkVersion(plugin.getDescription().getVersion());
     }
 
     public boolean checkVersion(String version) {
 
-        String url = "http://rpgplus.survilla.xyz/index.php";
+        String url = "http://rpgplus.survilla.xyz/";
         String urlParameters = "id=" + user;
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
         ObjectMapper mapper = new ObjectMapper();
@@ -60,8 +61,6 @@ public class RPGVersion {
                     content.append(System.lineSeparator());
                 }
             }
-
-            System.out.println(content.toString());
 
             map = mapper.readValue(content.toString(), Map.class);
             return Boolean.valueOf((Boolean) map.get("a"));

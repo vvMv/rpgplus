@@ -6,6 +6,7 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.misc.BarTimerManager;
 import com.vmv.rpgplus.command.CommandManager;
 import com.vmv.rpgplus.database.DatabaseManager;
+import com.vmv.rpgplus.database.RPGVersion;
 import com.vmv.rpgplus.dependency.DependencyManager;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
 import com.vmv.rpgplus.event.PlaceholderRequestEvent;
@@ -52,6 +53,8 @@ public class RPGPlus extends JavaPlugin {
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
 
         Metrics metrics = new Metrics(this, 8091);
+
+        new RPGVersion(this);
 
     }
 
