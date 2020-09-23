@@ -23,7 +23,6 @@ public class RPGVersion {
 
     public RPGVersion(RPGPlus plugin) {
         instance = this;
-        checkVersion(plugin.getDescription().getVersion());
     }
 
     public boolean checkVersion(String version) {

@@ -56,6 +56,12 @@ public class RPGPlus extends JavaPlugin {
 
         new RPGVersion(this);
 
+        try {
+            RPGVersion.getInstance().checkVersion(getDescription().getVersion());
+        } catch (Exception e) {
+            InformationHandler.printMessage(InformationType.WARN, "Unable to check version");
+        }
+
     }
 
     @Override
