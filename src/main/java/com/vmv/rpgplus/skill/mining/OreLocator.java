@@ -40,11 +40,11 @@ public class OreLocator extends Ability implements Listener {
         super(name, st, attributes);
         try { getAbilityConfigSection().getStringList("blocks").forEach(b -> blocks.add(XMaterial.valueOf(b).parseMaterial())); } catch (IllegalArgumentException ex) { InformationHandler.printMessage(InformationType.ERROR, "Invalid value at ability.ore_locator.blocks", ex.getMessage(), "This error is coming from mining.yml" ); }
         if (!(Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11"))) {
-            registerColorTeams();
+            registerTeams();
         }
     }
 
-    private void registerColorTeams() {
+    private void registerTeams() {
         if (!getAbilityConfigSection().getBoolean("color")) return;
         this.scoreboard = RPGPlus.getInstance().getServer().getScoreboardManager().getMainScoreboard();
         for (OreColour ore : OreColour.values()) {
@@ -57,10 +57,12 @@ public class OreLocator extends Ability implements Listener {
         }
     }
 
-    public static void unregisterColorTeams() {
-        for (OreColour ore : OreColour.values()) {
-            scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).unregister();
-        }
+    public static void unregisterTeams() {
+        try {
+            for (OreColour ore : OreColour.values()) {
+                scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).unregister();
+            }
+        } catch (Exception ignore) {} //Team never initialised
     }
 
     @EventHandler

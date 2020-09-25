@@ -6,17 +6,14 @@ import com.vmv.core.information.InformationType;
 import com.vmv.core.minecraft.misc.BarTimerManager;
 import com.vmv.rpgplus.command.CommandManager;
 import com.vmv.rpgplus.database.DatabaseManager;
-import com.vmv.rpgplus.database.RPGVersion;
 import com.vmv.rpgplus.dependency.DependencyManager;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
-import com.vmv.rpgplus.event.PlaceholderRequestEvent;
 import com.vmv.rpgplus.inventory.InventoryUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.RewardManager;
 import com.vmv.rpgplus.skill.SkillManager;
 import com.vmv.rpgplus.skill.mining.OreLocator;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
@@ -45,29 +42,17 @@ public class RPGPlus extends JavaPlugin {
         new InventoryUtils(this);
         new DatabaseManager(this);
 
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {new PlaceholderRequestEvent().register();}
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(ArmorStand.class).forEach(entity -> {
             if (entity.getName().length() <= 2) return;
             if (entity.getName().substring(entity.getName().length() - 2).equalsIgnoreCase("xp")) entity.remove();
         }));
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(Slime.class).forEach(entity -> { if (entity.isGlowing()) entity.remove(); }));
 
-        Metrics metrics = new Metrics(this, 8091);
-
-        new RPGVersion(this);
-
-        try {
-            RPGVersion.getInstance().checkVersion(getDescription().getVersion());
-        } catch (Exception e) {
-            InformationHandler.printMessage(InformationType.WARN, "Unable to check version");
-        }
-
     }
 
     @Override
     public void onDisable() {
-        try { OreLocator.unregisterColorTeams(); } catch (Exception ignore) {}
-
+        OreLocator.unregisterTeams();
         DatabaseManager.getInstance().savePlayerData(false);
         InformationHandler.printMessage(InformationType.INFO, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
