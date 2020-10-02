@@ -103,3 +103,47 @@ experience:                       #Set the amount of experience mining blocks gi
   BLACK_CONCRETE_POWDER:
     min: 2
     max: 6
+ability:
+  excavate:                       #Excavate dirt and other materials in a 3x3 area
+    enabled: true
+    level: 0
+    cooldown: 90
+    duration: 10
+    attributes:
+      increase_duration:
+        per_point: 2
+        max_point: 10
+      decrease_cooldown:
+        per_point: -6
+        max_point: 10
+    blocks:                       #Blocks that are identified by ore_locator
+      - 'CLAY'
+      - 'FARMLAND'
+      - 'GRASS_BLOCK'
+      - 'GRASS_PATH'
+      - 'GRAVEL'
+      - 'MYCELIUM'
+      - 'PODZOL'
+      - 'COARSE_DIRT'
+      - 'DIRT'
+      - 'RED_SAND'
+      - 'SAND'
+      - 'SOUL_SAND'
+      - 'SNOW'
+      - 'SNOW_BLOCK'
+      - 'WHITE_CONCRETE_POWDER'
+      - 'ORANGE_CONCRETE_POWDER'
+      - 'MAGENTA_CONCRETE_POWDER'
+      - 'LIGHT_BLUE_CONCRETE_POWDER'
+      - 'YELLOW_CONCRETE_POWDER'
+      - 'LIME_CONCRETE_POWDER'
+      - 'PINK_CONCRETE_POWDER'
+      - 'GRAY_CONCRETE_POWDER'
+      - 'LIGHT_GRAY_CONCRETE_POWDER'
+      - 'CYAN_CONCRETE_POWDER'
+      - 'BLUE_CONCRETE_POWDER'
+      - 'PURPLE_CONCRETE_POWDER'
+      - 'GREEN_CONCRETE_POWDER'
+      - 'BROWN_CONCRETE_POWDER'
+      - 'RED_CONCRETE_POWDER'
+      - 'BLACK_CONCRETE_POWDER'

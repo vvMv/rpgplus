@@ -38,3 +38,15 @@ ability:
       increase_chance:
         per_point: 2
         max_point: 10
+  critical_hit:
+    enabled: true
+    level: 0
+    critical_damage: 1.5          #How much damage does a critical hit deal, base multiplied by this number
+    chance: 10                    #The chance of a critical hit happening as a percentage
+    attributes:
+      increase_critical:
+        per_point: 0.1
+        max_point: 10
+      increase_chance:
+        per_point: 2
+        max_point: 10

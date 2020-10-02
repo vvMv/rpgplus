@@ -3,6 +3,7 @@ package com.vmv.rpgplus.skill.excavation;
 import com.cryptomorin.xseries.XMaterial;
 import com.vmv.core.math.MathUtils;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.Skill;
 import com.vmv.rpgplus.skill.SkillType;
 import org.bukkit.event.EventHandler;
@@ -23,7 +24,7 @@ public class Excavation extends Skill implements Listener {
 
     @Override
     protected void registerAbilities() {
-        //intentionally empty
+        registerAbilities(new Excavate("excavate", SkillType.EXCAVATION, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION));
     }
 
     @Override

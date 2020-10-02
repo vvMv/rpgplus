@@ -77,6 +77,8 @@ ability:
   tree_feller: "Tree Feller"
   feather_falling: "Feather Falling"
   replenish_hunger: "Replenish Hunger"
+  excavate: "Excavate"
+  critical_hit: "Critical Hit"
 attribute:
   decrease_cooldown: "Decrease Cooldown"
   decrease_cooldown_description: "decrease the ability cooldown"
@@ -100,6 +102,8 @@ attribute:
   increase_chance_description: "increase the chance of ability triggering"
   increase_reduction: "Increase Reduction"
   increase_reduction_description: "increase the reduction amount"
+  increase_critical: "Increase Critical"
+  increase_critical_description: "increase the damage of a critical hit"
 inventory:
   bool_true: "&aTrue"
   bool_false: "&cFalse"

@@ -26,7 +26,8 @@ public class Attack extends Skill implements Listener {
     @Override
     protected void registerAbilities() {
         registerAbilities(new Track("track", ATTACK, AbilityAttribute.DECREASE_COOLDOWN, AbilityAttribute.INCREASE_DURATION),
-                new LifeSteal("life_steal", ATTACK, AbilityAttribute.INCREASE_LIFE_STEAL, AbilityAttribute.INCREASE_CHANCE));
+                new LifeSteal("life_steal", ATTACK, AbilityAttribute.INCREASE_LIFE_STEAL, AbilityAttribute.INCREASE_CHANCE),
+                new CriticalHit("critical_hit", ATTACK, AbilityAttribute.INCREASE_CRITICAL, AbilityAttribute.INCREASE_CHANCE));
     }
 
     @Override

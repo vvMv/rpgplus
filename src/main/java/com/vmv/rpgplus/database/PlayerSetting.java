@@ -13,6 +13,10 @@ public enum PlayerSetting {
     //Attack
     TRACK,
     LIFE_STEAL,
+    CRITICAL_HIT,
+
+    //Excavation
+    EXCAVATE,
 
     //Farming
 

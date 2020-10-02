@@ -17,7 +17,8 @@ public enum AbilityAttribute {
     DECREASE_SELFDAMAGE("selfdamage"),
     INCREASE_LIFE_STEAL("life_steal"),
     INCREASE_CHANCE("chance"),
-    INCREASE_REDUCTION("reduction");
+    INCREASE_REDUCTION("reduction"),
+    INCREASE_CRITICAL("critical_damage");
 
     String identifier;
 
