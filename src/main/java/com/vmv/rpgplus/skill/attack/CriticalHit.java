@@ -6,9 +6,7 @@ import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -40,7 +38,7 @@ public class CriticalHit extends Ability implements Listener {
             e.setDamage(e.getDamage() * critAmount);
             Location l = e.getEntity().getLocation();
             e.getEntity().getWorld().playSound(l, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1.0f, 1.0f);
-            e.getEntity().getWorld().spawnParticle(Particle.REDSTONE, l.add(0, 1.5, 0), 0, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 2));
+            //e.getEntity().getWorld().spawnParticle(Particle.REDSTONE, l.add(0, 1.5, 0), 0, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 2));
         }
 
     }
