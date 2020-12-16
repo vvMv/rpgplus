@@ -49,10 +49,11 @@ public class OreLocator extends Ability implements Listener {
         this.scoreboard = RPGPlus.getInstance().getServer().getScoreboardManager().getMainScoreboard();
         for (OreColour ore : OreColour.values()) {
             try {
-                scoreboard.registerNewTeam("rpg_" + ore.toString().toLowerCase());
-                scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).setColor(ore.getColor());
+                scoreboard.registerNewTeam(ore.getTeamname());
+                scoreboard.getTeam(ore.getTeamname()).setColor(ore.getColor());
             } catch(Exception ignore) {
-                //Out of date
+                //Out of date or team exists
+                //ignore.printStackTrace();
             }
         }
     }
@@ -60,7 +61,7 @@ public class OreLocator extends Ability implements Listener {
     public static void unregisterTeams() {
         try {
             for (OreColour ore : OreColour.values()) {
-                scoreboard.getTeam("rpg_" + ore.toString().toLowerCase()).unregister();
+                scoreboard.getTeam(ore.getTeamname()).unregister();
             }
         } catch (Exception ignore) {} //Team never initialised
     }
@@ -106,7 +107,7 @@ public class OreLocator extends Ability implements Listener {
             if (getAbilityConfigSection().getBoolean("color")) {
                 for (OreColour oc : OreColour.values()) {
                     if (oc.toString().equalsIgnoreCase(block.getType().toString())) {
-                        scoreboard.getTeam("rpg_" + oc.toString().toLowerCase()).addEntry(sh.getUniqueId().toString());
+                        scoreboard.getTeam(oc.getTeamname()).addEntry(sh.getUniqueId().toString());
                     }
                 }
             }
