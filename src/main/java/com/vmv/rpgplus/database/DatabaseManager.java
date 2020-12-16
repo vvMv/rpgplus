@@ -1,172 +1,132 @@
 package com.vmv.rpgplus.database;
 
-import com.vmv.core.database.Database;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
-import com.vmv.rpgplus.main.RPGPlus;
-import com.vmv.rpgplus.player.RPGPlayer;
-import com.vmv.rpgplus.player.RPGPlayerManager;
-import com.vmv.rpgplus.skill.Ability;
-import com.vmv.rpgplus.skill.AbilityAttribute;
-import com.vmv.rpgplus.skill.AbilityManager;
-import com.vmv.rpgplus.skill.SkillType;
-import org.bukkit.Bukkit;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.io.File;
+import java.sql.*;
 
 public class DatabaseManager {
 
-    private static DatabaseManager instance;
-    private Database database;
-    private List<String> expDataToSave = new ArrayList<String>();
-    private List<String> settingDataToSave = new ArrayList<String>();
-    private List<String> pointDataToSave = new ArrayList<String>();
     private Plugin plugin;
+    private static DatabaseManager instance;
+    private String url;
+    private Connection c = null;
+    private static HikariConfig config;
+    private static HikariDataSource ds;
 
-    public DatabaseManager(Plugin plugin) {
-        this.instance = this;
+    /**
+     * SQLLite constructor
+     * @param plugin instance of the main plugin
+     * @param fileName what the database file will be called e.g "core.db"
+     * @param location where the database will be generated
+     */
+    protected DatabaseManager(Plugin plugin, String fileName, File location) {
         this.plugin = plugin;
-        this.database = new Database(plugin, "rpg.db", plugin.getDataFolder());
-        this.createTables();
-        this.registerPlayers();
-        //this.pruneTables();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> savePlayerData(true), RPGPlus.getInstance().getConfig().getLong("general.save_data"),  RPGPlus.getInstance().getConfig().getLong("general.save_data"));
+        instance = this;
+        this.url = "jdbc:sqlite:" + location + "/" + fileName;
     }
 
-    public void savePlayerData(boolean aSync) {
-        if (expDataToSave.isEmpty() && settingDataToSave.isEmpty() && pointDataToSave.isEmpty()) return;
-        Instant start = Instant.now();
-        expDataToSave.forEach(data -> {
-            String uuid = data.split(":")[0];
-            String skill = data.split(":")[1].toUpperCase();
-            Database.getInstance().updateData("player_experience", skill, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getExperience(SkillType.valueOf(skill)), "uuid", "=", uuid, aSync);
-        });
-
-        settingDataToSave.forEach(data -> {
-            String uuid = data.split(":")[0];
-            String setting = data.split(":")[1].toUpperCase();
-            Database.getInstance().updateData("player_settings", setting, RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getSettingValue(PlayerSetting.valueOf(setting)) ? "1.0" : "0.0", "uuid", "=", uuid, aSync);
-        });
-
-        pointDataToSave.forEach(data -> {
-            String uuid = data.split(":")[0].toLowerCase();
-            String ability = data.split(":")[1].toLowerCase();
-            String attribute = data.split(":")[2].toLowerCase();
-            double points = RPGPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)).getPointAllocation(AbilityManager.getInstance().getAbility(ability), AbilityAttribute.valueOf(attribute.toUpperCase()));
-            Database.getInstance().updateData("player_allocations", "'" + ability + " " + attribute + "'", points, "uuid", "=", uuid, aSync);
-        });
-
-        Instant finish = Instant.now();
-        if (plugin.getConfig().getBoolean("general.save_messages")) InformationHandler.printMessage(InformationType.INFO, "Player data saved![" + (settingDataToSave.size() + expDataToSave.size() + pointDataToSave.size()) + "] Took " + Duration.between(start, finish).toMillis() + "ms.");
-        expDataToSave.clear();
-        settingDataToSave.clear();
-        pointDataToSave.clear();
-    }
-
-    public List<String> getExpDataToSave() {
-        return expDataToSave;
-    }
-
-    public List<String> getPointDataToSave() {
-        return pointDataToSave;
-    }
-
-    public List<String> getSettingDataToSave() {
-        return settingDataToSave;
-    }
-
-    public void createTables() {
-
-        List<String> queries = new ArrayList<>();
-        getDatabase().executeSQL("CREATE TABLE IF NOT EXISTS [player_experience] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
-        getDatabase().executeSQL("CREATE TABLE IF NOT EXISTS [player_settings] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
-        getDatabase().executeSQL("CREATE TABLE IF NOT EXISTS [player_allocations] (uuid VARCHAR PRIMARY KEY NOT NULL)", false, false); //must be created before altered
-
-        //alters player_experience to add all skills, updates current database if new skill is added
-        for (SkillType skill : SkillType.values()) {
-            queries.add("ALTER TABLE player_experience ADD " + skill.toString().toLowerCase() + " DOUBLE DEFAULT 0");
-        }
-
-        //create database entry based of player settings enum and set its default value
-        for (PlayerSetting setting : PlayerSetting.values()) {
-            queries.add("ALTER TABLE player_settings ADD " + setting.toString().toLowerCase() + " DOUBLE DEFAULT " + (setting.getDefaultValue() ? "1.0" : "0.0"));
-        }
-
-        for (Ability ability : AbilityManager.getInstance().getAbilities()) {
-            for (AbilityAttribute attribute : ability.getAttributes()) {
-                queries.add("ALTER TABLE player_allocations ADD '" + ability.getName().toLowerCase() + " " + attribute.name().toLowerCase() + "' DOUBLE DEFAULT 0");
-            }
-        }
-
-        for (String sql : queries) {
-            getDatabase().executeSQL(sql, false, false);
+    /**
+     * MYSQL constructor
+     * @param plugin instance of the main plugin
+     */
+    protected DatabaseManager(Plugin plugin, String ip, String port, String database, String username, String password) {
+        this.plugin = plugin;
+        instance = this;
+        config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + database + "?user=" + username + "&password=" + password);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.addDataSourceProperty( "cachePrepStmts" , "true" );
+        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+        try {
+            ds = new HikariDataSource(config);
+        } catch (Exception e) {
+            InformationHandler.printMessage(InformationType.ERROR, "Please check your MySQL credentials are entered correctly in config.yml");
+            InformationHandler.printMessage(InformationType.ERROR, "If you're unfamiliar with MYSQL please set database.mysql to false");
+            InformationHandler.printMessage(InformationType.ERROR, "The plugin has been disabled as there is no connection to the database.");
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
         }
     }
 
-    public static DatabaseManager getInstance() {
+    protected static DatabaseManager getInstance() {
         return instance;
     }
 
-    public Database getDatabase() {
-        return database;
+    protected Connection getConnection() throws SQLException {
+        if (config != null) {
+            InformationHandler.printMessage(InformationType.DEBUG, "datasource reached");
+            return ds.getConnection();
+        } else {
+            if (c == null) {
+                c = (Connection) DriverManager.getConnection(url);
+            } else {
+                c.close();
+                c = (Connection) DriverManager.getConnection(url);
+            }
+            return c;
+        }
     }
 
-    private void registerPlayers() {
-        ResultSet data = Database.getInstance().selectData("SELECT uuid FROM player_experience");
+    protected void executeSQL(final String sql, boolean aSync) {
+        executeSQL(sql, aSync, true);
+    }
 
-        Instant start = Instant.now();
-        int c = 0;
-        try {
-            while (data.next()) {
-                HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
-                HashMap<PlayerSetting, Boolean> settings = new HashMap<PlayerSetting, Boolean>();
-                HashMap<String, Double> pointAllocations = new HashMap<String, Double>();
-
-                UUID uuid = UUID.fromString(data.getString("uuid"));
-
-                ResultSet experienceData = Database.getInstance().selectData("SELECT * FROM player_experience WHERE uuid = '" + uuid.toString() + "'");
-                while (experienceData.next()) {
-                    for (SkillType s : SkillType.values()) {
-                        xp.put(s, experienceData.getDouble(s.toString().toLowerCase()));
-                    }
-                }
-
-                ResultSet settingsData = Database.getInstance().selectData("SELECT * FROM player_settings WHERE uuid = '" + uuid.toString() + "'");
-                while (settingsData.next()) {
-                    for (PlayerSetting setting : PlayerSetting.values()) {
-                        settings.put(setting, settingsData.getString(setting.toString().toLowerCase()).equals("1.0") ? true : false);
-                    }
-                }
-
-                ResultSet pointsData = Database.getInstance().selectData("SELECT * FROM player_allocations WHERE uuid = '" + uuid.toString() + "'");
-                while (pointsData.next()) {
-                    for (Ability ability : AbilityManager.getInstance().getAbilities()) {
-                        for (AbilityAttribute attribute : ability.getAttributes()) {
-                            String loc = ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
-                            String qName = ability.getName().toLowerCase() + " " + attribute.name().toLowerCase();
-                            pointAllocations.put(loc, pointsData.getDouble(qName));
+    protected void executeSQL(final String sql, boolean aSync, final boolean debug) {
+        if (aSync) {
+            BukkitRunnable r = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    try (Connection conn = getConnection(); Statement statement = conn.createStatement()) {
+                        statement.execute(sql);
+                    } catch (SQLException e) {
+                        if (debug) {
+                            System.out.println(e.getMessage());
                         }
                     }
                 }
-
-                RPGPlayerManager.getInstance().addPlayer(new RPGPlayer(uuid, xp, settings, pointAllocations));
-                c++;
+            };
+            r.runTaskAsynchronously(plugin);
+        } else {
+            try (Connection conn = getConnection(); Statement statement = conn.createStatement()) {
+                statement.execute(sql);
+            } catch (MySQLSyntaxErrorException e) {
+                return;
+            } catch (SQLException ex) {
+                if (config != null) ex.printStackTrace(); //Ignoring sqllite errors as doesnt support alter table if not exists so it will error with "already exists"
             }
-
-            InformationHandler.printMessage(InformationType.INFO, "Registered " + c + " RPG Players in " + Duration.between(start, Instant.now()).toMillis() + "ms");
-        } catch (SQLException e) {
-            InformationHandler.printMessage(InformationType.ERROR, "There was an error with the database");
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            InformationHandler.printMessage(InformationType.INFO, "There are no RPG Players");
         }
+
+    }
+
+    protected ResultSet selectData(String sql) {
+        try {
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void insertData(String tablename, String fieldnames, String values, boolean aSync) {
+        executeSQL("INSERT INTO " + tablename + " (" + fieldnames + ") VALUES (" + values + ");", aSync);
+    }
+
+    public void updateData(String tablename, String fieldname, Object object, String column, String logic_gate, String value, boolean aSync) {
+        executeSQL("UPDATE " + tablename + " SET " + fieldname + " = '" + object + "' WHERE " + column + logic_gate + "'" + value + "';", aSync);
+    }
+
+    public void deleteData(String tablename, String fieldname, String logic_gate, String value, boolean aSync) {
+        executeSQL("DELETE FROM " + tablename + " WHERE " + fieldname + " " + logic_gate + " '" + value + "';", aSync);
     }
 }

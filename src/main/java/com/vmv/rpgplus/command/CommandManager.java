@@ -53,7 +53,7 @@ public class CommandManager {
         });
         manager.getCommandCompletions().registerCompletion("rpgplayers", a -> {
             List<String> playernames = new ArrayList<>();
-            for (RPGPlayer player : RPGPlayerManager.getInstance().getPlayers()) {
+            for (RPGPlayer player : RPGPlayerManager.getInstance().getLoadedPlayers()) {
                 if (Bukkit.getOfflinePlayer(player.getUuid()) == null) continue;
                 playernames.add(Bukkit.getOfflinePlayer(player.getUuid()).getName());
             }

@@ -5,7 +5,7 @@ import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
 import com.vmv.core.math.MathUtils;
 import com.vmv.core.minecraft.chat.ChatUtil;
-import com.vmv.rpgplus.database.DatabaseManager;
+import com.vmv.rpgplus.database.DatabaseUtils;
 import com.vmv.rpgplus.database.PlayerSetting;
 import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.ExperienceModifyEvent;
@@ -47,12 +47,12 @@ public class RPGPlayer {
         settings.put(setting, value);
 
         String s = getUuid().toString() + ":" + setting.name();
-        for(String data : DatabaseManager.getInstance().getSettingDataToSave()) {
+        for(String data : DatabaseUtils.getSettingDataToSave()) {
             if (s.equalsIgnoreCase(data)) {
                 return;
             }
         }
-        DatabaseManager.getInstance().getSettingDataToSave().add(s);
+        DatabaseUtils.getSettingDataToSave().add(s);
 
     }
 
@@ -179,12 +179,12 @@ public class RPGPlayer {
 
         //Checks if the point data already queued to save
         String s = getUuid().toString() + ":" + ability.getName().toLowerCase() + ":" + attribute.name().toLowerCase();
-        for(String data : DatabaseManager.getInstance().getPointDataToSave()) {
+        for(String data : DatabaseUtils.getPointDataToSave()) {
             if (s.equalsIgnoreCase(data)) {
                 return;
             }
         }
-        DatabaseManager.getInstance().getPointDataToSave().add(s);
+        DatabaseUtils.getPointDataToSave().add(s);
 
     }
 
@@ -250,12 +250,12 @@ public class RPGPlayer {
 
         //Checks if the exp skill type and player are already queued to save
         String s = getUuid().toString() + ":" + skill.toString();
-        for(String data : DatabaseManager.getInstance().getExpDataToSave()) {
+        for(String data : DatabaseUtils.getExpDataToSave()) {
             if (s.equalsIgnoreCase(data)) {
                 return;
             }
         }
-        DatabaseManager.getInstance().getExpDataToSave().add(s);
+        DatabaseUtils.getExpDataToSave().add(s);
 
 
     }

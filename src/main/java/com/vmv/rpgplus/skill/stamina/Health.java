@@ -1,16 +1,21 @@
 package com.vmv.rpgplus.skill.stamina;
 
+import com.vmv.core.information.InformationHandler;
+import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
+import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayer;
 import com.vmv.rpgplus.player.RPGPlayerManager;
 import com.vmv.rpgplus.skill.Ability;
 import com.vmv.rpgplus.skill.AbilityAttribute;
 import com.vmv.rpgplus.skill.AbilityManager;
 import com.vmv.rpgplus.skill.SkillType;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -24,9 +29,10 @@ public class Health extends Ability implements Listener {
         this.defaultHearts = getAbilityConfigSection().getInt("hearts");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void updateHealthEvent(PlayerJoinEvent e) {
-        updateHearts(e.getPlayer());
+        Bukkit.getScheduler().runTaskAsynchronously(RPGPlus.getInstance(),() -> updateHearts(e.getPlayer()));
+        //updateHearts(e.getPlayer());
     }
 
     @EventHandler
@@ -41,9 +47,25 @@ public class Health extends Ability implements Listener {
     }
 
     private void updateHearts(Player player) {
+        if (!player.isOnline()) return;
         RPGPlayer rp = RPGPlayerManager.getInstance().getPlayer(player);
+
+        if (rp == null) {
+            Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
+                @Override
+                public void run() {
+                    InformationHandler.printMessage(InformationType.DEBUG, "called");
+                    updateHearts(player);
+                }
+            }, 20L);
+            return;
+        }
+        InformationHandler.printMessage(InformationType.DEBUG, "called2");
+
         double amount = RPGPlayerManager.getInstance().getPlayer(player).hasAbilityEnabled(this) ? defaultHearts + (rp.getPointAllocation(this, AbilityAttribute.INCREASE_HEARTS) * AbilityAttribute.INCREASE_HEARTS.getValuePerPoint(this)) : defaultHearts;
         player.setHealthScale(amount);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(amount);
+
+
     }
 }

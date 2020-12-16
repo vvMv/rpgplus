@@ -68,8 +68,10 @@ public class Commands extends BaseCommand {
 
     @Subcommand("debug")
     @CommandPermission("rpgplus.debug")
-    public void debug(Player player) throws ReflectiveOperationException {
-
+    public void debug(Player player) {
+        for (RPGPlayer loadedPlayer : RPGPlayerManager.getInstance().getLoadedPlayers()) {
+            player.sendMessage(loadedPlayer.getUuid().toString());
+        }
     }
 
     @Subcommand("setsetting")

@@ -10,16 +10,18 @@ import java.util.UUID;
 public class RPGPlayerManager implements Listener {
 
     private static RPGPlayerManager instance;
-    private ArrayList<RPGPlayer> players;
+    private ArrayList<RPGPlayer> loadedPlayers;
+    private ArrayList<UUID> playerUUIDs;
 
     public RPGPlayerManager() {
         instance = this;
-        players = new ArrayList<RPGPlayer>();
+        loadedPlayers = new ArrayList<RPGPlayer>();
+        playerUUIDs = new ArrayList<UUID>();
         RPGPlus.getInstance().registerEvents(this, new RPGPlayerEvents());
     }
 
-    public ArrayList<RPGPlayer> getPlayers() {
-        return players;
+    public ArrayList<RPGPlayer> getLoadedPlayers() {
+        return loadedPlayers;
     }
 
     public static RPGPlayerManager getInstance() {
@@ -27,7 +29,7 @@ public class RPGPlayerManager implements Listener {
     }
 
     public RPGPlayer getPlayer(UUID uuid) {
-        for (RPGPlayer p : players) {
+        for (RPGPlayer p : loadedPlayers) {
             if (p.getUuid().equals(uuid)) {
                 return p;
             }
@@ -39,8 +41,19 @@ public class RPGPlayerManager implements Listener {
         return getPlayer(p.getUniqueId());
     }
 
-    public void addPlayer(RPGPlayer p) {
-        players.add(p);
+    public void loadPlayer(RPGPlayer p) {
+        loadedPlayers.add(p);
     }
 
+    public void unloadPlayer(UUID uuid) {
+        loadedPlayers.remove(uuid);
+    }
+
+    public void addUUID(UUID uuid) {
+        playerUUIDs.add(uuid);
+    }
+
+    public ArrayList<UUID> getPlayerUUIDs() {
+        return playerUUIDs;
+    }
 }

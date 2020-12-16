@@ -51,10 +51,10 @@ public class Stamina extends Skill implements Listener {
     }
 
     private void grantExperience() {
-        for (RPGPlayer rp : RPGPlayerManager.getInstance().getPlayers()) {
+        for (RPGPlayer rp : RPGPlayerManager.getInstance().getLoadedPlayers()) {
             if (!distance.containsKey(rp.getUuid())) continue;
             rp.addXP(SkillType.STAMINA, distance.get(rp.getUuid()) * expDistance);
-            distance.remove(rp.getUuid());
         }
+        distance.clear();
     }
 }
