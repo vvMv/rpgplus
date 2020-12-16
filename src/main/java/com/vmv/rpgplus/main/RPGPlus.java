@@ -1,8 +1,5 @@
 package com.vmv.rpgplus.main;
 
-import co.aikar.taskchain.BukkitTaskChainFactory;
-import co.aikar.taskchain.TaskChain;
-import co.aikar.taskchain.TaskChainFactory;
 import com.vmv.core.config.FileManager;
 import com.vmv.core.information.InformationHandler;
 import com.vmv.core.information.InformationType;
@@ -27,20 +24,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RPGPlus extends JavaPlugin {
 
     private static RPGPlus instance;
-    private static TaskChainFactory taskChainFactory;
-
-    public static <T> TaskChain<T> newChain() {
-        return taskChainFactory.newChain();
-    }
-    public static <T> TaskChain<T> newSharedChain(String name) {
-        return taskChainFactory.newSharedChain(name);
-    }
 
     @Override
     public void onEnable() {
 
         instance = this;
-        taskChainFactory = BukkitTaskChainFactory.create(this);
         saveDefaultConfig();
         new InformationHandler(this);
         new DependencyManager();
@@ -53,7 +41,6 @@ public class RPGPlus extends JavaPlugin {
         new RewardManager();
         new InventoryUtils(this);
         DatabaseUtils.getDatabaseManager();
-        //new DatabaseManager(this);
 
         Bukkit.getWorlds().forEach(world -> world.getEntitiesByClass(ArmorStand.class).forEach(entity -> {
             if (entity.getName().length() <= 2) return;
