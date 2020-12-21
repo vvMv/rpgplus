@@ -62,7 +62,6 @@ public class DatabaseManager {
 
     protected Connection getConnection() throws SQLException {
         if (config != null) {
-            InformationHandler.printMessage(InformationType.DEBUG, "datasource reached");
             return ds.getConnection();
         } else {
             if (c == null) {

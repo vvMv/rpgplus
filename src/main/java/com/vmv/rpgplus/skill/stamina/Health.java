@@ -1,7 +1,5 @@
 package com.vmv.rpgplus.skill.stamina;
 
-import com.vmv.core.information.InformationHandler;
-import com.vmv.core.information.InformationType;
 import com.vmv.rpgplus.event.AbilityToggleEvent;
 import com.vmv.rpgplus.event.PointModifyEvent;
 import com.vmv.rpgplus.main.RPGPlus;
@@ -54,13 +52,11 @@ public class Health extends Ability implements Listener {
             Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    InformationHandler.printMessage(InformationType.DEBUG, "called");
                     updateHearts(player);
                 }
             }, 20L);
             return;
         }
-        InformationHandler.printMessage(InformationType.DEBUG, "called2");
 
         double amount = RPGPlayerManager.getInstance().getPlayer(player).hasAbilityEnabled(this) ? defaultHearts + (rp.getPointAllocation(this, AbilityAttribute.INCREASE_HEARTS) * AbilityAttribute.INCREASE_HEARTS.getValuePerPoint(this)) : defaultHearts;
         player.setHealthScale(amount);
