@@ -17,6 +17,8 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 @CommandAlias("rpg")
@@ -60,9 +62,15 @@ public class Commands extends BaseCommand {
     @Subcommand("fixexp")
     @CommandPermission("rpgplus.fixexp")
     public void fixExp(Player player) {
-        ChatUtil.sendChatMessage(player, "Removing experience drops [" + ExperienceModifyEvent.getAnimationStands().size() + "]");
+        ChatUtil.sendChatMessage(player, "Attempted to remove experience drops");
+        int count = 0;
         ExperienceModifyEvent.getAnimationStands().forEach(armorStand -> armorStand.remove());
-        ChatUtil.sendChatMessage(player, "Removing locator entities [" + OreLocator.magmas.size() + "]");
+        for (Entity entity : player.getWorld().getEntities()) {
+            if (entity.getType() == EntityType.ARMOR_STAND) {
+                if (entity.getName().endsWith("xp")) entity.remove();
+                count++;
+            }
+        }
         OreLocator.killAllSlimes();
     }
 
