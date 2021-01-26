@@ -24,5 +24,4 @@ public class AAC implements Listener {
         if (e.getHackType() != HackType.FASTBREAK && e.getHackType() != HackType.INTERACT) return;
         if (a.getActive().containsKey(e.getPlayer())) e.setCancelled(true);
     }
-
 }

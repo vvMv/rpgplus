@@ -119,7 +119,7 @@ public abstract class Ability {
         active.put(p, duration);
         //if bar timer enabled
         //ChatUtil.sendActionMessage(p, "&f" + WordUtils.capitalizeFully(this.name).replace("_", " ") + " &aactivated!", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_active"));
-        new BarTimer(p, duration, this.name);
+        new BarTimer(p, duration, FileManager.getLang().getString("ability." + this.name.toLowerCase()));
     }
 
     public boolean isSelected(LivingEntity entity) {

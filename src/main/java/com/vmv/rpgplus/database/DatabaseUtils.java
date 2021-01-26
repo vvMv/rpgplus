@@ -69,7 +69,7 @@ public class DatabaseUtils {
         long b = System.currentTimeMillis();
         if (!RPGPlayerManager.getInstance().getPlayerUUIDs().contains(p.getUniqueId())) {
 
-            if (FileManager.getConfig().getBoolean("database_messages")) InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + p.getName());
+            if (FileManager.getConfig().getBoolean("general.database_messages")) InformationHandler.printMessage(InformationType.INFO, "Creating database record for " + p.getName());
             HashMap<SkillType, Double> xp = new HashMap<SkillType, Double>();
             HashMap<PlayerSetting, Boolean> settings = new HashMap<PlayerSetting, Boolean>();
             HashMap<String, Double> pointAllocations = new HashMap<String, Double>();
@@ -87,9 +87,10 @@ public class DatabaseUtils {
             }
             AbilityManager.getInstance().getAbilities().forEach(ability -> ability.getAttributes().forEach(attribute -> pointAllocations.put(ability.toString() + ":" + attribute.toString(), 0.0)));
             RPGPlayerManager.getInstance().loadPlayer(new RPGPlayer(p.getUniqueId(), xp, settings, pointAllocations));
+            RPGPlayerManager.getInstance().addUUID(p.getUniqueId());
             DatabaseUtils.getDatabaseManager().newPlayer(p.getUniqueId());
         } else {
-                    RPGPlayerManager.getInstance().loadPlayer(getDatabaseManager().fetchPlayer(p.getUniqueId()));
+            RPGPlayerManager.getInstance().loadPlayer(getDatabaseManager().fetchPlayer(p.getUniqueId()));
         }
         InformationHandler.printMessage(InformationType.INFO, "Loaded player profile for " + p.getName() + ", took " + (System.currentTimeMillis() - b + "ms"));
     }
