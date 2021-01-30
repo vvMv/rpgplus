@@ -6,8 +6,12 @@ import com.vmv.core.minecraft.chat.ChatUtil;
 import com.vmv.core.minecraft.misc.BarTimer;
 import com.vmv.core.minecraft.misc.Cooldowns;
 import com.vmv.rpgplus.database.PlayerSetting;
+import com.vmv.rpgplus.dependency.DependencyManager;
 import com.vmv.rpgplus.main.RPGPlus;
 import com.vmv.rpgplus.player.RPGPlayerManager;
+import com.vmv.rpgplus.skill.excavation.Excavate;
+import com.vmv.rpgplus.skill.mining.VeinMiner;
+import com.vmv.rpgplus.skill.woodcutting.TreeFeller;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -117,9 +121,18 @@ public abstract class Ability {
 
     public void setActive(Player p, double duration) {
         active.put(p, duration);
-        //if bar timer enabled
-        //ChatUtil.sendActionMessage(p, "&f" + WordUtils.capitalizeFully(this.name).replace("_", " ") + " &aactivated!", RPGPlus.getInstance().getConfig().getInt("actionbar.priority.priorities.ability_active"));
+
         new BarTimer(p, duration, FileManager.getLang().getString("ability." + this.name.toLowerCase()));
+
+        if (this instanceof VeinMiner || this instanceof Excavate || this instanceof TreeFeller) {
+            DependencyManager.getInstance().getAnticheatHooks().forEach(antiCheatHook -> antiCheatHook.exempt(p));
+            Bukkit.getScheduler().runTaskLater(RPGPlus.getInstance(), new Runnable() {
+                @Override
+                public void run() {
+                    DependencyManager.getInstance().getAnticheatHooks().forEach(antiCheatHook -> antiCheatHook.unexempt(p));
+                }
+            }, (long) duration * 20);
+        }
     }
 
     public boolean isSelected(LivingEntity entity) {
@@ -155,6 +168,6 @@ public abstract class Ability {
     }
 
     public boolean isEnabled(Player p) {
-        return RPGPlayerManager.getInstance().getPlayer(p).getSettingBoolean(PlayerSetting.valueOf(this.getName().toUpperCase()));
+        return RPGPlayerManager.getInstance().getPlayer(p).getSettingValue(PlayerSetting.valueOf(this.getName().toUpperCase()));
     }
 }
