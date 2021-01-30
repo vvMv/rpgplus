@@ -53,12 +53,12 @@ public class RPGPlayerEvents implements Listener {
         if (decimal.length() == 1) decimal += "0";
         int percent = Integer.parseInt(decimal);
 
-        if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_ACTIONBAR)) {
+        if (RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingValue(PlayerSetting.EXPERIENCE_ACTIONBAR)) {
             String barString = ChatUtil.getProgressBar(percent, 100, FileManager.getLang().getInt("progress_bar.total_bars"), FileManager.getLang().getString("progress_bar.symbol").charAt(0), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.progress_color").toUpperCase()), ChatColor.valueOf(FileManager.getLang().getString("progress_bar.remaining_color").toUpperCase()));
             ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("progress_bar.style").replace("%s", s.getFormattedName()).replace("%e", String.valueOf(e.getExp())).replace("%b", barString));
         }
 
-        if (RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") && RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingBoolean(PlayerSetting.EXPERIENCE_POPUPS)) {
+        if (RPGPlus.getInstance().getConfig().getBoolean("general.experience_holograms") && RPGPlayerManager.getInstance().getPlayer(e.getPlayer()).getSettingValue(PlayerSetting.EXPERIENCE_POPUPS)) {
             ChatUtil.sendChatMessage(e.getPlayer(), FileManager.getLang().getString("hologram.experience").replace("%s", s.getFormattedName()).replace("%c", s.getSkillColor().toString()).replace("%e", String.valueOf(e.getExp())));
         }
 
@@ -69,7 +69,7 @@ public class RPGPlayerEvents implements Listener {
 
         if (e.getPlayer() == null) return;
         Player p = e.getPlayer();
-        if (RPGPlayerManager.getInstance().getPlayer(p).getSettingBoolean(PlayerSetting.LEVELUP_MESSAGES)) {
+        if (RPGPlayerManager.getInstance().getPlayer(p).getSettingValue(PlayerSetting.LEVELUP_MESSAGES)) {
             List<String> msg = FileManager.getLang().getStringList("level_up");
 
             for (String s : msg) {

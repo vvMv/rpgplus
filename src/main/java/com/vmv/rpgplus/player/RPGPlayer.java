@@ -56,15 +56,15 @@ public class RPGPlayer {
 
     }
 
-    public boolean getSettingBoolean(PlayerSetting setting) {
-
-        return Boolean.valueOf(getSettingValue(setting));
-//        int value = Double.valueOf(getSettingValue(setting)).intValue();
-//        return value == 1 ? true : false;
-    }
+//    public boolean getSettingBoolean(PlayerSetting setting) {
+//
+//        return Boolean.valueOf(getSettingValue(setting));
+////        int value = Double.valueOf(getSettingValue(setting)).intValue();
+////        return value == 1 ? true : false;
+//    }
 
     public void toggleSetting(PlayerSetting setting) {
-        setSettingValue(setting, getSettingBoolean(setting) ? false : true);
+        setSettingValue(setting, getSettingValue(setting) ? false : true);
     }
 
     public Ability getActiveAbility(SkillType st) {
@@ -193,7 +193,7 @@ public class RPGPlayer {
         if (PlayerSetting.valueOf(a.getName().toUpperCase()) == null) {
             InformationHandler.printMessage(InformationType.ERROR, "Missing ability setting " + a.getName().toUpperCase() + " please report this issue");
         }
-        return getSettingBoolean(PlayerSetting.valueOf(a.getName().toUpperCase()));
+        return getSettingValue(PlayerSetting.valueOf(a.getName().toUpperCase()));
     }
 
     public void toggleAbilityEnabled(Ability a) {
@@ -261,7 +261,7 @@ public class RPGPlayer {
     }
 
     public void sendAbilityPointReminder() {
-        if (getAbilityPoints() > 0 && getSettingBoolean(PlayerSetting.REMINDER_MESSAGES)) {
+        if (getAbilityPoints() > 0 && getSettingValue(PlayerSetting.REMINDER_MESSAGES)) {
 
             List<String> reminder = FileManager.getLang().getStringList("points_reminder");
             StringBuilder sb = new StringBuilder();

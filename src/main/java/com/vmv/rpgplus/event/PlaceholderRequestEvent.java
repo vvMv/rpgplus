@@ -115,7 +115,7 @@ public class PlaceholderRequestEvent extends PlaceholderExpansion {
         //returns a players setting value
         for (PlayerSetting value : PlayerSetting.values()) {
             if (id.equalsIgnoreCase("setting_value_" + value.name())) {
-                return String.valueOf(rp.getSettingBoolean(value));
+                return String.valueOf(rp.getSettingValue(value));
             }
         }
 
